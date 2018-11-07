@@ -1,0 +1,15 @@
+#!/bin/bash
+
+LEVEL=$1
+
+if [ -z "${LEVEL}" ]; then
+    echo "No parameters, setting default to 100"
+    LEVEL=100
+fi
+
+brightness_level="$(( $LEVEL / 100)).$(( $LEVEL % 100 ))"
+xrandr | grep " connected" | cut -f1 -d" " | while read screen; do
+    echo $screen
+    xrandr --output $screen --brightness $brightness_level;
+    echo -e "[info]: Screen Brightness level set to" $LEVEL"%"
+done
