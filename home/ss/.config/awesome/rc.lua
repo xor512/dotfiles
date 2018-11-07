@@ -103,7 +103,8 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "dmenu_run", function() awful.util.spawn("dmenu_run") end },
+                                    { "open terminal", terminal },
                                   }
                         })
 
