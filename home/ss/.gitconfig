@@ -1,0 +1,27 @@
+[user]
+	name = Siergiej Riaguzow
+	email = xor256@gmx.com
+[core]
+	editor = vim
+	excludesfile = /home/ss/.gitignore_global
+	autocrlf = input
+[color]
+	ui = true
+[alias]
+	gr = log --graph --full-history --all --color --pretty=tformat:\\\"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an,%x20%ar)%x1b[0m\\\"
+	ga = log --graph --abbrev-commit --decorate --date=relative --all
+	ga2 = log --graph --oneline --decorate
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lg = !"git lg1"
+	co = checkout
+	ch = checkout
+	ci = commit
+	br = branch
+	st = status
+	unstage = reset HEAD --
+	dt = difftool --dir-diff
+[diff]
+	tool = meld
+[pull]
+	rebase = true

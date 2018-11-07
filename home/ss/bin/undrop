@@ -1,0 +1,4 @@
+#!/bin/bash
+
+route del $* reject
+iptables -D INPUT -s $* -j DROP

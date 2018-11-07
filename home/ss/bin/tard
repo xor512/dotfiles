@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tar cjvf $1.tar.bz2 $*

@@ -1,0 +1,107 @@
+77=== http://www.pavelkogan.com/ed2014/05/23/luks-full-disk-encryption/
+
+=== cat /etc/vcomsole
+FONT = eurlatgr
+
+=== Instaill microcode
+intel-ucode and linux-firmware
+
+=== Search for file in packages
+- pacman -S pkgfile
+- Find where setleads are: pkgfile -s setleds; and install
+
+=== Disabling num lock on start
+In console: Add to .bash_profile: setleds -D -num
+In X:
+  - Install numlockx
+  - Add to .xinitrc or rc.lua: numlockx off
+
+=== Firewal
+1. pacman -S iptables
+
+2. Flush/delete everyting
+
+#!/bin/bash
+
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -t raw -F
+iptables -t raw -X
+iptables -t security -F
+iptables -t security -X
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
+3. cp iptables.rules /etc/iptables
+
+=== sysctl hardening
+cp 51-net.conf /etc/sysctl.d
+
+=== Networking
+If wifi-menu is not working, try this:
+pacman -Syu systemd-sysvcompat
+
+pacman -S iw wpa_supplicant dialog # for wifi-menu
+
+wicd:
+pacman -S wicd wicd-gtk xfce4-notifyd python2-notify
+gpasswd -a ss users # after that "relogin" or reboot after enabling wicd
+systemctl stop netctl netcfg dhcpcd networkmanager
+systemctl disable netctl netcfg dhcpcd networkmanager
+systemctl enable wicd
+reboot
+Use nl80211 driver instead of wext 
+
+Add:
+search work.com
+to
+/etc/resolv.conf.tail
+
+=== Disable IPv6 (takem from https://wiki.archlinux.org/index.php/IPv6#Disable_IPv6)
+1. Add ipv6.disable=1 to /etc/default/grub like so:
+GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1"
+and run:
+grub-mkconfig -o /boot/grub/grub.cfg
+
+2. Comment out 
+#::1            localhost.localdomain   localhost
+in /etc/hosts
+
+3. If you run dhcpcd add this to /etc/dhcpcd:
+noipv6rs
+noipv6
+
+=== Intel builtin graphics
+- Install mesa
+- Install xf86-video-intel
+
+--- General
+passwd -l root (lock root account) <- generally this advice sucks
+useradd -m -U user
+gpasswd -a user group
+
+--- DE
+Use lxappearance
+AUR: powerline-fonts-git
+
+-- Cleaning
+https://raw.githubusercontent.com/lahwaacz/Scripts/master/rmshit.py
+
+--- MIrrors
+Install reflector and add a pacman.d hook:
+https://wiki.archlinux.org/index.php/Reflector#Pacman_Hook
+DON'T FORGET THAT 'pacman -Syyv' WON'T HELP
+HAVE to 'pacman -S pacman-mirrorlist' instead to regenerate it.. jeese
+
+=== audacious doesn't add directories contents/deadbeef don't see MP3 files
+Install libmad
+
+
+=== Othher
+For battery install acpi and arc-icon-theme
+MODULES="intel_agp i915"  - Add this shit to mkinitcpio.conf

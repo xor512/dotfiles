@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# You can use this script to test connection to AP
+# without using nmcli before running tests
+# (you can run journalctl -f in another window to debug)
+
+set -ex
+
+WLAN_DEV=
+SSID="ATT_DTV_MIFI"
+PASS="@ttDtvMiF1"
+
+while [ $# -ge 1 ]
+do
+    KEY=$1
+    case $KEY in
+        --ssid)
+        SSID=$2
+        shift
+        ;;
+        --pass)
+        PASS=$2
+        shift
+        ;;
+    esac
+    shift
+done
+
+RENAMED_WLAN_DEV=`dmesg | grep 'renamed.*wlan0' | head -n 1 | sed 's/: renamed from wlan0//g' | tr ' ' '\n' | tail -n 1`
+if [ ! -z $RENAMED_WLAN_DEV ]
+then
+    WLAN_DEV=$RENAMED_WLAN_DEV
+else
+    WLAN_DEV=wlan0
+fi
+
+# Disconnect
+ip link set $WLAN_DEV down
+pkill dhcpcd
+pkill dhclient
+pkill wpa_supplicant
+
+# Scan and connect
+ip link set $WLAN_DEV up
+iw dev $WLAN_DEV scan | grep "^[[:space:]]*SSID: "
+echo $PASS | wpa_passphrase $SSID > ./wpa_passphrase.conf
+cat ./wpa_passphrase.conf
+wpa_supplicant -B -D nl80211 -i wlp2s0 -c `pwd`/wpa_passphrase.conf
+dhclient $WLAN_DEV
+ip route show
+
+# Disconnect
+dhclient -r
+ip link set $WLAN_DEV down
+pkill dhclient
+pkill wpa_supplicant

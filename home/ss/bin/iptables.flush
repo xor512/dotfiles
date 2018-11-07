@@ -1,0 +1,7 @@
+#!/bin/bash
+
+/sbin/iptables -F
+/sbin/iptables -X
+/sbin/iptables -P INPUT ACCEPT
+/sbin/iptables -P FORWARD ACCEPT
+/sbin/iptables -P OUTPUT ACCEPT

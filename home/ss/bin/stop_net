@@ -1,0 +1,7 @@
+#!/bin/bash
+
+pkill wicd-client
+pkill dhcpcd
+pkill dhclient
+pkill wpa_supplicant
+systemctl stop wicd.service

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+route add $* reject
+#iptables -A INPUT -s $* -j DROP
+#iptables -A FORWARD -s $* -j DROP
+#iptables -A FORWARD -d $* -j DROP
+
