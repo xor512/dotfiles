@@ -288,30 +288,16 @@ globalkeys = gears.table.join(
     ),
     awful.key({ modkey,           }, "j",
         function ()
-            awful.client.focus.byidx( 1)
+            awful.client.focus.byidx(-1)
         end,
-        {description = "focus next by index", group = "client"}
+        {description = "next window to the left by index", group = "client"}
     ),
     awful.key({ modkey,           }, "k",
         function ()
-            awful.client.focus.byidx(-1)
+            awful.client.focus.byidx(1)
         end,
-        {description = "focus previous by index", group = "client"}
+        {description = "next window to the right by index", group = "client"}
     ),
-
-    --- Duplicate W-j, W-k with Control-Win-Left, Control-Win-Right
---    awful.key({ modkey, "Control"  }, "Left",
---        function ()
---            awful.client.focus.byidx( 1)
---        end,
---        {description = "focus next by index", group = "client"}
---    ),
---    awful.key({ modkey, "Control"  }, "Right",
---        function ()
---            awful.client.focus.byidx(-1)
---        end,
---        {description = "focus previous by index", group = "client"}
---    ),
 
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
@@ -534,7 +520,8 @@ awful.rules.rules = {
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
-     }
+      },
+      callback = add_new_clients_as_slaves and awful.client.setslave or nil
     },
 
     -- Floating clients.
