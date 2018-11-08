@@ -41,7 +41,8 @@ alias grepa='grep --include=*.{h,hh,hpp,hcc,c,cc,cpp,cxx,java,py,robot} -r '
 #alias agi='sudo apt-get install'
 #alias agu='sudo apt-get update'
 #alias agdu='sudo apt-get dist-upgrade'
-#alias agr='sudo apt-get autoremove --purge'
+#alias agr='sudo apt-get remove --purge'
+#alias agar='sudo apt-get autoremove --purge'
 
 #PS1='[\u@\h \W]\$ '  # Default
 PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '

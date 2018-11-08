@@ -28,3 +28,15 @@ alias grepj='grep --include=*.java -r '
 alias grepp='grep --include=*.py -r '
 alias grepr='grep --include=*.robot -r'
 alias grepa='grep --include=*.{h,hh,hpp,hcc,c,cc,cpp,cxx,java,py,robot} -r '
+
+# Ubuntu specific
+#alias acs='apt-cache search'
+#alias ach='apt-cache show'
+#alias agi='sudo apt-get install'
+#alias agu='sudo apt-get update'
+#alias agdu='sudo apt-get dist-upgrade'
+#alias agr='sudo apt-get remove --purge'
+#alias agar='sudo apt-get autoremove --purge'
+
+#PS1='[\u@\h \W]\$ '  # Default
+PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\]
