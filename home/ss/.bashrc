@@ -35,6 +35,10 @@ alias grepp='grep --include=*.py -r '
 alias grepr='grep --include=*.robot -r'
 alias grepa='grep --include=*.{h,hh,hpp,hcc,c,cc,cpp,cxx,java,py,robot} -r '
 
+gcl() {
+    grc cat $1 | less -R
+}
+
 # Ubuntu specific
 #alias acs='apt-cache search'
 #alias ach='apt-cache show'
