@@ -209,8 +209,8 @@ my_tags = {
         { names  = { "float1_1", "float_1_2", "tile1_1", "tile1_2" },
           layout = { lo[1], lo[1], lo[2], lo[2] }
         },
-        { names  = { "float2_1", "tile2_1", "float2_2",  "fair2_1" },
-          layout = { lo[1], lo[2], lo[1], lo[3] }
+        { names  = { "float2_1", "tile2_1", "tile2_2", "float2_2",  "fair2_1" },
+          layout = { lo[1], lo[2], lo[2], lo[1], lo[3] }
         },
     }
 }
