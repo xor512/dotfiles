@@ -1,0 +1,51 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: "$(basename $0)" aur_package_dir"
+    echo
+    echo "This is a stupid and simple AUR package upgrader"
+    echo
+    echo "When passed a directory where clones of AUR repositories are this script"
+    echo "will iterate over them directory by directory and if any contains"
+    echo "a PKGBUILD file with pkgbase/pkgname will see if this package is installed."
+    echo "If it is will perform git reset --hard + git pull, check for pkgver/pkgrel"
+    echo "against what is installedand and call makepkg -sri in case they differ"
+    exit 1
+fi
+
+pushd $1 > /dev/null
+
+for dir in */; do    
+    pushd $dir > /dev/null
+
+    if [ -f PKGBUILD ]; then
+        pkgbase=$(grep -m 1 pkgbase PKGBUILD | cut -d '=' -f 2)
+        pkgname=$(grep -m 1 pkgname PKGBUILD | cut -d '=' -f 2)
+
+        if [ ! -z $pkgbase ]; then
+            pkgname=$pkgbase
+        fi
+
+        if [ ! -z "$pkgname" ]; then
+            pkg_info=$(pacman -Qi $pkgname 2>&1)
+            if [ $? -eq 0 ]; then
+                installed_version=`echo "$pkg_info" | grep -m 1 Version | sed s'/Version         ://g' | xargs`
+                echo "--- Found installed package "$pkgname" version: "$installed_version
+                git reset --hard
+                git pull
+                pkgver=$(grep -m 1 pkgver PKGBUILD | cut -d '=' -f 2 | xargs)
+                pkgrel=$(grep -m 1 pkgrel PKGBUILD | cut -d '=' -f 2 | xargs)
+                git_version=${pkgver}"-"${pkgrel}
+                echo "------ Git version of this package is "$git_version
+                if [ "$installed_version" != "$git_version" ]; then
+                    echo "--------- Package "$pkgname" installed version: "$installed_version" has git version: "$git_version" will reinstall"
+                    makepkg -sri
+                fi
+            fi
+        fi
+    fi
+    
+    popd > /dev/null
+done
+
+popd > /dev/null
