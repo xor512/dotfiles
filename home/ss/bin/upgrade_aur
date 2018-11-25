@@ -9,7 +9,7 @@ if [ "$#" -ne 1 ]; then
     echo "will iterate over them directory by directory and if any contains"
     echo "a PKGBUILD file with pkgbase/pkgname will see if this package is installed."
     echo "If it is will perform git reset --hard + git pull, check for pkgver/pkgrel"
-    echo "against what is installedand and call makepkg -sri in case they differ"
+    echo "against what is installed and call makepkg -sri in case they differ"
     exit 1
 fi
 
