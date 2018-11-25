@@ -38,16 +38,22 @@ for dir in */; do
         if [ ! -z "$pkgname" ]; then
             pkg_info=$(pacman -Qi $pkgname 2>&1)
             if [ $? -eq 0 ]; then
-                installed_version=`echo "$pkg_info" | grep -m 1 Version | sed s'/Version         ://g' | xargs`
-                echo "--- Found installed package "$pkgname" version: "$installed_version
+                inst_version=`echo "$pkg_info" | grep -m 1 Version | sed s'/Version         ://g' | xargs`
+                if echo $inst_version | grep ':'; then
+                    inst_version=`echo $inst_version | rev | cut -d ':' -f 1 | rev`
+                fi
+                echo "--- Found installed package "$pkgname" version: "$inst_version
+
                 git reset --hard
                 git pull
+
                 pkgver=$(grep -m 1 pkgver PKGBUILD | cut -d '=' -f 2 | xargs)
                 pkgrel=$(grep -m 1 pkgrel PKGBUILD | cut -d '=' -f 2 | xargs)
                 git_version=${pkgver}"-"${pkgrel}
                 echo "------ Git version of this package is "$git_version
-                if [ "$installed_version" != "$git_version" ]; then
-                    echo "--------- Package "$pkgname" installed version: "$installed_version" has git version: "$git_version" will reinstall"
+
+                if [ "$inst_version" != "$git_version" ]; then
+                    echo "--------- Package "$pkgname" installed version "$inst_version" has git version "$git_version", will reinstall"
                     makepkg -sri
                 fi
             fi
