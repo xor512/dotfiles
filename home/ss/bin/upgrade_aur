@@ -22,8 +22,17 @@ for dir in */; do
         pkgbase=$(grep -m 1 pkgbase PKGBUILD | cut -d '=' -f 2)
         pkgname=$(grep -m 1 pkgname PKGBUILD | cut -d '=' -f 2)
 
+        # If we have a base package, check for it, using makepkg -sri anyway to install everything
         if [ ! -z $pkgbase ]; then
             pkgname=$pkgbase
+        fi
+
+        # In split packages "If pkgbase is not specified, the first element in the pkgname array is used."
+        # (c) https://wiki.archlinux.org/index.php/PKGBUILD#Package_name
+        # so get the first element of an array if needed
+        if echo $pkgname | grep "^("; then
+            pkgname=`echo $pkgname | cut -d ' '  -f 1`
+            pkgname=${pkgname:2}
         fi
 
         if [ ! -z "$pkgname" ]; then
