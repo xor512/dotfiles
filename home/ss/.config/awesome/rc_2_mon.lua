@@ -580,6 +580,10 @@ awful.rules.rules = {
       properties = { screen = 2, tag = "float2_2", floating = true } },
     { rule = { class = "Skype" },
       properties = { screen = 2, tag = "float2_2", floating = true } },
+    { rule = { class = "Sky" },
+      properties = { screen = 2, tag = "float2_2", floating = true } },
+    { rule = { class = "Evolution" },
+      properties = { screen = 2, tag = "float2_2", floating = true } },
     { rule = { class = "Thunderbird" },
       properties = { screen = 2, tag = "float2_2", floating = true } },
 }
@@ -729,12 +733,14 @@ spawn_once("pavucontrol")
 spawn_once("audacious")
 spawn_once("firefox", "firefox", {
     floating = true,
+    screen = 1,
     tag = "float1_1",
     maximized_vertical   = true,
     maximized_horizontal = false
 })
 spawn_once("lxterminal", "lxterminal", {
     floating = true,
+    screen = 1,
     tag = "float1_1",
     maximized_vertical   = false,
     maximized_horizontal = false

@@ -572,6 +572,10 @@ awful.rules.rules = {
       properties = { screen = 1, tag = "float2", floating = true } },
     { rule = { class = "Skype" },
       properties = { screen = 1, tag = "float2", floating = true } },
+    { rule = { class = "Sky" },
+      properties = { screen = 1, tag = "float2", floating = true } },
+    { rule = { class = "Evolution" },
+      properties = { screen = 1, tag = "float2", floating = true } },
     { rule = { class = "Thunderbird" },
       properties = { screen = 1, tag = "float2", floating = true } },
 }
