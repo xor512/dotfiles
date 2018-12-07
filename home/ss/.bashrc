@@ -34,6 +34,7 @@ alias grepj='grep --include=*.java -r '
 alias grepp='grep --include=*.py -r '
 alias grepr='grep --include=*.robot -r'
 alias grepa='grep --include=*.{h,hh,hpp,hcc,c,cc,cpp,cxx,java,py,robot} -r '
+alias grept='grep --include=*.txt -r'
 
 gcl() {
     grc cat $1 | less -R

@@ -206,11 +206,11 @@ screen.connect_signal("property::geometry", set_wallpaper)
 lo = awful.layout.layouts
 my_tags = {
     tags = {
-        { names  = { "float1_1", "float_1_2", "tile1_1", "tile1_2" },
-          layout = { lo[1], lo[1], lo[2], lo[2] }
+        { names  = { "float1_1", "float1_2", "tile1_1", "tile1_2" },
+          layout = { lo[1],      lo[1],      lo[2],     lo[2] }
         },
-        { names  = { "float2_1", "tile2_1", "tile2_2", "float2_2",  "fair2_1" },
-          layout = { lo[1], lo[2], lo[2], lo[1], lo[3] }
+        { names  = { "float2_1", "tile2_1", "fair2_1", "float2_2",  "tile2_2" },
+          layout = { lo[1],      lo[2],     lo[3],     lo[1],       lo[2] }
         },
     }
 }
@@ -569,13 +569,13 @@ awful.rules.rules = {
     },
 
     { rule = { class = "Lxmusic" },
-      properties = { screen = 2, tag = "fair2_1" } },
+      properties = { screen = 2, tag = "tile2_2" } },
     { rule = { class = "Deadbeef" },
-      properties = { screen = 2, tag = "fair2_1" } },
+      properties = { screen = 2, tag = "tile2_2" } },
     { rule = { class = "Audacious" },
-      properties = { screen = 2, tag = "fair2_1" } },
+      properties = { screen = 2, tag = "tile2_2" } },
     { rule = { class = "Pavucontrol" },
-      properties = { screen = 2, tag = "fair2_1" } },
+      properties = { screen = 2, tag = "tile2_2" } },
     { rule = { class = "HipChat" },
       properties = { screen = 2, tag = "float2_2", floating = true } },
     { rule = { class = "Skype" },
@@ -585,6 +585,8 @@ awful.rules.rules = {
     { rule = { class = "Evolution" },
       properties = { screen = 2, tag = "float2_2", floating = true } },
     { rule = { class = "Thunderbird" },
+      properties = { screen = 2, tag = "float2_2", floating = true } },
+    { rule = { class = "Opera" },
       properties = { screen = 2, tag = "float2_2", floating = true } },
 }
 -- }}}
@@ -691,13 +693,32 @@ local function respawn_with_shell(pname, cmd)
     awful.util.spawn_with_shell(cmd)
 end 
 
+local function spawn(pname, cmd, once, sn_rules)
+    if not cmd then
+        cmd = pname
+    end
+
+    -- XXX: stupid fix for windows not opening in their set tags in awful.spawn
+    --      no idea why this helps but it does (you don't need to specify tag
+    --      here, it's enough to have it in sn_rules)
+    local cb
+    cb = function(c)
+        --awful.client.movetotag("fair2_1", c)
+        client.connect_signal("manage", cb)
+    end
+
+    if not (once and isrunning(pname)) then
+        awful.spawn(cmd, sn_rules)
+        client.disconnect_signal("manage", cb)
+    end
+end
+
 local function spawn_once(pname, cmd, sn_rules)
     if not cmd then
         cmd = pname
     end
-    if not isrunning(pname) then
-        awful.spawn(cmd, sn_rules)
-    end
+
+    spawn(cmd, pname, true, sn_rules)
 end
 
 local function file_exists(name)
@@ -729,8 +750,11 @@ spawn_once("davmail")
 spawn_once("birdtray") 
 spawn_once("skypeforlinux")
 spawn_once("hipchat4")
+
 spawn_once("pavucontrol")
 spawn_once("audacious")
+spawn_once("opera", "opera")
+
 spawn_once("firefox", "firefox", {
     floating = true,
     screen = 1,
@@ -738,12 +762,17 @@ spawn_once("firefox", "firefox", {
     maximized_vertical   = true,
     maximized_horizontal = false
 })
-spawn_once("lxterminal", "lxterminal", {
-    floating = true,
-    screen = 1,
-    tag = "float1_1",
-    maximized_vertical   = false,
-    maximized_horizontal = false
-})
+
+-- TODO
+--for i=1,2 do
+    spawn("lxterminal", "lxterminal", false, {
+        floating = false,
+        screen = 2,
+        tag = "fair2_1",
+        maximized_vertical   = false,
+        maximized_horizontal = false
+    })
+--end
+
 -- }}}
 --

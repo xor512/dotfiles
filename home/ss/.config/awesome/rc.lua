@@ -210,8 +210,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
     local layouts = awful.layout.layouts
     local tags = {
-        names  = { "float1", "tile1", "tile2", "float2", "fair" },
-        layout = { layouts[1], layouts[2], layouts[2], layouts[1], layouts[3] }
+        names  = { "float1", "tile1", "tile2", "float2", "tile3" },
+        layout = { layouts[1], layouts[2], layouts[2], layouts[1], layouts[2] }
     }
     awful.tag(tags.names, s, tags.layout)
 
@@ -561,13 +561,13 @@ awful.rules.rules = {
     },
 
     { rule = { class = "Lxmusic" },
-      properties = { screen = 1, tag = "fair" } },
+      properties = { screen = 1, tag = "tile3" } },
     { rule = { class = "Deadbeef" },
-      properties = { screen = 1, tag = "fair" } },
+      properties = { screen = 1, tag = "tile3" } },
     { rule = { class = "Audacious" },
-      properties = { screen = 1, tag = "fair" } },
+      properties = { screen = 1, tag = "tile3" } },
     { rule = { class = "Pavucontrol" },
-      properties = { screen = 1, tag = "fair" } },
+      properties = { screen = 1, tag = "tile3" } },
     { rule = { class = "HipChat" },
       properties = { screen = 1, tag = "float2", floating = true } },
     { rule = { class = "Skype" },
@@ -683,13 +683,32 @@ local function respawn_with_shell(pname, cmd)
     awful.util.spawn_with_shell(cmd)
 end 
 
+local function spawn(pname, cmd, once, sn_rules)
+    if not cmd then
+        cmd = pname
+    end
+
+    -- XXX: stupid fix for windows not opening in their set tags in awful.spawn
+    --      no idea why this helps but it does (you don't need to specify tag
+    --      here, it's enough to have it in sn_rules)
+    local cb
+    cb = function(c)
+        --awful.client.movetotag("fair2_1", c)
+        client.connect_signal("manage", cb)
+    end
+
+    if not (once and isrunning(pname)) then
+        awful.spawn(cmd, sn_rules)
+        client.disconnect_signal("manage", cb)
+    end
+end
+
 local function spawn_once(pname, cmd, sn_rules)
     if not cmd then
         cmd = pname
     end
-    if not isrunning(pname) then
-        awful.spawn(cmd, sn_rules)
-    end
+
+    spawn(cmd, pname, true, sn_rules)
 end
 
 local function file_exists(name)
@@ -729,7 +748,7 @@ spawn_once("firefox", "firefox", {
     maximized_vertical   = true,
     maximized_horizontal = false
 })
-spawn_once("lxterminal", "lxterminal", {
+spawn("lxterminal", "lxterminal", fa;se, {
     floating = true,
     tag = "float1",
     maximized_vertical   = false,
