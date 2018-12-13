@@ -15,7 +15,8 @@ export LANGUAGE="en_US.UTF-8"
 
 export PATH=$PATH:~/bin
 
-export PAGER="most -cwd"
+#export PAGER="most -cwd"
+export PAGER="less -R"
 export EDITOR="gvim"
 
 alias e='exit'
