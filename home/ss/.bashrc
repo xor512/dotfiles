@@ -15,9 +15,9 @@ export LANGUAGE="en_US.UTF-8"
 
 export PATH=$PATH:~/bin
 
-#export PAGER="most -cwd"
-export PAGER="less -R"
-export EDITOR="gvim"
+export EDITOR='gvim'
+export PAGER='less -RF'
+alias man='PAGER="most" man '
 
 alias e='exit'
 alias g='gvim'
@@ -28,10 +28,10 @@ alias sbash='sudo bash'
 alias svim='sudo vim'
 alias xbg='xbacklight -get'
 alias xbs='xbacklight -set'
+alias grepl='grep --include=*.lua -r '
 alias greph='grep --include=*.{h,hh,hpp,hxx} -r '
 alias grepc='grep --include=*.{c,cc,cpp,cxx} -r '
-alias grephc='grep --include=*.{h,hh,hpp,hxx,c,cc,cpp,cxx} -r '
-alias grepl='grep --include=*.lua -r '
+alias grepch='grep --include=*.{h,hh,hpp,hxx.c.cc.cpp.cxx} -r '
 alias grepj='grep --include=*.java -r '
 alias grepp='grep --include=*.py -r '
 alias grepr='grep --include=*.robot -r'
