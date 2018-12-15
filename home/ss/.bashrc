@@ -17,7 +17,7 @@ export PATH=$PATH:~/bin
 
 export EDITOR='gvim'
 export PAGER='less -RF'
-alias man='PAGER="most" man '
+alias man='PAGER="most" man ' # See ~/bin/most to find out it is actually most -cwd
 
 alias e='exit'
 alias g='gvim'
@@ -31,7 +31,7 @@ alias xbs='xbacklight -set'
 alias grepl='grep --include=*.lua -r '
 alias greph='grep --include=*.{h,hh,hpp,hxx} -r '
 alias grepc='grep --include=*.{c,cc,cpp,cxx} -r '
-alias grepch='grep --include=*.{h,hh,hpp,hxx.c.cc.cpp.cxx} -r '
+alias grephc='grep --include=*.{h,hh,hpp,hxx,c,cc,cpp,cxx} -r '
 alias grepj='grep --include=*.java -r '
 alias grepp='grep --include=*.py -r '
 alias grepr='grep --include=*.robot -r'
