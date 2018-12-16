@@ -684,12 +684,19 @@ local function spawn_with_shell_once(pname, cmd)
     end
 end
 
-local function respawn_with_shell(pname, cmd)
+local function kill_with_shell(pname, cmd)
     if not cmd then
         cmd = pname
     end
     awful.spawn.with_shell("pkill -9 " .. pname)
-    os.execute("sleep 0.5")
+    os.execute("sleep 1")
+end
+
+local function respawn_with_shell(pname, cmd)
+    kill_with_shell(pname, cmd)
+    if not cmd then
+        cmd = pname
+    end
     awful.util.spawn_with_shell(cmd)
 end 
 
@@ -701,16 +708,21 @@ local function spawn(pname, cmd, once, sn_rules)
     -- XXX: stupid fix for windows not opening in their set tags in awful.spawn
     --      no idea why this helps but it does (you don't need to specify tag
     --      here, it's enough to have it in sn_rules)
-    local cb
-    cb = function(c)
+    --local cb
+    --cb = function(c)
         --awful.client.movetotag("fair2_1", c)
-        client.connect_signal("manage", cb)
-    end
+    --    client.connect_signal("manage", cb)
+    --end
 
     if not (once and isrunning(pname)) then
         awful.spawn(cmd, sn_rules)
-        client.disconnect_signal("manage", cb)
+        --client.disconnect_signal("manage", cb)
     end
+end
+
+local function respawn(pname, cmd, sn_rules)
+    kill_with_shell(pname, cmd)
+    spawn(pname, cmd, false, sn_rules)
 end
 
 local function spawn_once(pname, cmd, sn_rules)
@@ -746,8 +758,11 @@ respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -not
 --       but it seems not to work, find out why
 spawn_with_shell_once("wicd-client", "wicd-client --tray &")
 spawn_once("xpad")
-spawn_once("davmail")
-spawn_once("birdtray") 
+
+--spawn_once("davmail")
+--spawn_once("thunderbird")
+-- respawn("birdtray") DSOESN"T work good
+spawn_once("evolution")
 spawn_once("skypeforlinux")
 spawn_once("hipchat4")
 
@@ -764,7 +779,7 @@ spawn_once("firefox", "firefox", {
 })
 
 -- TODO
---for i=1,2 do
+--for i=1,4 do
     spawn("lxterminal", "lxterminal", false, {
         floating = false,
         screen = 2,
