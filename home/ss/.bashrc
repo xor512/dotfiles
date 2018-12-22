@@ -16,13 +16,14 @@ export LANGUAGE="en_US.UTF-8"
 export PATH=$PATH:~/bin
 
 export EDITOR='gvim'
+export BROWSER="firefox"
 export PAGER='less -RF'
 alias man='PAGER="most" man ' # See ~/bin/most to find out it is actually most -cwd
+
 
 alias e='exit'
 alias g='gvim'
 alias v='vim'
-alias p='pacman'
 alias m='mplayer'
 alias sbash='sudo bash'
 alias svim='sudo vim'
@@ -42,6 +43,11 @@ alias grepcm='grep --include=CMakeLists.txt --include=*.cmake -r '
 gcl() {
     grc cat $1 | less -R
 }
+
+# Arch specific
+alias p='pacman'
+alias pcdu='sudo pacman -Syyuv'
+alias pcar='sudo pacman -Rsn $(pacman -Qdtq)'
 
 # Ubuntu specific
 #alias acs='apt-cache search'
