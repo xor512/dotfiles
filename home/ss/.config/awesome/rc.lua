@@ -57,6 +57,7 @@ editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 
 add_new_clients_as_slaves = false
+expected_terminals_on_start = 4
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -580,6 +581,18 @@ awful.rules.rules = {
       properties = { screen = 1, tag = "float2", floating = true } },
     { rule = { class = "Opera" },
       properties = { screen = 1, tag = "float2", floating = true } },
+
+    -- This is a hack to make sure 4 lxterminals on startup go to fair1
+    -- (or fair2_1 in 2-monitors setup)
+    { rule = { class = "Lxterminal" },
+      callback = function(c)
+        if expected_terminals_on_start > 0 then
+            expected_terminals_on_start = expected_terminals_on_start - 1
+            c.screen = 1
+            c.tags{ "fair1" }
+        end
+      end
+     },
 }
 -- }}}
 
@@ -745,15 +758,15 @@ awful.util.spawn_with_shell("xset -b")
 awful.util.spawn_with_shell("numlockx off")
 awful.util.spawn_with_shell("xbacklight -set 30")
 awful.util.spawn_with_shell('setxkbmap -option "grp:alt_shift_toggle,grp_led:scroll" "pl,ru"')
-respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy -g' &")
+respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy -g -n' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
 --       but it seems not to work, find out why
-spawn_with_shell_once("wicd-client", "wicd-client --tray &")
+respawn_with_shell("wicd-client", "wicd-client --tray &")
 spawn_once("xpad")
 
 --spawn_once("davmail")
 --spawn_once("thunderbird")
--- respawn("birdtray") DOESN"T work good
+--respawn("birdtray") DOESN"T work good
 spawn_once("evolution")
 spawn_once("skypeforlinux")
 spawn_once("hipchat4")
@@ -768,8 +781,7 @@ spawn_once("firefox", "firefox", {
     maximized_horizontal = false
 })
 
--- TODO
---for i=1,4 do
+for i=1,4 do
     spawn("lxterminal", "lxterminal", false, {
         floating = false,
         screen = 1,
@@ -777,7 +789,7 @@ spawn_once("firefox", "firefox", {
         maximized_vertical   = false,
         maximized_horizontal = false
     })
---end
+end
 
 -- }}}
 --
