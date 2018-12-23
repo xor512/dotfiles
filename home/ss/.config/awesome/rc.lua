@@ -209,10 +209,10 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    local layouts = awful.layout.layouts
+    local lo = awful.layout.layouts
     local tags = {
-        names  = { "float1",  "tile1",     "tile2",   "fair1",     "float2",    "tile3" },
-        layout = { layouts[1], layouts[2], layouts[2], layouts[3], layouts[1], layouts[2] }
+        names  = { "float1", "float2", "tile1", "tile2", "fair1", "float3", "tile3" },
+        layout = { lo[1],    lo[1],    lo[2],   lo[2],   lo[3],   lo[1],    lo[2] }
     }
     awful.tag(tags.names, s, tags.layout)
 
@@ -570,17 +570,17 @@ awful.rules.rules = {
     { rule = { class = "Pavucontrol" },
       properties = { screen = 1, tag = "tile3" } },
     { rule = { class = "HipChat" },
-      properties = { screen = 1, tag = "float2", floating = true } },
+      properties = { screen = 1, tag = "float3", floating = true } },
     { rule = { class = "Skype" },
-      properties = { screen = 1, tag = "float2", floating = true } },
+      properties = { screen = 1, tag = "float3", floating = true } },
     { rule = { class = "Sky" },
-      properties = { screen = 1, tag = "float2", floating = true } },
+      properties = { screen = 1, tag = "float3", floating = true } },
     { rule = { class = "Evolution" },
-      properties = { screen = 1, tag = "float2", floating = true } },
+      properties = { screen = 1, tag = "float3", floating = true } },
     { rule = { class = "Thunderbird" },
-      properties = { screen = 1, tag = "float2", floating = true } },
+      properties = { screen = 1, tag = "float3", floating = true } },
     { rule = { class = "Opera" },
-      properties = { screen = 1, tag = "float2", floating = true } },
+      properties = { screen = 1, tag = "float3", floating = true } },
 
     -- This is a hack to make sure 4 lxterminals on startup go to fair1
     -- (or fair2_1 in 2-monitors setup)
@@ -590,6 +590,8 @@ awful.rules.rules = {
             expected_terminals_on_start = expected_terminals_on_start - 1
             c.screen = 1
             c.tags{ "fair1" }
+            -- TODO: huh?
+            os.execute('sleep 0.1') 
         end
       end
      },
@@ -689,16 +691,13 @@ local function spawn_with_shell_once(pname, cmd)
     end
 end
 
-local function kill_with_shell(pname, cmd)
-    if not cmd then
-        cmd = pname
-    end
+local function kill_with_shell(pname)
     awful.spawn.with_shell("pkill -9 " .. pname)
     os.execute("sleep 1")
 end
 
 local function respawn_with_shell(pname, cmd)
-    kill_with_shell(pname, cmd)
+    kill_with_shell(pname)
     if not cmd then
         cmd = pname
     end
@@ -726,7 +725,7 @@ local function spawn(pname, cmd, once, sn_rules)
 end
 
 local function respawn(pname, cmd, sn_rules)
-    kill_with_shell(pname, cmd)
+    kill_with_shell(pname)
     spawn(pname, cmd, false, sn_rules)
 end
 
@@ -781,6 +780,7 @@ spawn_once("firefox", "firefox", {
     maximized_horizontal = false
 })
 
+kill_with_shell("lxterminal")
 for i=1,4 do
     spawn("lxterminal", "lxterminal", false, {
         floating = false,

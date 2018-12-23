@@ -57,6 +57,7 @@ editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 
 add_new_clients_as_slaves = false
+expected_terminals_on_start = 4
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -588,6 +589,20 @@ awful.rules.rules = {
       properties = { screen = 2, tag = "float2_2", floating = true } },
     { rule = { class = "Opera" },
       properties = { screen = 2, tag = "float2_2", floating = true } },
+
+    -- This is a hack to make sure 4 lxterminals on startup go to fair1
+    -- (or fair2_1 in 2-monitors setup)
+    { rule = { class = "Lxterminal" },
+      callback = function(c)
+        if expected_terminals_on_start > 0 then
+            expected_terminals_on_start = expected_terminals_on_start - 1
+            c.screen = 2
+            c.tags{ "fair2_1" }
+            -- TODO: huh?
+            os.execute('sleep 0.1') 
+        end
+      end
+     },
 }
 -- }}}
 
@@ -684,16 +699,13 @@ local function spawn_with_shell_once(pname, cmd)
     end
 end
 
-local function kill_with_shell(pname, cmd)
-    if not cmd then
-        cmd = pname
-    end
+local function kill_with_shell(pname)
     awful.spawn.with_shell("pkill -9 " .. pname)
     os.execute("sleep 1")
 end
 
 local function respawn_with_shell(pname, cmd)
-    kill_with_shell(pname, cmd)
+    kill_with_shell(pname)
     if not cmd then
         cmd = pname
     end
@@ -721,7 +733,7 @@ local function spawn(pname, cmd, once, sn_rules)
 end
 
 local function respawn(pname, cmd, sn_rules)
-    kill_with_shell(pname, cmd)
+    kill_with_shell(pname)
     spawn(pname, cmd, false, sn_rules)
 end
 
@@ -753,10 +765,10 @@ awful.util.spawn_with_shell("xset -b")
 awful.util.spawn_with_shell("numlockx off")
 awful.util.spawn_with_shell("xbacklight -set 30")
 awful.util.spawn_with_shell('setxkbmap -option "grp:alt_shift_toggle,grp_led:scroll" "pl,ru"')
-respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy -g' &")
+respawn_with_shell("xautolock", "xautolock -time 10 -locker 'i3lock -c 000000' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
 --       but it seems not to work, find out why
-spawn_with_shell_once("wicd-client", "wicd-client --tray &")
+respawn_with_shell("wicd-client", "wicd-client --tray &")
 spawn_once("xpad")
 
 --spawn_once("davmail")
@@ -778,8 +790,8 @@ spawn_once("firefox", "firefox", {
     maximized_horizontal = false
 })
 
--- TODO
---for i=1,4 do
+kill_with_shell("lxterminal")
+for i=1,4 do
     spawn("lxterminal", "lxterminal", false, {
         floating = false,
         screen = 2,
@@ -787,7 +799,7 @@ spawn_once("firefox", "firefox", {
         maximized_vertical   = false,
         maximized_horizontal = false
     })
---end
+end
 
 -- }}}
 --
