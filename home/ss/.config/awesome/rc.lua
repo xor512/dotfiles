@@ -211,7 +211,7 @@ awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
     local lo = awful.layout.layouts
     local tags = {
-        names  = { "float1", "float2", "tile1", "tile2", "fair1", "float3", "tile3" },
+        names  = { "float1", "float2", "tile3", "tile4", "fair5", "float6", "tile7" },
         layout = { lo[1],    lo[1],    lo[2],   lo[2],   lo[3],   lo[1],    lo[2] }
     }
     awful.tag(tags.names, s, tags.layout)
@@ -562,36 +562,37 @@ awful.rules.rules = {
     },
 
     { rule = { class = "Lxmusic" },
-      properties = { screen = 1, tag = "tile3" } },
+      properties = { screen = 1, tag = "tile7" } },
     { rule = { class = "Deadbeef" },
-      properties = { screen = 1, tag = "tile3" } },
+      properties = { screen = 1, tag = "tile7" } },
     { rule = { class = "Audacious" },
-      properties = { screen = 1, tag = "tile3" } },
+      properties = { screen = 1, tag = "tile7" } },
     { rule = { class = "Pavucontrol" },
-      properties = { screen = 1, tag = "tile3" } },
+      properties = { screen = 1, tag = "tile7" } },
     { rule = { class = "HipChat" },
-      properties = { screen = 1, tag = "float3", floating = true } },
+      properties = { screen = 1, tag = "float6", floating = true } },
     { rule = { class = "Skype" },
-      properties = { screen = 1, tag = "float3", floating = true } },
+      properties = { screen = 1, tag = "float6", floating = true } },
     { rule = { class = "Sky" },
-      properties = { screen = 1, tag = "float3", floating = true } },
+      properties = { screen = 1, tag = "float6", floating = true } },
     { rule = { class = "Evolution" },
-      properties = { screen = 1, tag = "float3", floating = true } },
+      properties = { screen = 1, tag = "float6", floating = true } },
     { rule = { class = "Thunderbird" },
-      properties = { screen = 1, tag = "float3", floating = true } },
+      properties = { screen = 1, tag = "float6", floating = true } },
     { rule = { class = "Opera" },
-      properties = { screen = 1, tag = "float3", floating = true } },
+      properties = { screen = 1, tag = "float6", floating = true } },
 
-    -- This is a hack to make sure 4 lxterminals on startup go to fair1
+    -- This is a hack to make sure 4 lxterminals on startup go to fair5
     -- (or fair2_1 in 2-monitors setup)
     { rule = { class = "Lxterminal" },
       callback = function(c)
         if expected_terminals_on_start > 0 then
             expected_terminals_on_start = expected_terminals_on_start - 1
+            c.floating = false
             c.screen = 1
-            c.tags{ "fair1" }
+            c.tag = "fair5"
             -- TODO: huh?
-            os.execute('sleep 0.1') 
+            os.execute('sleep 0.5') 
         end
       end
      },
@@ -709,18 +710,8 @@ local function spawn(pname, cmd, once, sn_rules)
         cmd = pname
     end
 
-    -- XXX: stupid fix for windows not opening in their set tags in awful.spawn
-    --      no idea why this helps but it does (you don't need to specify tag
-    --      here, it's enough to have it in sn_rules)
-    --local cb
-    --cb = function(c)
-        --awful.client.movetotag("fair2_1", c)
-    --    client.connect_signal("manage", cb)
-    --end
-
     if not (once and isrunning(pname)) then
         awful.spawn(cmd, sn_rules)
-        --client.disconnect_signal("manage", cb)
     end
 end
 
@@ -785,7 +776,7 @@ for i=1,4 do
     spawn("lxterminal", "lxterminal", false, {
         floating = false,
         screen = 1,
-        tag = "fair1",
+        tag = "fair5",
         maximized_vertical   = false,
         maximized_horizontal = false
     })
