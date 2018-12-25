@@ -583,7 +583,7 @@ awful.rules.rules = {
       properties = { screen = 1, tag = "float6", floating = true } },
 
     -- This is a hack to make sure 4 lxterminals on startup go to fair5
-    -- (or fair2_1 in 2-monitors setup)
+    -- (or fair5 in 2-monitors setup)
     { rule = { class = "Lxterminal" },
       callback = function(c)
         if expected_terminals_on_start > 0 then
@@ -591,6 +591,8 @@ awful.rules.rules = {
             c.floating = false
             c.screen = 1
             c.tag = "fair5"
+            c.maximized_vertical = false
+            c.maximized_horizontal = false
             -- TODO: huh?
             os.execute('sleep 0.5') 
         end
@@ -668,7 +670,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
-
 -- {{{ Autostart
 local function isrunning(pname)
     local fpid = io.popen("pgrep -u " .. os.getenv("USER") .. " -o " .. pname)
@@ -681,7 +682,6 @@ local function isrunning(pname)
 
     return true
 end
-
 
 local function spawn_with_shell_once(pname, cmd)
     if not cmd then

@@ -216,7 +216,6 @@ my_tags = {
     }
 }
 
-
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -590,7 +589,7 @@ awful.rules.rules = {
     { rule = { class = "Opera" },
       properties = { screen = 2, tag = "float2_4", floating = true } },
 
-    -- This is a hack to make sure 4 lxterminals on startup go to fair1
+    -- This is a hack to make sure 4 lxterminals on startup go to fair2_3
     -- (or fair2_3 in 2-monitors setup)
     { rule = { class = "Lxterminal" },
       callback = function(c)
@@ -598,7 +597,9 @@ awful.rules.rules = {
             expected_terminals_on_start = expected_terminals_on_start - 1
             c.floating = false
             c.screen = 2
-            c.tags{ "fair2_3" }
+            c.tag = "fair2_3"
+            c.maximized_vertical = false
+            c.maximized_horizontal = false
             -- TODO: huh?
             os.execute('sleep 0.5') 
         end
@@ -676,7 +677,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
-
 -- {{{ Autostart
 local function isrunning(pname)
     local fpid = io.popen("pgrep -u " .. os.getenv("USER") .. " -o " .. pname)
@@ -689,7 +689,6 @@ local function isrunning(pname)
 
     return true
 end
-
 
 local function spawn_with_shell_once(pname, cmd)
     if not cmd then
@@ -765,18 +764,19 @@ spawn_once("xpad")
 --spawn_once("davmail")
 --spawn_once("thunderbird")
 -- respawn("birdtray") DSOESN"T work good
+kill_with_shell("evolution") -- stupid evolution in between rdesktop sections leaves junk
 spawn_once("evolution")
 spawn_once("skypeforlinux")
 spawn_once("hipchat4")
 
 spawn_once("pavucontrol")
 spawn_once("audacious")
-spawn_once("opera", "opera")
+spawn_once("opera")
 
 spawn_once("firefox", "firefox", {
     floating = true,
-    screen = 1,
-    tag = "float1_1",
+    screen = 2,
+    tag = "float2_1",
     maximized_vertical   = true,
     maximized_horizontal = false
 })
