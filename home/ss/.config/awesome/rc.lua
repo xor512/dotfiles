@@ -44,7 +44,7 @@ end
 beautiful.init(awful.util.getdir("config") .. "themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "lxterminal"
+terminal = "xfce4-terminal"
 --editor = os.getenv("EDITOR") or "nano"
 editor = "gvim"
 editor_cmd = terminal .. " -e " .. editor
@@ -57,7 +57,6 @@ editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 
 add_new_clients_as_slaves = false
-expected_terminals_on_start = 4
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -581,23 +580,6 @@ awful.rules.rules = {
       properties = { screen = 1, tag = "float6", floating = true } },
     { rule = { class = "Opera" },
       properties = { screen = 1, tag = "float6", floating = true } },
-
-    -- This is a hack to make sure 4 lxterminals on startup go to fair5
-    -- (or fair5 in 2-monitors setup)
-    { rule = { class = "Lxterminal" },
-      callback = function(c)
-        if expected_terminals_on_start > 0 then
-            expected_terminals_on_start = expected_terminals_on_start - 1
-            c.floating = false
-            c.screen = 1
-            c.tag = "fair5"
-            c.maximized_vertical = false
-            c.maximized_horizontal = false
-            -- TODO: huh?
-            os.execute('sleep 0.5') 
-        end
-      end
-     },
 }
 -- }}}
 
@@ -771,9 +753,9 @@ spawn_once("firefox", "firefox", {
     maximized_horizontal = false
 })
 
-kill_with_shell("lxterminal")
+kill_with_shell("xfce4-terminal")
 for i=1,4 do
-    spawn("lxterminal", "lxterminal", false, {
+    spawn("xfce4-terminal", "xfce4-terminal", false, {
         floating = false,
         screen = 1,
         tag = "fair5",
