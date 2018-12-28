@@ -47,7 +47,8 @@ beautiful.init(awful.util.getdir("config") .. "themes/default/theme.lua")
 terminal = "xfce4-terminal"
 --editor = os.getenv("EDITOR") or "nano"
 editor = "gvim"
-editor_cmd = terminal .. " -e " .. editor
+--editor_cmd = terminal .. " -e " .. editor
+editor_cmd = editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
