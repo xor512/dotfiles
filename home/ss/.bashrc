@@ -20,7 +20,6 @@ export BROWSER="firefox"
 export PAGER='less -RF'
 alias man='PAGER="most" man ' # See ~/bin/most to find out it is actually most -cwd
 
-
 alias e='exit'
 alias g='gvim'
 alias v='vim'
