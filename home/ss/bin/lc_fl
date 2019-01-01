@@ -1,0 +1,59 @@
+#!/bin/bash
+
+MAXIMIZED='true'
+TAG=''
+
+count=2
+while [[ $count -gt 0 ]]; do
+    key=$1
+    case $key in
+        -m)
+        MAXIMIZED='false'
+        shift # past argument
+        ;;
+        -t)
+        TAG=$2
+        shift # past argument
+        shift # past value
+        ;;
+    esac
+    count=$count-1
+done
+
+if [ $# -le 0 ]; then
+    echo "Usage: $(basename $0) [-m] [-t float2] your command with arguments"
+    echo
+    echo "Launches specified command like "gvim ~/,xinitrc". By default on the same tag, mamixezed and floating."
+    echo
+    echo "-m and -t float2 sutff can be used only IN THE BEGINNING of the script parameters in whatever order"
+
+    echo "to launch command as maximized=false in the the tag=float2 in this example. They are both optional."
+    echo
+    echo "The reason for this hack to exist is if you have a creafully creafted layout like tile/fair"
+    echo "mand you just want to see something for just a second in a float way, you can then safely close it"
+    echo
+    echo "Examples:"
+    echo 
+    echo "$(basename $0) gvim ~/.xinitrc" - will open maximized gvim with opened file as floating
+    echo "$(basename $0) -m gvim ~/.xinitrc" - will open maximized=false gvim with opened file as floating
+    echo "$(basename $0) -m -tag float2 gvim ~/.xinitrc - will open maximized=false gvim with opened file as floating in tag float2"
+    echo "$(basename $0) -t float2 -m gvim ~/.xinitrc - same as the above"
+    echo
+    echo "Please note that no quites are needed for the command part. It just has to be the last (after -t, im."
+
+    exit 1
+fi
+
+
+if [ $# -gt 0 ] ;then
+    cmd=$*
+    if [ -z $TAG ]; then
+        awesome-client "require('awful.spawn')('$cmd', { floating = true, maximized = $MAXIMIZED })"
+    else
+        echo $TAG
+        awesome-client "require('awful.spawn')('$cmd', { floating = true, maximized = $MAXIMIZED, tag = '$TAG' })"
+    fi
+fi
+
+exit 0
+
