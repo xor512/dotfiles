@@ -1,7 +1,15 @@
 #!/bin/bash
 
+# Runs command as floating e.g. from a terminal on a tiled/fair tag
+# to just see for a moment and close without cluttering the tag
+#
+# Accepts -m and -t <tag> in any order (but have to be first)
+# to launch not maximized and to move to tag <tag> after opening
+# if a program supported startup notifications (lxterminal and
+# xterm do not)
+
 MAXIMIZED='true'
-TAG=''
+TAG='' # currently focused one by default
 
 count=2
 while [[ $count -gt 0 ]]; do
@@ -29,17 +37,17 @@ if [ $# -le 0 ]; then
     echo "to launch command as maximized=false in the tag=float2 in this example. They are both optional."
     echo
     echo "The reason for this hack to exist is if you have a succesfully creafted layout like tile/fair"
-    echo "and you just want to see something for just a second in a float way, you can use this script and you can
-    echo then safely close it"
+    echo "and you just want to see something for just a second in a float way, you can use this script and you can"
+    echo "then safely close it"
     echo
     echo "Examples:"
     echo 
-    echo "$(basename $0) gvim ~/.xinitrc" - will open maximized gvim with opened file as floating
-    echo "$(basename $0) -m gvim ~/.xinitrc" - will open maximized=false gvim with opened file as floating
-    echo "$(basename $0) -m -tag float2 gvim ~/.xinitrc - will open maximized=false gvim with opened file as floating in tag float2"
-    echo "$(basename $0) -t float2 -m gvim ~/.xinitrc - same as the above"
+    echo "$(basename $0) gvim ~/.xinitrc - will open maximized gvim as floating on the currently focused tag"
+    echo "$(basename $0) -m gvim ~/.xinitrc - same as previous but gvim will not be maximized"
+    echo "$(basename $0) -m -t float2 gvim ~/.xinitrc - same as previous but the gvim will go to tag 'float2' once started"
+    echo "$(basename $0) -t float2 -m gvim ~/.xinitrc - same as the above, just orders of -t/-m is reversed"
     echo
-    echo "Please note that no quotes are needed for the command part. It just has to be the last (after -t, im."
+    echo "Please note that no quotes are needed for the command part. It just has to be the last (after -t, -m)"
 
     exit 1
 fi
