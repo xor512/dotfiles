@@ -1,0 +1,18 @@
+Ладно, тут написано:
+
+https://wiki.archlinux.org/index.php/Uniform_look_for_Qt_and_GTK_applications...
+
+И тут:
+
+https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_envir...
+
+Только там все через ж-у. В-общем, как я понял, надо, например:
+
+    поставить что-то где есть dark (например: breeze (Qt4), breeze-gtk (GTK), breeze-kde(Qt4 из AUR, здох); или adwaita из каких-то AUR), lxappearance (GTK), qt5ct (Qt5), qtconfig-qt4 (Qt4)
+    запустить что-нибудь вроде lxappearance и там выбрать breeze и dark например (Gtk)
+    запустить что-нибудь вроде qt5ct там тоже самое и добавить в .bashrc QT_QPA_PLATFORMTHEME=qt5ct (Qt5)
+    запустить что-нибудь вроде qtconfig-qt4 там тоже самое (Qt4) 
+
+Только вот breeze-kde сдох, adwaita надо ставить из AUR, а фон в QtCreator надо вообще в нем самим же выбирать где-то в Tools -> Options -> Environment а также Tools -> Options -> TextEditor, т.е. ему на эти конфиги наплевать вообще.
+
+Жесть. Советчику редактировать .css файлы от Qt я предлагаю делать тоже самое каждый день по полчаса с утра.
