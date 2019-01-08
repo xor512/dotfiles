@@ -698,8 +698,10 @@ local function spawn_with_shell_once(pname, cmd)
 end
 
 local function kill_with_shell(pname)
-    awful.spawn.with_shell("pkill -9 " .. pname)
-    os.execute("sleep 1")
+    if isrunning(pname) then
+        awful.spawn.with_shell("pkill -9 " .. pname)
+        os.execute("sleep 1")
+    end
 end
 
 local function respawn_with_shell(pname, cmd)
@@ -759,11 +761,10 @@ respawn_with_shell("xautolock", "xautolock -time 10 -locker 'i3lock -c 000000' &
 respawn_with_shell("wicd-client", "wicd-client --tray &")
 spawn_once("xpad")
 
+spawn_once("thunderbird")
+-- respawn("birdtray") -- TODO: doesn't work
 --spawn_once("davmail")
---spawn_once("thunderbird")
--- respawn("birdtray") DSOESN"T work good
-kill_with_shell("evolution") -- stupid evolution in between rdesktop sections leaves junk
-spawn_once("evolution")
+--spawn_once("evolution")
 spawn_once("skypeforlinux")
 spawn_once("hipchat4")
 
