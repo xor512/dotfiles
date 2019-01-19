@@ -16,7 +16,7 @@ local menubar = require("menubar")
 require("awesome-wm-widgets.battery-widget.battery")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
-local hotkeys_popup = require("awful.hotkeys_popup.keys")
+require("awful.hotkeys_popup.keys")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
