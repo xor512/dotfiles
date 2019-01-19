@@ -1,1 +1,1 @@
-Replace /usr/share/awesome/theme/default/background.png with grey.png
+Replace /usr/share/awesome/themes/default/background.png with grey.png
