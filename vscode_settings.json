@@ -1,0 +1,14 @@
+{
+    "editor.minimap.enabled": false,
+    "workbench.tree.indent": 18,
+    "workbench.editor.enablePreview": false,
+    "editor.fontSize": 10,
+    "C_Cpp.default.intelliSenseMode": "gcc-x64",
+    "C_Cpp.updateChannel": "Insiders",
+    "[xml]": {
+        "editor.defaultFormatter": "redhat.vscode-xml"
+    },
+    "xmlTools.xmlFormatterImplementation": "classic",
+    "editor.renderWhitespace": "all",
+    "editor.fontFamily": "'Roboto Mono for Powerline Regular', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'"
+}
