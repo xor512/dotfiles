@@ -385,6 +385,13 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
+    awful.key({ modkey, "Control"   }, "m",      
+        function ()
+            for _, c in ipairs(mouse.screen.selected_tag:clients()) do
+                 c.minimized = true
+            end
+        end,
+              {description = "close all windows in current tag", group = "client"}),
     awful.key({ modkey, "Control" }, "Next", function (c) c:relative_move( 20,  20, -40, -40) end),
     awful.key({ modkey, "Control" }, "Prior", function (c) c:relative_move(-20, -20,  40,  40) end),
     awful.key({ modkey, "Control" }, "Down",  function (c) c:relative_move(  0,  20,   0,   0) end),
@@ -559,6 +566,7 @@ awful.rules.rules = {
           "Sxiv",
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
+          "pinentry",
           "veromix",
           "xtightvncviewer"},
 
@@ -752,7 +760,7 @@ end
 
 awful.util.spawn_with_shell("xset -b")
 awful.util.spawn_with_shell("numlockx off")
-awful.util.spawn_with_shell("xbacklight -set 30")
+awful.util.spawn_with_shell("xbacklight -set 60")
 awful.util.spawn_with_shell('setxkbmap -option "grp:alt_shift_toggle,grp_led:scroll" "pl,ru"')
 respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy -g -n' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
