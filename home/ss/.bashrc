@@ -15,7 +15,8 @@ export LANGUAGE="en_US.UTF-8"
 
 export PATH=$PATH:~/bin
 
-export EDITOR='gvim'
+export VISUAL="vim"
+export EDITOR="vim"
 export BROWSER="firefox"
 export PAGER='less -RF'
 alias man='PAGER="most" man ' # See ~/bin/most to find out it is actually most -cwd

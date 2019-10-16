@@ -10,6 +10,7 @@ export LANGUAGE="en_US.UTF-8"
 export PATH=$PATH:/home/ss/bin
 
 export PAGER="most -cwd"
+export VISUAL="vim"
 export EDITOR="vim"
 
 alias e='exit'
