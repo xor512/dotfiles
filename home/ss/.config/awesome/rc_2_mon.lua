@@ -398,6 +398,23 @@ clientkeys = gears.table.join(
                  c.minimized = true
             end
         end,
+              {description = "minimize all windows in current tag", group = "client"}),
+    awful.key({ modkey, "Control"   }, "u",      
+        function ()
+            for _, c in ipairs(mouse.screen.selected_tag:clients()) do
+                 c.minimized = false
+                 ---c:emit_signal(
+                 ---    "request::activate", "key.unminimize", {raise = true}
+                 ---)
+            end
+        end,
+              {description = "maximize all windows in current tag", group = "client"}),
+    awful.key({ modkey, "Control"   }, "c",      
+        function ()
+            for _, c in ipairs(mouse.screen.selected_tag:clients()) do
+                 c:kill()
+            end
+        end,
               {description = "close all windows in current tag", group = "client"}),
     awful.key({ modkey, "Control" }, "Next", function (c) c:relative_move( 20,  20, -40, -40) end),
     awful.key({ modkey, "Control" }, "Prior", function (c) c:relative_move(-20, -20,  40,  40) end),
@@ -772,19 +789,19 @@ awful.util.spawn_with_shell('setxkbmap -option "grp:alt_shift_toggle,grp_led:scr
 respawn_with_shell("xautolock", "xautolock -time 10 -locker 'i3lock -c 000000' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
 --       but it seems not to work, find out why
-respawn_with_shell("wicd-client", "wicd-client --tray &")
-spawn_once("xpad")
+-- respawn_with_shell("wicd-client", "wicd-client --tray &")
+--spawn_once("xpad")
 
 spawn_once("thunderbird")
 -- respawn("birdtray") -- TODO: doesn't work
 --spawn_once("davmail")
 --spawn_once("evolution")
 spawn_once("skypeforlinux")
-spawn_once("hipchat4")
+--spawn_once("hipchat4")
 
 spawn_once("pavucontrol")
 spawn_once("audacious")
-spawn_once("opera")
+--spawn_once("opera")
 
 spawn_once("firefox", "firefox", {
     floating = true,
