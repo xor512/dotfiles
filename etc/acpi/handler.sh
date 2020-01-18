@@ -63,9 +63,10 @@ case "$1" in
                 ;;
             open)
                 logger 'LID opened'
+                echo 7960743 > /sys/class/backlight/intel_backlight/brightness
                 setxkbmap -option "grp:alt_shift_toggle,grp_led:scroll" "pl,ru"
                 xset -b
-                ;;
+              ;;
             *)
                 logger "ACPI action undefined: $3"
                 ;;
