@@ -1,4 +1,3 @@
-- Fix hack in .config/awesome/awful/widget/tasklist.lua table.insert(clients, 1, c) back to table.insert(clients, c) and change commands for modkey-j,k to use awful.client.focus.bydirection
 - Remove as much stuff from /etc as possible
 - Clean up txt files (groups.txt, install.txt)
 
