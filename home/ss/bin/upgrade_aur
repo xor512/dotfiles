@@ -10,6 +10,9 @@ if [ "$#" -ne 1 ]; then
     echo "a PKGBUILD file with pkgbase/pkgname will see if this package is installed."
     echo "If it is will perform git reset --hard + git pull, check for pkgver/pkgrel"
     echo "against what is installed and call makepkg -sri in case they differ"
+    echo
+    echo 'Unfortunately you still have to type your sudo password when installing'
+    echo 'packages and I still do not know how to workaround this'
     exit 1
 fi
 
@@ -54,7 +57,7 @@ for dir in */; do
 
                 if [ "$inst_version" != "$git_version" ]; then
                     echo "--------- Package "$pkgname" installed version "$inst_version" has git version "$git_version", will reinstall"
-                    makepkg -sri
+                    makepkg --noconfirm -sri
                 fi
             fi
         fi
