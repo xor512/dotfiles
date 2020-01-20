@@ -33,28 +33,38 @@ hours_and_minutes_to_minutes () {
         minutes=0
     fi
 
-    minutes_in_hourss=$(($hours * 60))
-    time_in_minutes=$(($minutes_in_hourss + $minutes))
+    minutes_in_hours=$(($hours * 60))
+    time_in_minutes=$(($minutes_in_hours + $minutes))
     
-    echo $time_in_minutes # return value (string)
+    echo $time_in_minutes # return result (it's a string, so not using return)
 }
 
 minutes_to_hours_and_minutes () {
     result_minutes=$1
 
-    result_hourss=$(($result_minutes / 60 % 24))
+    result_hours=$(($result_minutes / 60 % 24))
     rest_minutes=$(($result_minutes % 60))
     
-    if [ "$result_hourss" -eq 24 ]; then
-        result_hourss=0
+    if [ "$result_hours" -eq 24 ]; then
+        result_hours=0
     fi
 
     if [ "$rest_minutes" -eq 60 ]; then
-        result_hourss=$(($result_hourss + 1))
+        result_hours=$(($result_hours + 1))
         rest_minutes=0
     fi
 
-	echo "${result_hourss}.${rest_minutes}" # rerurn value (string)
+    # Pad hours part of time string so that it has 0's in the beginning
+    if [ "${#result_hours}" -lt 2 ]; then
+		result_hours="0${result_hours}"
+    fi
+
+    # Pad minutes part of time string so that it has 0's in the beginning
+    if [ "${#rest_minutes}" -lt 2 ]; then
+    	rest_minutes="${rest_minutes}0"
+    fi
+
+	echo "${result_hours}.${rest_minutes}" # rerurn result (it's a stringm so not using return)
 }
 
 time_in_minutes1=`hours_and_minutes_to_minutes $time1`
