@@ -56,15 +56,15 @@ minutes_to_hours_and_minutes () {
 
     # Pad hours part of time string so that it has 0's in the beginning
     if [ "${#result_hours}" -lt 2 ]; then
-		result_hours="0${result_hours}"
+        result_hours="0${result_hours}"
     fi
 
     # Pad minutes part of time string so that it has 0's in the beginning
     if [ "${#rest_minutes}" -lt 2 ]; then
-    	rest_minutes="${rest_minutes}0"
+        rest_minutes="${rest_minutes}0"
     fi
 
-	echo "${result_hours}.${rest_minutes}" # rerurn result (it's a stringm so not using return)
+    echo "${result_hours}.${rest_minutes}" # rerurn result (it's a stringm so not using return)
 }
 
 time_in_minutes1=`hours_and_minutes_to_minutes $time1`
