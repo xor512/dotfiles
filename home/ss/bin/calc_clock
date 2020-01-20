@@ -26,6 +26,13 @@ hour_and_minutes_to_minutes () {
 
     hour=`echo $time_param | cut -d '.' -f1`
     minutes=`echo $time_param | cut -d '.' -f2`
+
+    # If someone omits minutes like $(basename $0) 6 + 4, set minutes to 0
+    # to not have junk there (addecting the result)
+    if [[ ! -z "$minutes" ]] ; then
+        minutes=0
+    fi
+
     minutes_in_hour=$(($hour * 60))
     time_in_minutes=$(($minutes_in_hour + $minutes))
     
