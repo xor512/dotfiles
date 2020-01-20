@@ -3,7 +3,7 @@
 if [ "$#" -ne 3 ]; then
     echo "Usage: "$(basename $0)" time1 +|- time2"
     echo
-    echo "Shows how many time will it be if we will add say 8 hour"
+    echo "Shows how many time will it be if we will add say 8 hours"
     echo "to 23.49 or substract 36 minutes from 00.14"
     echo
     echo "time1 and time2 should be in floating point format (with a dot"
@@ -21,10 +21,10 @@ time1=$1
 operand=$2
 time2=$3
 
-hour_and_minutes_to_minutes () {
+hours_and_minutes_to_minutes () {
     time_param=$1
 
-    hour=`echo $time_param | cut -d '.' -f1`
+    hours=`echo $time_param | cut -d '.' -f1`
     minutes=`echo $time_param | cut -d '.' -f2`
 
     # If someone omits minutes like $(basename $0) 6 + 4, set minutes to 0
@@ -33,40 +33,40 @@ hour_and_minutes_to_minutes () {
         minutes=0
     fi
 
-    minutes_in_hours=$(($hour * 60))
-    time_in_minutes=$(($minutes_in_hours + $minutes))
+    minutes_in_hourss=$(($hours * 60))
+    time_in_minutes=$(($minutes_in_hourss + $minutes))
     
     echo $time_in_minutes # return value (string)
 }
 
-minutes_to_hour_and_minutes () {
+minutes_to_hours_and_minutes () {
     result_minutes=$1
 
-    result_hours=$(($result_minutes / 60 % 24))
+    result_hourss=$(($result_minutes / 60 % 24))
     rest_minutes=$(($result_minutes % 60))
     
-    if [ "$result_hours" -eq 24 ]; then
-        result_hours=0
+    if [ "$result_hourss" -eq 24 ]; then
+        result_hourss=0
     fi
 
     if [ "$rest_minutes" -eq 60 ]; then
-        result_hours=$(($result_hours + 1))
+        result_hourss=$(($result_hourss + 1))
         rest_minutes=0
     fi
 
-	echo "${result_hours}.${rest_minutes}" # rerurn value (string)
+	echo "${result_hourss}.${rest_minutes}" # rerurn value (string)
 }
 
-time_in_minutes1=`hour_and_minutes_to_minutes $time1`
-time_in_minutes2=`hour_and_minutes_to_minutes $time2`
+time_in_minutes1=`hours_and_minutes_to_minutes $time1`
+time_in_minutes2=`hours_and_minutes_to_minutes $time2`
 
 case "$operand" in
     +)
-        final_result=`minutes_to_hour_and_minutes $(($time_in_minutes1 + $time_in_minutes2))`
+        final_result=`minutes_to_hours_and_minutes $(($time_in_minutes1 + $time_in_minutes2))`
         echo "Result is: $final_result"
         ;;
     -)
-        final_result=`minutes_to_hour_and_minutes $(($time_in_minutes1 - $time_in_minutes2))`
+        final_result=`minutes_to_hours_and_minutes $(($time_in_minutes1 - $time_in_minutes2))`
         echo "Result is: $final_result"
         ;;
     *)
