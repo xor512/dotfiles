@@ -101,6 +101,16 @@ HAVE to 'pacman -S pacman-mirrorlist' instead to regenerate it.. jeese
 === audacious doesn't add directories contents/deadbeef don't see MP3 files
 Install libmad
 
+=== pkgfile database
+
+~/doc >>> sudo systemctl enable pkgfile-update.timer                                                                                                                [1]
+Created symlink /etc/systemd/system/multi-user.target.wants/pkgfile-update.timer → /usr/lib/systemd/system/pkgfile-update.timer
+
+From man pkgfile:
+       -u, --update
+                Update the stored metadata files. It is recommended to create a daily cron job with this command to ensure accurate results. By default, only repos
+                which are found to be newer on the mirror will be downloaded. Pass this option twice to force all repos to be downloaded.
+                             .
 
 === Othher
 For battery install acpi and arc-icon-theme
