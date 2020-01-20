@@ -1,0 +1,69 @@
+#!/bin/bash
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: "$(basename $0)" time1 +|- time2"
+    echo
+    echo "Shows how many time will it be if we will add say 8 hour"
+    echo "to 23.49 or substract 36 minutes from 00.14"
+    echo
+    echo "time1 and time2 should be in floating point format (with a dot"
+    echo "like for example 3.40 (or 3.4) which means 3 o'clock in the"
+    echo "morning and 40 minutes)"
+    echo
+    echo "For simplicity (this script is suppossed just to count when to"
+    echo "take next dosage of drugs) there is no validation, so for example"
+    echo "if you will try to subscribe 10 years from 1 year AD you will get"
+    echo "gibberish (I am m not going into AD/BC in this simple and stupid script"
+    exit 1
+fi
+
+time1=$1
+operand=$2
+time2=$3
+
+hour_and_minutes_to_minutes () {
+    time_param=$1
+
+    hour=`echo $time_param | cut -d '.' -f1`
+    minutes=`echo $time_param | cut -d '.' -f2`
+    minutes_in_hour=$(($hour * 60))
+    time_in_minutes=$(($minutes_in_hour + $minutes))
+    
+    echo $time_in_minutes # return value (string)
+}
+
+minutes_to_hour_and_minutes () {
+    result_minutes=$1
+
+    result_hours=$(($result_minutes / 60 % 24))
+    rest_minutes=$(($result_minutes % 60))
+    
+    if [ "$result_hours" -eq 24 ]; then
+        result_hours=0
+    fi
+
+    if [ "$rest_minutes" -eq 60 ]; then
+        result_hours=$(($result_hours + 1))
+        rest_minutes=0
+    fi
+
+	echo "${result_hours}.${rest_minutes}" # rerurn value (string)
+}
+
+time_in_minutes1=`hour_and_minutes_to_minutes $time1`
+time_in_minutes2=`hour_and_minutes_to_minutes $time2`
+
+case "$operand" in
+    +)
+        final_result=`minutes_to_hour_and_minutes $(($time_in_minutes1 + $time_in_minutes2))`
+        echo "Result is: $final_result"
+        ;;
+    -)
+        final_result=`minutes_to_hour_and_minutes $(($time_in_minutes1 - $time_in_minutes2))`
+        echo "Result is: $final_result"
+        ;;
+    *)
+        echo "ERROR: Unknown operand, use '+' or '-'"
+        ;;
+esac
+
