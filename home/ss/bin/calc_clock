@@ -29,8 +29,6 @@ time1=$1
 operator=$2
 time2=$3
 
-echo '30: GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO' 1>&2
-
 # bash makes life of script writer hard.
 # it doesn't have any symbol to distinguish between octal
 # or decimal numbers. So while all the civilized world
@@ -46,19 +44,37 @@ ltrim_zeros()
     number=$1
     number=`echo $number | sed "s/^0*//"`
 
-    if [ "${#number}" -eq 0 ]; then
+    if [[ "${#number}" -eq 0 ]]; then
         number=0
     fi
+
     # it is a number but it can be greater than 255 (as we convert so not using return
     echo $number 
 }
 
-radd_zeros()
+# See comments where this function is used
+ladd_zero()
 {
     number=$1
 
-    if [ "${#number}" -lt 2 ]; then
+    if [[ "${#number}" -lt 2 ]]; then
         number="0${number}"
+    fi
+
+    echo $number
+}
+
+# See comments where this function is used
+radd_zero()
+{
+    number=$1
+
+    if [[ "${#number}" -lt 2 ]]; then
+        if [[ ${number} -eq 0 ]]; then
+            number="${number}0"
+        else
+            number="0${number}"
+        fi
     fi
 
     echo $number
@@ -66,24 +82,16 @@ radd_zeros()
 
 time_to_minutes()
 {
-echo " " 1>&2
-echo "70: BEGIN time_to_minutes() --------------------------------" 1>&2
-     time_param=$1
+    time_param=$1
 
-echo "73: time_to_minutes() time_param is " $time_param 1>&2
-echo "74: time_to_minutes() time_param length is " ${#time_param} 1>&2
-
-    if [ "${#time_param}" -eq 1 ]; then
+    if [[ "${#time_param}" -eq 1 ]]; then
          # case when there is no dot in number of hours, like in say 2 (which means 2 o'oclock)
          hours=$time_param 
-echo "79: time_to_minutes() setting minutes to 0 since time_param length is 1 " 1>&2
          minutes=0
     else
          hours=`echo $time_param | cut -d '.' -f1`
          minutes=`echo $time_param | cut -d '.' -f2`
     fi
-
-echo "86: time_to_minutes() after parsing" $hours "..." $minutes 1>&2
 
     # If someone omits minutes like $(basename $0) 6 + 4, set minutes to 0
     # to not have junk there (affecting the result)
@@ -91,22 +99,10 @@ echo "86: time_to_minutes() after parsing" $hours "..." $minutes 1>&2
         minutes=0
     fi
 
-echo "94: time_to_minutes() if minutes ommitted (like 2 + 2)" $hours "..." $minutes 1>&2
-echo '------------------------ DUPA' 1>&2
     hours=`ltrim_zeros $hours`
     minutes=`ltrim_zeros $minutes`
-#dupa=`ltrim_zeros 0000000009`
-#echo $dupa
-echo '------------------------ DUPA' 1>&2
-
     minutes_in_hours=$((${hours} * 60))
     time_in_minutes=$((${minutes_in_hours} + ${minutes}))
-
-echo "105: time_to_minutes(): minutes_in_hours " ${minutes_in_hours} 1>&2 
-echo "106: time_to_minutes(); time_in_minutes " ${time_in_minutes} 1>&2
-
-echo "108: END time_to_minutes() --------------------------------" 1>&2
-echo " " 1>&2
 
     # return result (it's a string so not using returning status 0-255)
     echo $time_in_minutes
@@ -114,60 +110,42 @@ echo " " 1>&2
 
 minutes_to_time()
 {
-echo " " 1>&2
-echo "118: BEGIN minutes_to_time() ------------------" 1>&2
      result_minutes=$1
-
-echo "121: minutes_to_time(): result_minutes:" $resulr_minutes 1>&2 
 
      result_hours=$(($result_minutes / 60 % 24))
      rest_minutes=$(($result_minutes % 60))
 
-echo "126; minutes_to_time() result_hours" $result_hours 1>&2
-echo "127: minutes_to_time() rest_minutes" $rest_minutes 1>&2
-
-    if [ "${result_hours}" -eq 24 ]; then
+    if [[ "${result_hours}" -eq 24 ]]; then
         result_hours=0
     fi
 
-echo "133: minutes_to_time() result_hours" $result_hours 1>&2
-
-    if [ "${rest_minutes}" -eq 60 ]; then
+    if [[ "${rest_minutes}" -eq 60 ]]; then
         result_hours=$((++${result_hours}))
         rest_minutes=0
     fi
 
-echo "140: minuts_to_time() result_hours60" $result_hours 1>&2
-echo "141 minutes_to_time() rest_minutes60" $rest_minutes 1>&2
+    # Make 04.xx from 4.xx and such (leading zeros where
+    # removed by ltrim_zeros to make arithmetic work) 
+    result_hours=`ladd_zero $result_hours`
 
-echo "143: END minuts_to_time() ------------------" 1>&2
-echo "144 minuts_to_time(0) " "${result_hours}.${rest_minutes}" 1>&2
-echo " " 1>&2
-
-    # Make 04.xx from 4.xx and such
-    result_hours=`radd_zeros $result`
+    # Make 04.xx from 04.x (this could happen e.g. when)
+    # we add 01.20 to 01.40, there is no rest then, but
+    # we have to leave only one zero to make arithmetics
+    # work. There is another case when result it 07.1 but
+    # should be written as 07.01
+    rest_minutes=`radd_zero $rest_minutes`
 
     # return result (it's a string so not using returning status 0-255)
     echo "${result_hours}.${rest_minutes}"
 }
 
-echo "151: main() ------------" 1>&2
-
 time_in_minutes1=`time_to_minutes $time1`
 time_in_minutes2=`time_to_minutes $time2`
-
-echo "156; time_in_minutes1" $time_in_minutes1 1>&2
-echo "157: time_in_minutes2" $time_in_minutes2 1>&2
 
 minutes_sum=$(($time_in_minutes1 + $time_in_minutes2))
 minutes_diff=$(($time_in_minutes1 - $time_in_minutes2))
 result_sum=`minutes_to_time $minutes_sum`
 result_diff=`minutes_to_time $minutes_diff`
-
-echo "164 result_sum:" $result_sum 1>&2
-echo "165 result_diff:" $result_diff 1>&2
-
-echo "167 case ----------------" 1>&2
 
 case "$operator" in
     +)
