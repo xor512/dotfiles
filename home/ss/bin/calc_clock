@@ -7,8 +7,8 @@ if [ "$#" -ne 3 ]; then
     echo "to 23.49 or substract 36 minutes from 00.14"
     echo
     echo "time1 and time2 should be in floating point format (with a dot"
-    echo "like for example 3.40 (or 3.4) which means 3 o'clock in the"
-    echo "morning and 40 minutes)"
+    echo "like for example 3.40 which means 3 o'clock in the morning and 40 minutes)"
+    echo "3.4 which means 3 o'clock and 4 minutes accordinely".
     echo
     echo "For simplicity (this script is suppossed just to count when to"
     echo "take next dosage of drugs) there is almost no validation, so for example"
@@ -20,6 +20,8 @@ if [ "$#" -ne 3 ]; then
     echo "and then simply divide sum of minutes by 60, add result to sum of"
     echo "hours and mod of that division leave as minutes, Anyway both solution"
     echo "are simple enough"
+    echo
+    echo "PPS Please note that you need to add spaces between operands and operator"
     exit 1
 fi
 
@@ -29,14 +31,14 @@ time2=$3
 
 echo '30: GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO' 1>&2
 
-# B.bash makes life of script writer hard.
+# bash makes life of script writer hard.
 # it doesn't have any symbol to distinguish between octal
 # or decimal numbers. So while all the civilized world
 # uses 0o7 for octals - bash uses 07. The problem is that
 # in octal system say 09 does not exist and bash interprets
 # it as junk. So if one tries to add 09 hours to 02 hours
-# treating them like number - bash thinks they are octal
-# and emits an error saying that 09 is an invalid octal
+# treating them like decimal numbers - bash thinks they are
+# octal and emits an error saying that 09 is an invalid octal"
 # number. So to perform arithmetics # on such numbers
 # leading 0s should be removed
 ltrim_zeros()
