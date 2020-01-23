@@ -68,6 +68,17 @@ echo " " 1>&2
     echo $number 
 }
 
+radd_zeros()
+{
+    number=$1
+
+    if [ "${#number}" -lt 2 ]; then
+        number="0${number}"
+    fi
+
+    echo $number
+}
+
 time_to_minutes()
 {
 echo " " 1>&2
@@ -147,6 +158,9 @@ echo "141 minutes_to_time() rest_minutes60" $rest_minutes 1>&2
 echo "143: END minuts_to_time() ------------------" 1>&2
 echo "144 minuts_to_time(0) " "${result_hours}.${rest_minutes}" 1>&2
 echo " " 1>&2
+
+    # Make 04.xx from 4.xx and such
+    result_hours=`radd_zeros $result`
 
     # return result (it's a string so not using returning status 0-255)
     echo "${result_hours}.${rest_minutes}"
