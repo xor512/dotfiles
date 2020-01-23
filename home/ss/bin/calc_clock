@@ -2,6 +2,7 @@
 
 if [ "$#" -ne 3 ]; then
     echo "Usage: "$(basename $0)" time1 +|- time2"
+    echo "       (spaces between operands and operator are necessary)"
     echo
     echo "Shows how many time will it be if we will add say 8 hours"
     echo "to 23.49 or substract 36 minutes from 00.14"
@@ -52,7 +53,8 @@ ltrim_zeros()
     echo $number 
 }
 
-# See comments where this function is used
+# Make 04.xx from 4.xx and such (leading zeros where
+# removed by ltrim_zeros to make arithmetic work) 
 ladd_zero()
 {
     number=$1
@@ -64,7 +66,11 @@ ladd_zero()
     echo $number
 }
 
-# See comments where this function is used
+# Make 04.xx from 04.x (this could happen e.g. when)
+# we add 01.20 to 01.40, there is no rest then, but
+# we have to leave only one zero to make arithmetics
+# work. Another case is when result it 07.1 but
+# should be written as 07.01
 radd_zero()
 {
     number=$1
@@ -84,8 +90,9 @@ time_to_minutes()
 {
     time_param=$1
 
-    if [[ "${#time_param}" -eq 1 ]]; then
-         # case when there is no dot in number of hours, like in say 2 (which means 2 o'oclock)
+    # case when there is no dot in number of hours, like in
+    # say 2 (which means 02.00)
+    if [[ $time_param != *.* ]] ; then
          hours=$time_param 
          minutes=0
     else
@@ -124,15 +131,7 @@ minutes_to_time()
         rest_minutes=0
     fi
 
-    # Make 04.xx from 4.xx and such (leading zeros where
-    # removed by ltrim_zeros to make arithmetic work) 
     result_hours=`ladd_zero $result_hours`
-
-    # Make 04.xx from 04.x (this could happen e.g. when)
-    # we add 01.20 to 01.40, there is no rest then, but
-    # we have to leave only one zero to make arithmetics
-    # work. There is another case when result it 07.1 but
-    # should be written as 07.01
     rest_minutes=`radd_zero $rest_minutes`
 
     # return result (it's a string so not using returning status 0-255)
