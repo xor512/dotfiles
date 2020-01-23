@@ -21,12 +21,12 @@ if [ "$#" -ne 3 ]; then
     echo "hours and mod of that division leave as minutes, Anyway both solution"
     echo "are simple enough"
     echo
-    echo "PPS Please note that you need to add spaces between operands and operator"
+    echo "PPS Please note that you need to add spaces between operators and operator"
     exit 1
 fi
 
 time1=$1
-operand=$2
+operator=$2
 time2=$3
 
 echo '30: GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO' 1>&2
@@ -43,28 +43,13 @@ echo '30: GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO' 1>&2
 # leading 0s should be removed
 ltrim_zeros()
 {
-     number=$1
-echo $number 1>&2
-echo " " 1>&2
-echo "46: BEGIN trim_zeros() --------------------------------" 1>&2
-echo "---------------------- Mam dosc " $number 1>&2
-
-echo "48: trim_zeros():1 number in ltrim_zeros was as parameter "$number 1>&2
-
+    number=$1
     number=`echo $number | sed "s/^0*//"`
-
-echo "52: trim_zeros():2 number in ltrim_zeros became $number" 1>&2 
 
     if [ "${#number}" -eq 0 ]; then
         number=0
     fi
-
-echo "58  trim_zeros()3  number in ltrim_zeros became $number" 1>&2
-
-echo "60: END trim_zeros() --------------------------------" 1>&2
-echo " " 1>&2
-
-    # it is a number but it can be greater than 255 so not using return
+    # it is a number but it can be greater than 255 (as we convert so not using return
     echo $number 
 }
 
@@ -184,7 +169,7 @@ echo "165 result_diff:" $result_diff 1>&2
 
 echo "167 case ----------------" 1>&2
 
-case "$operand" in
+case "$operator" in
     +)
         echo "Addition:"
         echo "$time1 + $time2 = $result_sum"
@@ -194,7 +179,7 @@ case "$operand" in
         echo "$time1 - $time2 = $result_diff"
         ;;
     *)
-        echo "ERROR: Unknown operand, use '+' or '-'"
+        echo "ERROR: Unknown operator, use '+' or '-'"
         ;;
 esac
 
