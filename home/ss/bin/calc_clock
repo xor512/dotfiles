@@ -11,9 +11,15 @@ if [ "$#" -ne 3 ]; then
     echo "morning and 40 minutes)"
     echo
     echo "For simplicity (this script is suppossed just to count when to"
-    echo "take next dosage of drugs) there is no validation, so for example"
+    echo "take next dosage of drugs) there is almost no validation, so for example"
     echo "if you will try to subscribe 10 years from 1 year AD you will get"
     echo "gibberish (I am m not going into AD/BC in this simple and stupid script"
+    echo
+    echo "PS After writing this I've realized that instead of converting hours"
+    echo "to minus and back it is enough to add hours and minutes separately"
+    echo "and then simply divide sum of minutes by 60, add result to sum of"
+    echo "hours and mod of that division leave as minutes, Anyway both solution"
+    echo "are simple enough"
     exit 1
 fi
 
@@ -21,63 +27,155 @@ time1=$1
 operand=$2
 time2=$3
 
-hours_and_minutes_to_minutes () {
-    time_param=$1
+echo '30: GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO GO' 1>&2
 
-    hours=`echo $time_param | cut -d '.' -f1`
-    minutes=`echo $time_param | cut -d '.' -f2`
+# B.bash makes life of script writer hard.
+# it doesn't have any symbol to distinguish between octal
+# or decimal numbers. So while all the civilized world
+# uses 0o7 for octals - bash uses 07. The problem is that
+# in octal system say 09 does not exist and bash interprets
+# it as junk. So if one tries to add 09 hours to 02 hours
+# treating them like number - bash thinks they are octal
+# and emits an error saying that 09 is an invalid octal
+# number. So to perform arithmetics # on such numbers
+# leading 0s should be removed
+ltrim_zeros()
+{
+     number=$1
+echo $number 1>&2
+echo " " 1>&2
+echo "46: BEGIN trim_zeros() --------------------------------" 1>&2
+echo "---------------------- Mam dosc " $number 1>&2
+
+echo "48: trim_zeros():1 number in ltrim_zeros was as parameter "$number 1>&2
+
+    number=`echo $number | sed "s/^0*//"`
+
+echo "52: trim_zeros():2 number in ltrim_zeros became $number" 1>&2 
+
+    if [ "${#number}" -eq 0 ]; then
+        number=0
+    fi
+
+echo "58  trim_zeros()3  number in ltrim_zeros became $number" 1>&2
+
+echo "60: END trim_zeros() --------------------------------" 1>&2
+echo " " 1>&2
+
+    # it is a number but it can be greater than 255 so not using return
+    echo $number 
+}
+
+time_to_minutes()
+{
+echo " " 1>&2
+echo "70: BEGIN time_to_minutes() --------------------------------" 1>&2
+     time_param=$1
+
+echo "73: time_to_minutes() time_param is " $time_param 1>&2
+echo "74: time_to_minutes() time_param length is " ${#time_param} 1>&2
+
+    if [ "${#time_param}" -eq 1 ]; then
+         # case when there is no dot in number of hours, like in say 2 (which means 2 o'oclock)
+         hours=$time_param 
+echo "79: time_to_minutes() setting minutes to 0 since time_param length is 1 " 1>&2
+         minutes=0
+    else
+         hours=`echo $time_param | cut -d '.' -f1`
+         minutes=`echo $time_param | cut -d '.' -f2`
+    fi
+
+echo "86: time_to_minutes() after parsing" $hours "..." $minutes 1>&2
 
     # If someone omits minutes like $(basename $0) 6 + 4, set minutes to 0
-    # to not have junk there (addecting the result)
-    if [[ ! -z "$minutes" ]] ; then
+    # to not have junk there (affecting the result)
+    if [[ -z "$minutes" ]] ; then
         minutes=0
     fi
 
-    minutes_in_hours=$(($hours * 60))
-    time_in_minutes=$(($minutes_in_hours + $minutes))
-    
-    echo $time_in_minutes # return result (it's a string, so not using return)
+echo "94: time_to_minutes() if minutes ommitted (like 2 + 2)" $hours "..." $minutes 1>&2
+echo '------------------------ DUPA' 1>&2
+    hours=`ltrim_zeros $hours`
+    minutes=`ltrim_zeros $minutes`
+#dupa=`ltrim_zeros 0000000009`
+#echo $dupa
+echo '------------------------ DUPA' 1>&2
+
+    minutes_in_hours=$((${hours} * 60))
+    time_in_minutes=$((${minutes_in_hours} + ${minutes}))
+
+echo "105: time_to_minutes(): minutes_in_hours " ${minutes_in_hours} 1>&2 
+echo "106: time_to_minutes(); time_in_minutes " ${time_in_minutes} 1>&2
+
+echo "108: END time_to_minutes() --------------------------------" 1>&2
+echo " " 1>&2
+
+    # return result (it's a string so not using returning status 0-255)
+    echo $time_in_minutes
 }
 
-minutes_to_hours_and_minutes () {
-    result_minutes=$1
+minutes_to_time()
+{
+echo " " 1>&2
+echo "118: BEGIN minutes_to_time() ------------------" 1>&2
+     result_minutes=$1
 
-    result_hours=$(($result_minutes / 60 % 24))
-    rest_minutes=$(($result_minutes % 60))
-    
-    if [ "$result_hours" -eq 24 ]; then
+echo "121: minutes_to_time(): result_minutes:" $resulr_minutes 1>&2 
+
+     result_hours=$(($result_minutes / 60 % 24))
+     rest_minutes=$(($result_minutes % 60))
+
+echo "126; minutes_to_time() result_hours" $result_hours 1>&2
+echo "127: minutes_to_time() rest_minutes" $rest_minutes 1>&2
+
+    if [ "${result_hours}" -eq 24 ]; then
         result_hours=0
     fi
 
-    if [ "$rest_minutes" -eq 60 ]; then
-        result_hours=$(($result_hours + 1))
+echo "133: minutes_to_time() result_hours" $result_hours 1>&2
+
+    if [ "${rest_minutes}" -eq 60 ]; then
+        result_hours=$((++${result_hours}))
         rest_minutes=0
     fi
 
-    # Pad hours part of time string so that it has 0's in the beginning
-    if [ "${#result_hours}" -lt 2 ]; then
-        result_hours="0${result_hours}"
-    fi
+echo "140: minuts_to_time() result_hours60" $result_hours 1>&2
+echo "141 minutes_to_time() rest_minutes60" $rest_minutes 1>&2
 
-    # Pad minutes part of time string so that it has 0's in the beginning
-    if [ "${#rest_minutes}" -lt 2 ]; then
-        rest_minutes="${rest_minutes}0"
-    fi
+echo "143: END minuts_to_time() ------------------" 1>&2
+echo "144 minuts_to_time(0) " "${result_hours}.${rest_minutes}" 1>&2
+echo " " 1>&2
 
-    echo "${result_hours}.${rest_minutes}" # rerurn result (it's a stringm so not using return)
+    # return result (it's a string so not using returning status 0-255)
+    echo "${result_hours}.${rest_minutes}"
 }
 
-time_in_minutes1=`hours_and_minutes_to_minutes $time1`
-time_in_minutes2=`hours_and_minutes_to_minutes $time2`
+echo "151: main() ------------" 1>&2
+
+time_in_minutes1=`time_to_minutes $time1`
+time_in_minutes2=`time_to_minutes $time2`
+
+echo "156; time_in_minutes1" $time_in_minutes1 1>&2
+echo "157: time_in_minutes2" $time_in_minutes2 1>&2
+
+minutes_sum=$(($time_in_minutes1 + $time_in_minutes2))
+minutes_diff=$(($time_in_minutes1 - $time_in_minutes2))
+result_sum=`minutes_to_time $minutes_sum`
+result_diff=`minutes_to_time $minutes_diff`
+
+echo "164 result_sum:" $result_sum 1>&2
+echo "165 result_diff:" $result_diff 1>&2
+
+echo "167 case ----------------" 1>&2
 
 case "$operand" in
     +)
-        final_result=`minutes_to_hours_and_minutes $(($time_in_minutes1 + $time_in_minutes2))`
-        echo "Result is: $final_result"
+        echo "Addition:"
+        echo "$time1 + $time2 = $result_sum"
         ;;
     -)
-        final_result=`minutes_to_hours_and_minutes $(($time_in_minutes1 - $time_in_minutes2))`
-        echo "Result is: $final_result"
+        echo "Substraction:"
+        echo "$time1 - $time2 = $result_diff"
         ;;
     *)
         echo "ERROR: Unknown operand, use '+' or '-'"
