@@ -399,6 +399,7 @@ clientkeys = gears.table.join(
             end
         end,
               {description = "minimize all windows in current tag", group = "client"}),
+    --- TODO: maximizing all windows this way does not work, it is here for future "maybe'make it working'
     awful.key({ modkey, "Control"   }, "u",      
         function ()
             for _, c in ipairs(mouse.screen.selected_tag:clients()) do
