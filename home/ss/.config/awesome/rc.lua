@@ -778,7 +778,7 @@ end
 
 awful.util.spawn_with_shell("xset -b")
 awful.util.spawn_with_shell("numlockx off")
-awful.util.spawn_with_shell("xbacklight -set 60")
+awful.util.spawn_with_shell("xbacklight -set 70")
 awful.util.spawn_with_shell('setxkbmap -option "grp:alt_shift_toggle,grp_led:scroll" "pl,ru"')
 respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy -g -n' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing

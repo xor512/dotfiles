@@ -63,7 +63,7 @@ case "$1" in
                 ;;
             open)
                 logger 'LID opened'
-                echo 7960743 > /sys/class/backlight/intel_backlight/brightness
+                echo 9287534 > /sys/class/backlight/intel_backlight/brightness # 70%
               ;;
             *)
                 logger "ACPI action undefined: $3"

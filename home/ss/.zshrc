@@ -229,6 +229,8 @@ alias grepr='cgrep --include=*.robot -r'
 alias grepa='cgrep --include=*.{h,hh,hpp,hcc,c,cc,cpp,cxx,java,py,robot} -r '
 alias grept='cgrep --include=*.txt -r'
 alias grepcm='cgrep --include=CMakeLists.txt --include=*.cmake -r '
+alias rbt='systemctl reboot'
+alias pwoff='systemctl poweroff'
 
 gcl() {
     grc cat $1 | less -R
