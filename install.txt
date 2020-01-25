@@ -115,3 +115,11 @@ From man pkgfile:
 === Othher
 For battery install acpi and arc-icon-theme
 MODULES="intel_agp i915"  - Add this shit to mkinitcpio.conf
+
+=== which kernel to install?
+
+you can install the metapackages linux-latest and linux-lts.
+
+That will keep you on the reasonably latest kernel 
+(updated to a new major kernel after 2-3 point releases, 
+for example 5.3.3) and the latest lts kernel (at the moment 4.19)
