@@ -123,3 +123,28 @@ you can install the metapackages linux-latest and linux-lts.
 That will keep you on the reasonably latest kernel 
 (updated to a new major kernel after 2-3 point releases, 
 for example 5.3.3) and the latest lts kernel (at the moment 4.19)
+
+--- justification for linux-latest: http://kroah.com/log/blog/2018/08/24/what-stable-kernel-should-i-use/
+
+security fixes
+bugfixes
+new features
+performance improvements
+drivers for new hardware
+for LTS they just backport some of them
+If your hardware relies on a vendors out-of-tree patch in order to make it work properly (like almost
+     all embedded devices these days), then the next best kernel to be using is the latest LTS release.
+The downsides of using this release is that you do not get the performance improvements that happen 
+     in newer kernels, except when you update to the next LTS kernel, potentially a year in the future
+Also, if you have problems with this kernel release, the first thing that any developer whom you report
+    the issue to is going to ask you to do is, “does the latest stable release have this problem?”
+    
+So, here’s a short list of different types of devices, and what I would recommend for their kernels:
+
+Laptop / Desktop: Latest stable release
+Server: Latest stable release or latest LTS release
+Embedded device: Latest LTS release or older LTS release if the security model used is very strong and tight
+
+So despite being in charge of the LTS releases, I don’t run them myself, except in testing systems.
+I rely on the development and latest stable releases to ensure that my machines are running the fastest
+and most secure releases that we know how to create at this point in time.
