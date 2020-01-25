@@ -240,7 +240,7 @@ gcl() {
 alias p='pacman'
 alias pcdu='sudo pacman -Syyuv'
 alias pcar='sudo pacman -Rsn $(pacman -Qdtq)'
-alias pl='sudo pacman -Ql'
+alias pl='pacman -Ql'
 
 # Pass aliases through sudo
 alias sudo='sudo '
