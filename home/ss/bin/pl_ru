@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo setxkbmap -option "grp:sclk_toggle,grp_led:scroll" "pl,ru"
+
