@@ -530,13 +530,13 @@ globalkeys = awful.util.table.join(globalkeys,
         awful.util.spawn("xautolock -locknow")
     end,
     {description = "lock screen", group = "custom"}),
-    awful.key({ modkey, "Control" }, "t", function () awful.util.spawn_with_shell("~/bin/touchpadoff 1") end,
+    awful.key({ modkey, "Control" }, "t", function () awful.spawn.with_shell("~/bin/touchpadoff 1") end,
     {description = "disable touchpad", group = "custom"}),
-    awful.key({ modkey, "Control" }, "y", function () awful.util.spawn_with_shell("~/bin/monitoroff") end,
+    awful.key({ modkey, "Control" }, "y", function () awful.spawn.with_shell("~/bin/monitoroff") end,
     {description = "disable monitor", group = "custom"}),
     awful.key({                   }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/screenshots/ 2>/dev/null'", false) end,
     {description = "make screenshot and put it to ~/screenshots", group = "custom"}),
-    awful.key({ modkey,           }, "Print", function () awful.util.spawn_with_shell("sleep 0.5 && scrot -s -e 'mv $f ~/screenshots/ 2>/dev/null'") end,
+    awful.key({ modkey,           }, "Print", function () awful.spawn.with_shell("sleep 0.5 && scrot -s -e 'mv $f ~/screenshots/ 2>/dev/null'") end,
     {description = "make screenshot of area and put it to ~/screenshots", group = "custom"})
 )
 root.keys(globalkeys)
@@ -734,7 +734,7 @@ local function respawn_with_shell(pname, cmd)
     if not cmd then
         cmd = pname
     end
-    awful.util.spawn_with_shell(cmd)
+    awful.spawn.with_shell(cmd)
 end 
 
 local function spawn(pname, cmd, once, sn_rules)
@@ -773,13 +773,13 @@ end
 --       number of screeens, tried with file guards and awesome_restart()
 --       first time running startx but it didn't work
 if file_exists("~/.screenlayout/layout.sh") then
-    awful.util.spawn_with_shell("~/.screenlayout/layout.sh")
+    awful.spawn.with_shell("~/.screenlayout/layout.sh")
 end
 
-awful.util.spawn_with_shell("xset -b")
-awful.util.spawn_with_shell("numlockx off")
-awful.util.spawn_with_shell("xbacklight -set 70")
-awful.util.spawn_with_shell('setxkbmap -option "grp:alt_shift_toggle,grp_led:scroll" "pl,ru"')
+awful.spawn.with_shell("xset -b")
+awful.spawn.with_shell("numlockx off")
+awful.spawn.with_shell("xbacklight -set 70")
+awful.spawn.with_shell('setxkbmap -option "grp:alt_shift_toggle,grp_led:scroll" "pl,ru"')
 respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy -g -n' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
 --       but it seems not to work, find out why
