@@ -1,4 +1,5 @@
 gpasswd -a <user> video
+gpasswd -a <user> audio
 gpasswd -a <user> users
 gpasswd -a <user> vboxusers
 gpasswd -a <user> docker
