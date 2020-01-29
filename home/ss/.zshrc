@@ -215,6 +215,7 @@ alias v='vim'
 alias m='mplayer'
 alias sbash='sudo bash'
 alias szsh='sudo zsh'
+alias smc='sudo mc'
 alias svim='sudo vim'
 alias xbg='xbacklight -get'
 alias xbs='xbacklight -set'
@@ -241,6 +242,8 @@ alias p='pacman'
 alias pcdu='sudo pacman -Syyuv'
 alias pcar='sudo pacman -Rsn $(pacman -Qdtq)'
 alias pl='pacman -Ql'
+alias pi='pacman -S'
+alias pin='pacman --needed -S'
 plb()
 {
     files=`pacman -Ql $1`
