@@ -241,6 +241,12 @@ alias p='pacman'
 alias pcdu='sudo pacman -Syyuv'
 alias pcar='sudo pacman -Rsn $(pacman -Qdtq)'
 alias pl='pacman -Ql'
+plb()
+{
+    files=`pacman -Ql $1`
+    files_w_bin=`echo -e ${files} | grep bin`
+    echo -e ${files_w_bin}
+}
 
 # Pass aliases through sudo
 alias sudo='sudo '
