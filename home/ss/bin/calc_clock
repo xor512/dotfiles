@@ -5,7 +5,7 @@ if [ "$#" -ne 3 ]; then
     echo "       (spaces between operands and operator are necessary)"
     echo
     echo "Shows how many time will it be if we will add say 8 hours"
-    echo "to 23.49 or substract 36 minutes from 00.14"
+    echo "to 23.49 or subtract 36 minutes from 00.14"
     echo
     echo "time1 and time2 should be in floating point format (with a dot"
     echo "like for example 3.40 which means 3 o'clock in the morning and 40 minutes)"
@@ -86,6 +86,23 @@ radd_zero()
     echo $number
 }
 
+time_to_hours()
+{    
+    time_param=$1
+
+    # case when there is no dot in number of hours, like in
+    # say 2 (which means 02.00)
+    if [[ $time_param != *.* ]] ; then
+         hours=$time_param 
+    else
+         hours=`echo $time_param | cut -d '.' -f1`
+    fi
+
+    hours=`ltrim_zeros $hours`
+
+    echo $hours
+}
+
 time_to_minutes()
 {
     time_param=$1
@@ -109,42 +126,115 @@ time_to_minutes()
     hours=`ltrim_zeros $hours`
     minutes=`ltrim_zeros $minutes`
     minutes_in_hours=$((${hours} * 60))
-    time_in_minutes=$((${minutes_in_hours} + ${minutes}))
+    input_minutes=$((${minutes_in_hours} + ${minutes}))
 
-    # return result (it's a string so not using returning status 0-255)
-    echo $time_in_minutes
+    echo $input_minutes
 }
 
 minutes_to_time()
 {
      result_minutes=$1
 
-     result_hours=$(($result_minutes / 60 % 24))
+     input_hours=$(($result_minutes / 60 % 24))
      rest_minutes=$(($result_minutes % 60))
 
-    if [[ "${result_hours}" -eq 24 ]]; then
-        result_hours=0
+    if [[ "${input_hours}" -eq 24 ]]; then
+        input_hours=0
     fi
 
     if [[ "${rest_minutes}" -eq 60 ]]; then
-        result_hours=$((++${result_hours}))
+        input_hours=$((${input_hours} + 1))
         rest_minutes=0
     fi
 
-    result_hours=`ladd_zero $result_hours`
+    input_hours=`ladd_zero $input_hours`
     rest_minutes=`radd_zero $rest_minutes`
-
-    # return result (it's a string so not using returning status 0-255)
-    echo "${result_hours}.${rest_minutes}"
+    echo "${input_hours}.${rest_minutes}"
 }
 
-time_in_minutes1=`time_to_minutes $time1`
-time_in_minutes2=`time_to_minutes $time2`
+# We count in decimal saying that 04.40 is 4 o'clock
+# and 40 minutes, but what if result of say 22 - 16.40
+# is 15.60 (which is correct in decimsl  and not 15.20
+# which is correct in clock time where hour has 60
+# minutes. The problem does not hapen with addition
+# because there we take "sum_of_minutes % 60", so
+# number of minutes is always less then 60 here.
+#
+# In subtractions like 22.10 - 15.40 it is true that
+# result minutes are less then 60 but they are incorrect.
+#
+# The easiest way to deal with that seems to firs subtract
+# hours and then minutes (could've be done for addition
+# too0. So we get 4 steps:
+#
+#   1: 22 - 6 = 16 (hours subtraction)
+#   2: 16 - 1 = 15 (substracting 1 hour instead of 40 minutes
+#   2: 60 - 91 hour) - 00.40 = 00.20 (that is what should be added back)
+#   3. 15.20 + 00.10 = 15.30 (this also should be added back)
+#   4: Add any minutes from first argument to result 15.40
+#   5. If number of minutes is 60 or number of hours is 24 correct to 0
+#
+#   Example 9:
+#        4.1: 13.20 - 02.40 (subtracting only hours) = 11 hours
+#        4.2: 11 - 1 = 9 hours
+#        4.3: 60.00 (1 hour) - 00.40 = 00.20
+#        4.4: 09.20 + 00.20 + 00.40 = 09.60 # add minutes from first arg
+#        4.5:  If minutes > 60 correct it adding an hour and setting minutes
+#              minutes % 60
+#              (this can happen for example for 16.20 - 50 case)
+#        4.6: If minutes = 60 or hours = 10.00 # correct to 0
+#
+# Should've been done similar for addition
+subtract_time()
+{
+    # 4.1: 13 - 02 = 11
+    input_hours1=`time_to_hours $time1`
+    input_hours2=`time_to_hours $time2`
+    input_minutes1=`time_to_minutes $time1`
+    input_minutes2=`time_to_minutes $time2`
 
-minutes_sum=$(($time_in_minutes1 + $time_in_minutes2))
-minutes_diff=$(($time_in_minutes1 - $time_in_minutes2))
+    # take just minutes part since time_to_minutes
+    # will return 70 for 01.10 for examle
+    input_minutes1=$(($input_minutes1 % 60))
+    input_minutes2=$(($input_minutes2 % 60))
+    
+    # 4.1: 13.20 - 02.40 (subtracting only hours) = 11 hours
+    output_hours=$(($input_hours1 - $input_hours2))
+
+    # 4.2: 11 - 1 = 9 hours
+    output_hours=$((${output_hours} - 1))
+
+    # 4.3: 60.00 (1 hour) - 00.40 = 00.20
+    rest_minutes=$((60 - $input_minutes2))
+
+    # 4.4: 09.20 + 00.20 + 00.40 = 09.60 # add minutes from first arg
+    rest_minutes=$(($rest_minutes + $input_minutes1))
+
+    # 4.5:  If minutes > 60 correct it adding an hour and setting minutes to 0
+    # TODO  (this can happen for example for 16.20 - 50 case)
+    if [[ "${rest_minutes}" -gt 60 ]]; then
+        output_hours=$((${output_hours} + 1))
+        rest_minutes=$(($rest_minutes % 60))
+    fi
+
+    # 4.6: If minutes = 60 or hours = 10.00 # correct to 0
+    if [[ "${output_hours}" -eq 24 ]]; then
+        output_hours=0
+    fi
+
+    if [[ "${rest_minutes}" -eq 60 ]]; then
+        output_hours=$((${output_hours} + 1))
+        rest_minutes=0
+    fi
+
+    echo "${output_hours}.${rest_minutes}"
+}
+
+input_minutes1=`time_to_minutes $time1`
+input_minutes2=`time_to_minutes $time2`
+minutes_sum=$(($input_minutes1 + $input_minutes2))
 result_sum=`minutes_to_time $minutes_sum`
-result_diff=`minutes_to_time $minutes_diff`
+result_diff=`subtract_time`
 
 case "$operator" in
     +)
