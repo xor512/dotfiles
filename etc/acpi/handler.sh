@@ -1,6 +1,14 @@
 #!/bin/bash
 # Default acpi script that takes an entry for all actions
 
+on_lid_open()
+{
+    logger 'LID opened'
+    echo 9287534 > /sys/class/backlight/intel_backlight/brightness # 70%
+    setxkbmap -option "grp:sclk_toggle,grp_led:scroll" "pl,ru"
+    xset -b
+}
+
 case "$1" in
     button/power)
         case "$2" in
@@ -62,9 +70,8 @@ case "$1" in
                 logger 'LID closed'
                 ;;
             open)
-                logger 'LID opened'
-                echo 9287534 > /sys/class/backlight/intel_backlight/brightness # 70%
-              ;;
+                on_lid_open
+                ;;
             *)
                 logger "ACPI action undefined: $3"
                 ;;
