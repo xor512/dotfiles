@@ -241,9 +241,9 @@ gcl() {
 alias p='pacman'
 alias pcdu='sudo pacman -Syyuv'
 alias pcar='sudo pacman -Rsn $(pacman -Qdtq)'
-alias pl='pacman -Ql'
-alias pi='pacman -S'
-alias pin='pacman --needed -S'
+alias pl='sudo pacman -Ql'
+alias pi='sudo pacman -S'
+alias pin='sudo pacman --needed -S'
 plb()
 {
     files=`pacman -Ql $1`
