@@ -16,6 +16,18 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
+# From https://gist.github.com/cowboy/3118588
+prevent_asking_sudo_password()
+{
+    # Might as well ask for password up-front, right?
+    sudo -v
+
+    # Keep-alive: update existing sudo time stamp if set, otherwise do nothing.
+    while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+}
+
+prevent_asking_sudo_password
+
 pushd $1 > /dev/null
 
 for dir in */; do    
