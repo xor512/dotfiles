@@ -254,3 +254,9 @@ plb()
 # Pass aliases through sudo
 alias sudo='sudo '
 
+# mc fucks up prompt (it disappears after running commands) sometimes for some reason
+if ps $PPID | grep mc; then
+    # this removes git_prompt_string cool stuff but I have no other solution for now
+    RPROMPT=""
+fi
+
