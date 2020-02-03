@@ -130,7 +130,7 @@ git_prompt_string() {
   [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
   
   # If not inside the Git repo, print exit codes of last command (only if it failed)
-  [ ! -n "$git_where" ] && echo "%{$fg[red]%} %(?..[%?])"
+  [ ! -n "$git_where" ] && echo "%{$fg[red]%}"
 }
 
 # Right prompt with exit status of previous command if not successful
@@ -165,7 +165,7 @@ bindkey '^[[B' history-substring-search-down
 # Apply different settigns for different terminals
 case $(basename "$(cat "/proc/$PPID/comm")") in
   login)
-    	RPROMPT="%{$fg[red]%} %(?..[%?])" 
+    	RPROMPT="%{$fg[red]%}"  
     	alias x='startx ~/.xinitrc'      # Type name of desired desktop after x, xinitrc is configured for it
     ;;
 #  'tmux: server')
@@ -253,3 +253,4 @@ plb()
 
 # Pass aliases through sudo
 alias sudo='sudo '
+
