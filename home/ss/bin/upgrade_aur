@@ -1,6 +1,11 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
+if [[ $EUID -eq 0 ]]; then
+   echo "This script must NOT be run as root, it will call sudo itself" 
+   exit 1
+fi
+
+if [[ $# -ne 1 ]]; then
     echo "Usage: "$(basename $0)" aur_package_dir"
     echo
     echo "This is a stupid and simple AUR package upgrader"
