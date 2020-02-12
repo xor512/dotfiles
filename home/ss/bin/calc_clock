@@ -14,15 +14,15 @@ if [ "$#" -ne 3 ]; then
     echo "For simplicity (this script is suppossed just to count when to"
     echo "take next dosage of drugs) there is almost no validation, so for example"
     echo "if you will try to subscribe 10 years from 1 year AD you will get"
-    echo "gibberish (I am m not going into AD/BC in this simple and stupid script"
+    echo "gibberish (I am m not going into AD/BC in this simple and stupid script)"
     echo
-    echo "PS After writing this I've realized that instead of converting hours"
-    echo "to minus and back it is enough to add hours and minutes separately"
-    echo "and then simply divide sum of minutes by 60, add result to sum of"
-    echo "hours and mod of that division leave as minutes, Anyway both solution"
-    echo "are simple enough"
+    echo "Please note that you need to add spaces between operators and operator"
     echo
-    echo "PPS Please note that you need to add spaces between operators and operator"
+    echo "Example:"
+    echo
+    echo "./calc_clock 23.49 + 6.20"
+    echo "Addition:"
+    echo "23.49 + 6.20 = 06.09"
     exit 1
 fi
 
