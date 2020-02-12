@@ -5,19 +5,24 @@ if [ "$#" -ne 3 ]; then
     echo "       (spaces between operands and operator are necessary)"
     echo
     echo "Shows how many time will it be if we will add say 8 hours"
-    echo "to 23.49 or subtract 36 minutes from 00.14"
+    echo "to 23.49 or subtract 36 minutes from 00.14."
     echo
     echo "time1 and time2 should be in floating point format (with a dot"
-    echo "like for example 3.40 which means 3 o'clock in the morning and 40 minutes)"
-    echo "3.4 which means 3 o'clock and 4 minutes accordinely".
+    echo "like 3.40 which means 3 o'clock and 40 minutes or 3.4 which"
+    echo "means 3 o'clock and 4 minutes accordinely).".
     echo
-    echo "Please note that you need to add spaces between operators and operator"
+    echo "Please note that you need to add spaces between operators and operator."
     echo
-    echo "Example:"
+    echo "Examples:"
     echo
     echo "./calc_clock 23.49 + 6.20"
-    echo "Addition:"
     echo "23.49 + 6.20 = 06.09"
+    echo
+    echo "./calc_clock 23.01 - 01.30"
+    echo "23.01 - 01.30 = 21.31"
+    echo
+    echo "./calc_clock 23.01 - 49"
+    echo "23.01 - 49 = 22.01"
     exit 1
 fi
 
@@ -133,13 +138,11 @@ input_minutes2=`time_to_minutes $time2`
 
 case "$operator" in
     +)
-        echo "Addition:"
         minutes_sum=$(($input_minutes1 + $input_minutes2))
         result_sum=`minutes_to_time $minutes_sum`
         echo "$time1 + $time2 = $result_sum"
         ;;
     -)
-        echo "Substraction:"
         minutes_diff=$(($input_minutes1 - $input_minutes2))
         if [[ $minutes_diff -lt 0 ]]; then
             day_minutes=$((24 * 60))
