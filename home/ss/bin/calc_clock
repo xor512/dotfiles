@@ -30,16 +30,16 @@ time1=$1
 operator=$2
 time2=$3
 
-# bash makes life of script writer hard.
-# it doesn't have any symbol to distinguish between octal
+# Bash makes life of script writer hard.
+# It doesn't have any symbol to distinguish between octal
 # or decimal numbers. So while all the civilized world
 # uses 0o7 for octals - bash uses 07. The problem is that
 # in octal system say 09 does not exist and bash interprets
 # it as junk. So if one tries to add 09 hours to 02 hours
 # treating them like decimal numbers - bash thinks they are
 # octal and emits an error saying that 09 is an invalid octal"
-# number. So to perform arithmetics # on such numbers
-# leading 0s should be removed
+# number. So to perform arithmetics on such numbers leading
+# 0s should be removed
 ltrim_zeros()
 {
     number=$1
@@ -61,26 +61,6 @@ ladd_zero()
 
     if [[ "${#number}" -lt 2 ]]; then
         number="0${number}"
-    fi
-
-    echo $number
-}
-
-# Make 04.xx from 04.x (this could happen e.g. when)
-# we add 01.20 to 01.40, there is no rest then, but
-# we have to leave only one zero to make arithmetics
-# work. Another case is when result it 07.1 but
-# should be written as 07.01
-radd_zero()
-{
-    number=$1
-
-    if [[ "${#number}" -lt 2 ]]; then
-        if [[ ${number} -eq 0 ]]; then
-            number="${number}0"
-        else
-            number="0${number}"
-        fi
     fi
 
     echo $number
@@ -148,7 +128,7 @@ minutes_to_time()
     fi
 
     input_hours=`ladd_zero $input_hours`
-    rest_minutes=`radd_zero $rest_minutes`
+    rest_minutes=`ladd_zero $rest_minutes`
     echo "${input_hours}.${rest_minutes}"
 }
 
@@ -179,10 +159,9 @@ minutes_to_time()
 #        4.2: 11 - 1 = 9 hours
 #        4.3: 60.00 (1 hour) - 00.40 = 00.20
 #        4.4: 09.20 + 00.20 + 00.40 = 09.60 # add minutes from first arg
-#        4.5:  If minutes > 60 correct it adding an hour and setting minutes
-#              minutes % 60
-#              (this can happen for example for 16.20 - 50 case)
-#        4.6: If minutes = 60 or hours = 10.00 # correct to 0
+#        4.5: If minutes > 60 correct it adding an hour and setting minutes
+#             to minutes % 60 (this can happen for example for 16.55 - 0.50 case)
+#        4.6: If hours = 24 or minutes = 60 - correct to 0
 #
 # Should've been done similar for addition
 subtract_time()
@@ -210,22 +189,23 @@ subtract_time()
     # 4.4: 09.20 + 00.20 + 00.40 = 09.60 # add minutes from first arg
     rest_minutes=$(($rest_minutes + $input_minutes1))
 
-    # 4.5:  If minutes > 60 correct it adding an hour and setting minutes to 0
-    # TODO  (this can happen for example for 16.20 - 50 case)
+    # 4.5:  If minutes > 60 correct it adding an hour and setting minutes to minutes % 60
     if [[ "${rest_minutes}" -gt 60 ]]; then
         output_hours=$((${output_hours} + 1))
         rest_minutes=$(($rest_minutes % 60))
     fi
 
-    # 4.6: If minutes = 60 or hours = 10.00 # correct to 0
+    # 4.6: If hours = 24 or minutes = 60 - correct to 0
     if [[ "${output_hours}" -eq 24 ]]; then
         output_hours=0
     fi
-
     if [[ "${rest_minutes}" -eq 60 ]]; then
         output_hours=$((${output_hours} + 1))
         rest_minutes=0
     fi
+
+    output_hours=`ladd_zero $output_hours`
+    rest_minutes=`ladd_zero $rest_minutes`
 
     echo "${output_hours}.${rest_minutes}"
 }
