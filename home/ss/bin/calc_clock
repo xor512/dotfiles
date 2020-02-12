@@ -11,11 +11,6 @@ if [ "$#" -ne 3 ]; then
     echo "like for example 3.40 which means 3 o'clock in the morning and 40 minutes)"
     echo "3.4 which means 3 o'clock and 4 minutes accordinely".
     echo
-    echo "For simplicity (this script is suppossed just to count when to"
-    echo "take next dosage of drugs) there is almost no validation, so for example"
-    echo "if you will try to subscribe 10 years from 1 year AD you will get"
-    echo "gibberish (I am m not going into AD/BC in this simple and stupid script)"
-    echo
     echo "Please note that you need to add spaces between operators and operator"
     echo
     echo "Example:"
@@ -53,8 +48,9 @@ ltrim_zeros()
     echo $number 
 }
 
-# Make 04.xx from 4.xx and such (leading zeros where
-# removed by ltrim_zeros to make arithmetic work) 
+# Make 04.xx from 4.xx and such (leading zeros can be
+# removed by ltrim_zeros to make arithmetic work
+# or simply not provided in input)
 ladd_zero()
 {
     number=$1
@@ -132,97 +128,25 @@ minutes_to_time()
     echo "${input_hours}.${rest_minutes}"
 }
 
-# We count in decimal saying that 04.40 is 4 o'clock
-# and 40 minutes, but what if result of say 22 - 16.40
-# is 15.60 (which is correct in decimsl  and not 15.20
-# which is correct in clock time where hour has 60
-# minutes. The problem does not hapen with addition
-# because there we take "sum_of_minutes % 60", so
-# number of minutes is always less then 60 here.
-#
-# In subtractions like 22.10 - 15.40 it is true that
-# result minutes are less then 60 but they are incorrect.
-#
-# The easiest way to deal with that seems to firs subtract
-# hours and then minutes (could've be done for addition
-# too0. So we get 4 steps:
-#
-#   1: 22 - 6 = 16 (hours subtraction)
-#   2: 16 - 1 = 15 (substracting 1 hour instead of 40 minutes
-#   2: 60 - 91 hour) - 00.40 = 00.20 (that is what should be added back)
-#   3. 15.20 + 00.10 = 15.30 (this also should be added back)
-#   4: Add any minutes from first argument to result 15.40
-#   5. If number of minutes is 60 or number of hours is 24 correct to 0
-#
-#   Example 9:
-#        4.1: 13.20 - 02.40 (subtracting only hours) = 11 hours
-#        4.2: 11 - 1 = 9 hours
-#        4.3: 60.00 (1 hour) - 00.40 = 00.20
-#        4.4: 09.20 + 00.20 + 00.40 = 09.60 # add minutes from first arg
-#        4.5: If minutes > 60 correct it adding an hour and setting minutes
-#             to minutes % 60 (this can happen for example for 16.55 - 0.50 case)
-#        4.6: If hours = 24 or minutes = 60 - correct to 0
-#
-# Should've been done similar for addition
-subtract_time()
-{
-    # 4.1: 13 - 02 = 11
-    input_hours1=`time_to_hours $time1`
-    input_hours2=`time_to_hours $time2`
-    input_minutes1=`time_to_minutes $time1`
-    input_minutes2=`time_to_minutes $time2`
-
-    # take just minutes part since time_to_minutes
-    # will return 70 for 01.10 for examle
-    input_minutes1=$(($input_minutes1 % 60))
-    input_minutes2=$(($input_minutes2 % 60))
-    
-    # 4.1: 13.20 - 02.40 (subtracting only hours) = 11 hours
-    output_hours=$(($input_hours1 - $input_hours2))
-
-    # 4.2: 11 - 1 = 9 hours
-    output_hours=$((${output_hours} - 1))
-
-    # 4.3: 60.00 (1 hour) - 00.40 = 00.20
-    rest_minutes=$((60 - $input_minutes2))
-
-    # 4.4: 09.20 + 00.20 + 00.40 = 09.60 # add minutes from first arg
-    rest_minutes=$(($rest_minutes + $input_minutes1))
-
-    # 4.5:  If minutes > 60 correct it adding an hour and setting minutes to minutes % 60
-    if [[ "${rest_minutes}" -gt 60 ]]; then
-        output_hours=$((${output_hours} + 1))
-        rest_minutes=$(($rest_minutes % 60))
-    fi
-
-    # 4.6: If hours = 24 or minutes = 60 - correct to 0
-    if [[ "${output_hours}" -eq 24 ]]; then
-        output_hours=0
-    fi
-    if [[ "${rest_minutes}" -eq 60 ]]; then
-        output_hours=$((${output_hours} + 1))
-        rest_minutes=0
-    fi
-
-    output_hours=`ladd_zero $output_hours`
-    rest_minutes=`ladd_zero $rest_minutes`
-
-    echo "${output_hours}.${rest_minutes}"
-}
-
 input_minutes1=`time_to_minutes $time1`
 input_minutes2=`time_to_minutes $time2`
-minutes_sum=$(($input_minutes1 + $input_minutes2))
-result_sum=`minutes_to_time $minutes_sum`
-result_diff=`subtract_time`
 
 case "$operator" in
     +)
         echo "Addition:"
+        minutes_sum=$(($input_minutes1 + $input_minutes2))
+        result_sum=`minutes_to_time $minutes_sum`
         echo "$time1 + $time2 = $result_sum"
         ;;
     -)
         echo "Substraction:"
+        minutes_diff=$(($input_minutes1 - $input_minutes2))
+        if [[ $minutes_diff -lt 0 ]]; then
+            day_minutes=$((24 * 60))
+            minutes_diff=$(($minutes_diff % ($day_minutes)))
+            minutes_diff=$(($day_minutes + $minutes_diff))
+        fi
+        result_diff=`minutes_to_time $minutes_diff`
         echo "$time1 - $time2 = $result_diff"
         ;;
     *)
