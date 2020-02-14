@@ -71,7 +71,7 @@ for dir in */; do
                 echo "------ Git version of this package is "$git_version
 
                 if [ "$inst_version" != "$git_version" ]; then
-                    echo "--------- Package "$pkgname" installed version "$inst_version" has git version "$git_version", will reinstall"
+                    echo "--------- Package "$pkgname" installed version "$inst_version" has git version "$git_version", will reinstall if needed"
                     # --noconfirm added to avoid answering 'Y' to a qestion "Do you really want to install blah blah"
                     # --needed added because *-git packages change pkgver in PKGBUILD before installing
                     #   so it will always differ from the one in original PKGBUILD and package will be reinstalled
