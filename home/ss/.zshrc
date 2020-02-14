@@ -198,8 +198,20 @@ esac
 # Mine
 
 export LANG="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
 export LANGUAGE="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LC_NUMERIC="en_US.UTF-8"
+export LC_TIME="en_US.UTF-8"
+export LC_COLLATE="en_US.UTF-8"
+export LC_MONETARY="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
+export LC_PAPER="en_US.UTF-8"
+export LC_NAME="en_US.UTF-8"
+export LC_ADDRESS="en_US.UTF-8"
+export LC_TELEPHONE="en_US.UTF-8"
+export LC_MEASUREMENT="en_US.UTF-8"
+export LC_IDENTIFICATION="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 export PATH=~/bin:$PATH
 
@@ -237,26 +249,45 @@ gcl() {
     grc cat $1 | less -R
 }
 
-# Arch specific
-alias p='pacman'
-alias pcdu='sudo pacman -Syyuv'
-alias pcar='sudo pacman -Rsn $(pacman -Qdtq)'
-alias pl='sudo pacman -Ql'
-alias pi='sudo pacman -S'
-alias pin='sudo pacman --needed -S'
-plb()
-{
-    files=`pacman -Ql $1`
-    files_w_bin=`echo -e ${files} | grep bin`
-    echo -e ${files_w_bin}
-}
-
 # Pass aliases through sudo
 alias sudo='sudo '
 
-# mc fucks up prompt (it disappears after running commands) sometimes for some reason
+# Arch specific
+alias pmin='pacman -Qn' # list installed packages
+alias pmim='pacman -Qm' # list installed packages from AUR
+alias pml='pacman -Ql' # list contents of the packages
+pmlb() # list binary files in package
+{
+    files=`pacman -Ql $1`
+    files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
+    echo -e ${files_w_bin}
+}
+alias pms='pacman -Qs' # search for the package (regexp)
+alias pmh='pacman -Qi' # show info on the package
+alias pmi='pacman --needed -S' # install the package if needed
+alias pmdu='pacman -Syyuv' # upgrade installed packages (as dist-upgrade in apt-get, hence 'du')
+alias pmr='pacman -Rsn' # remove the package
+alias pmar='pacman -Rsn $(pacman -Qdtq)' 
+
+# Ubuntu specific
+#alias dpi='dpkg -l'
+#alias dpl -L='dpkg -L'
+#dplb()
+#{
+#    files=`dpkg -L $1`
+#    files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
+#    echo -e ${files_w_bin}
+#}
+#alias acs='apt-cache search'
+#alias ach='apt-cache show'
+#alias agi='apt-get install'
+#alias agu='apt-get update'
+#alias agdu='apt-get dist-upgrade'
+#alias agr='apt-get remove --purge'
+#alias agar='apt-get autoremove --purge'
+
+# mc fucks up zsh prompt (it disappears after running commands) sometimes for some reason)
 if ps $PPID | grep mc; then
     # this removes git_prompt_string cool stuff but I have no other solution for now
     RPROMPT=""
 fi
-
