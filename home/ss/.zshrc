@@ -286,8 +286,12 @@ alias pmar='pacman -Rsn $(pacman -Qdtq)'
 #alias agr='apt-get remove --purge'
 #alias agar='apt-get autoremove --purge'
 
+# just in case...
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+
 # mc fucks up zsh prompt (it disappears after running commands) sometimes for some reason)
 if ps $PPID | grep mc; then
     # this removes git_prompt_string cool stuff but I have no other solution for now
     RPROMPT=""
 fi
+

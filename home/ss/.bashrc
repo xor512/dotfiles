@@ -99,5 +99,9 @@ alias pmar='pacman -Rsn $(pacman -Qdtq)'
 #alias agr='apt-get remove --purge'
 #alias agar='apt-get autoremove --purge'
 
+# just in case...
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+
 #PS1='[\u@\h \W]\$ '  # Default
 PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '
+
