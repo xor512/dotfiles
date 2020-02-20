@@ -262,8 +262,8 @@ pmlb() # list binary files in package
     files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
     echo -e ${files_w_bin}
 }
-alias pms='pacman -Qs' # search for the package (regexp)
-alias pmh='pacman -Qi' # show info on the package
+alias pms='pacman -Ss' # search for the package (regexp)
+alias pmh='pacman -Si' # show info on the package
 alias pmi='pacman --needed -S' # install the package if needed
 alias pmdu='pacman -Syyuv' # upgrade installed packages (as dist-upgrade in apt-get, hence 'du')
 alias pmr='pacman -Rsn' # remove the package
