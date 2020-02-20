@@ -1,4 +1,5 @@
---c++-kinds=+p
---c-kinds=+p
+--kinds-c++=+p
+--kinds-c=+p
+--python-kinds=-i
 --fields=+iaS
 --extras=+q
