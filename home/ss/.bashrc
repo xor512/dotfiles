@@ -105,3 +105,5 @@ export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 #PS1='[\u@\h \W]\$ '  # Default
 PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '
 
+export QT_QPA_PLATFORMTHEME=qt5ct
+

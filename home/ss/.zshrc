@@ -295,3 +295,4 @@ if ps $PPID | grep mc; then
     RPROMPT=""
 fi
 
+export QT_QPA_PLATFORMTHEME=qt5ct
