@@ -124,13 +124,19 @@ parse_git_state() {
 }
 
 git_prompt_string() {
-  local git_where="$(parse_git_branch)"
-  
-  # If inside a Git repository, print its branch and state
-  [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
-  
-  # If not inside the Git repo, print exit codes of last command (only if it failed)
-  [ ! -n "$git_where" ] && echo "%{$fg[red]%}"
+  # mc fucks up zsh prompt (it disappears after running commands) sometimes for some reason)
+  # (also see below where PROMPT is set to empty string in case of mc)
+  if ps $PPID | grep mc; then
+    echo "%{$fg[red]%}"
+  else
+    local git_where="$(parse_git_branch)"
+
+    # If inside a Git repository, print its branch and state
+    [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
+
+     # If not inside the Git repo, print exit codes of last command (only if it failed)
+    [ ! -n "$git_where" ] && echo "%{$fg[red]%}"
+  fi
 }
 
 # Right prompt with exit status of previous command if not successful
