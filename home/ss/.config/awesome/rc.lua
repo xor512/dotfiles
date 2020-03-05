@@ -778,7 +778,7 @@ end
 
 awful.spawn.with_shell("xset -b")
 awful.spawn.with_shell("numlockx off")
-awful.spawn.with_shell("xbacklight -set 70")
+awful.spawn.with_shell("xbacklight -set 70d")
 respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy -g -n' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
 --       but it seems not to work, find out why
@@ -794,7 +794,8 @@ spawn_once("thunderbird")
 
 spawn_once("pavucontrol")
 spawn_once("audacious")
-spawn_once('nm-applet')
+spawn_once("nm-applet")
+spawn_once("xpad")
 
 spawn_once("firefox", "firefox", {
     floating = true,
