@@ -795,7 +795,7 @@ spawn_once("thunderbird")
 spawn_once("pavucontrol")
 spawn_once("audacious")
 spawn_once("nm-applet")
-spawn_once("xpad")
+spawn_once("xpad --hide")
 
 spawn_once("firefox", "firefox", {
     floating = true,
