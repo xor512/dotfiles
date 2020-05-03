@@ -76,7 +76,7 @@ for dir in */; do
                     # --needed added because *-git packages change pkgver in PKGBUILD before installing
                     #   so it will always differ from the one in original PKGBUILD and package will be reinstalled
                     #   even if there is no point in doing it
-                    makepkg --noconfirm --needed -sri
+                    makepkg --noconfirm --needed -sric
                 fi
                 rm -f *.tar.xz
                 rm -f *.tar.bz
