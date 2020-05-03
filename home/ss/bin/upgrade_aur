@@ -76,9 +76,13 @@ for dir in */; do
                     # --needed added because *-git packages change pkgver in PKGBUILD before installing
                     #   so it will always differ from the one in original PKGBUILD and package will be reinstalled
                     #   even if there is no point in doing it
-                    # -c added to free space by cleaning built studd
-                    makepkg --noconfirm --needed -sric
+                    makepkg --noconfirm --needed -sri
                 fi
+                rm -f *.tar.xz
+                rm -f *.tar.bz
+                rm -f *.tar.bz2
+                rm -f *.zip
+                rm -f *.deb
             fi
         fi
     fi
