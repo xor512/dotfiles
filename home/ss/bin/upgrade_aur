@@ -62,6 +62,13 @@ for dir in */; do
                 fi
                 echo "--- Found installed package "$pkgname" version: "$inst_version
 
+                rm -f *.tar.gz
+                rm -f *.tar.xz
+                rm -f *.tar.bz
+                rm -f *.tar.bz2
+                rm -f *.zip
+                rm -f *.deb
+
                 git reset --hard
                 git pull
 
@@ -78,11 +85,6 @@ for dir in */; do
                     #   even if there is no point in doing it
                     makepkg --noconfirm --needed -sric
                 fi
-                rm -f *.tar.xz
-                rm -f *.tar.bz
-                rm -f *.tar.bz2
-                rm -f *.zip
-                rm -f *.deb
             fi
         fi
     fi
