@@ -67,23 +67,6 @@ ladd_zero()
     echo $number
 }
 
-time_to_hours()
-{    
-    time_param=$1
-
-    # case when there is no dot in number of hours, like in
-    # say 2 (which means 02.00)
-    if [[ $time_param != *.* ]] ; then
-         hours=$time_param 
-    else
-         hours=`echo $time_param | cut -d '.' -f1`
-    fi
-
-    hours=`ltrim_zeros $hours`
-
-    echo $hours
-}
-
 time_to_minutes()
 {
     time_param=$1
