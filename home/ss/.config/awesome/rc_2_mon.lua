@@ -779,8 +779,8 @@ end
 -- TODO: need to restart right after that to get correct if have >1 monitors
 --       number of screeens, tried with file guards and awesome_restart()
 --       first time running startx but it didn't work
-if file_exists("~/.screenlayout/layout.sh") then
-    awful.spawn.with_shell("~/.screenlayout/layout.sh")
+if file_exists(os.getenv("HOME").."/.screenlayout/layout.sh") then
+    awful.spawn.with_shell(os.getenv("HOME").."/.screenlayout/layout.sh")
 end
 
 awful.spawn.with_shell("xset -b")
@@ -790,7 +790,6 @@ respawn_with_shell("xautolock", "xautolock -time 10 -locker 'i3lock -c 000000' &
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
 --       but it seems not to work, find out why
 -- respawn_with_shell("wicd-client", "wicd-client --tray &")
---spawn_once("xpad")
 
 spawn_once("thunderbird")
 -- respawn("birdtray") -- TODO: doesn't work
@@ -800,8 +799,10 @@ spawn_once("skypeforlinux")
 --spawn_once("hipchat4")
 
 spawn_once("pavucontrol")
-spawn_once("audacious")
---spawn_once("opera")
+--spawn_once("audacious")
+spawn_once("deadbeef") -- audacious can not into APE
+spawn_once("nm-applet")
+spawn_once("xpad --hide --toggle")
 
 spawn_once("firefox", "firefox", {
     floating = true,
