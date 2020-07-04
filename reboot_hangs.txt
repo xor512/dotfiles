@@ -1,0 +1,63 @@
+Just add "reboot=pci" to GRUB_CMDLINE_LINUX_DEFAULT, for examle ike so:
+
+GRUB_CMDLINE_LINUX_DEFAULT="udev.log_priority=4 ipv6.disable=1 reboot=pci"
+
+Please note that you will have to run sudo update-grub after that and the
+actual changes to reboot behavior will happen after next boot with this new
+"reboot=pci" parameter.
+
+You may want to first anually test different things, for example there is a
+following proposition:https://access.redhat.com/solutions/58790:(didn't work
+for Lifebook E8310 AFAIR). For this purpose you can either hold Shift
+while Grub is loading to show it or change value of GRUB_TIMEOUT_STYLE to
+menu. You can then pres 'e' and modify kernel load parameters you need.
+
+=== Cut ===
+What are the "acpi" and "noapic" kernel boot options?
+Solution Verified - Updated December 18 2019 at 6:37 PM - English
+
+
+Environment
+
+    Red Hat Enterprise Linux 8
+    Red Hat Enterprise Linux 7
+    Red Hat Enterprise Linux 6
+    Red Hat Enterprise Linux 5
+    Red Hat Enterprise Linux 4
+
+
+Issue
+
+    What are the acpi and noapic kernel boot options?
+
+Resolution
+
+ACPI
+
+ACPI stands for Advanced Configuration and Power Interface. It is the system that describes hardware to the operating system to let understand what hardware is present and to properly configure it, controls hardware actions such as the dynamic speed fans, the power button behavior, system sleep states, optionally to control frequencies of CPUs and helps to identify some system capabilities.
+
+Note: some machines are able to boot without using ACPI
+
+ACPI power-saving features are hierarchical, meaning that any device running "behind" another will be dependent on the power state of the parent device. For example, a device cannot be running in full-power "behind" a device that is sleeping or in stand-by mode. This also comes from the hardware design.
+
+However, many hardware platforms ship with buggy or out-of-specification ACPI firmware which can cause any number of unspecified problems. If the machine is randomly powering off or failing to boot, disabling ACPI may help.
+
+The consequences are that when ACPI is off, the server will be unable to turn itself off, as the soft shutdown cannot work after executing poweroff or shutdown -h now. It will be necessary to press/hold the shutdown/reboot button of that server, power off via Out-of-Band management or use some other external device (e.g. watchdog) to power off/reboot.
+APIC
+
+APIC stands for Advanced Programmable Interrupt Controller.
+
+APIC is the replacement for the old PIC chip that, in the past, was embedded on motherboards and allowed the configuration of interrupts for peripherals like soundcards, IDE controllers, sharing/redirecting of interrupts. Disabling APIC removes the ability to make use of IRQ sharing or device IRQ remapping.
+Applying boot options
+
+By default, both features are enabled in the kernel, and can be disabled with the respective boot options acpi=off and noapic as shown below.
+
+    * Edit /boot/grub/grub.conf
+
+    * Edit the kernel line and add the desired option. The following example disables both ACPI and APIC:
+
+      kernel /vmlinuz-2.6.18-194.el5 ro root=/dev/VolGroup00/LogVol00 rhgb quiet noapic acpi=off
+
+    * Restart your system.    
+=== Cut  ===
+
