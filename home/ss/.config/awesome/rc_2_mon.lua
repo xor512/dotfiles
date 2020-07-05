@@ -805,7 +805,9 @@ spawn_once("skypeforlinux")
 spawn_once("pavucontrol")
 --spawn_once("audacious")
 spawn_once("deadbeef") -- audacious can not into APE
+spawn_once("blueman-applet")
 spawn_once("nm-applet")
+spawn_once("indicator-sensors")
 spawn_once("xpad --hide --toggle")
 
 spawn_once("firefox", "firefox", {
