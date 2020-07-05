@@ -335,10 +335,19 @@ globalkeys = gears.table.join(
               {description = "open firefox", group = "launcher"}),
     awful.key({ modkey,           }, "F2", function () awful.spawn("thunderbird") end,
               {description = "open thunderbird", group = "launcher"}),
-    awful.key({ modkey,           }, "F3", function () awful.spawn("gnome-system-monitor") end,
+    awful.key({ modkey,           }, "F3", function () awful.spawn("evince") end,
+              {description = "open evince", group = "launcher"}),
+    awful.key({ modkey,           }, "F4", function () awful.spawn("kchmviewer") end,
+              {description = "open kchmviewer", group = "launcher"}),
+    awful.key({ modkey,           }, "F5", function () awful.spawn("gnome-system-monitor") end,
               {description = "open gnome-system-monitor", group = "launcher"}),
-    awful.key({ modkey,           }, "F4", function () awful.spawn(terminal .. " --fullscreen " .. " -e " .. "htop") end,
+    awful.key({ modkey,           }, "F6", function () awful.spawn(terminal .. " -e " .. "htop", {
+                                                           floating = true,
+                                                           maximized_vertical = true,
+                                                           maximized_horizontal = true
+                                                       }) end,
               {description = "open htop", group = "launcher"}),
+
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
