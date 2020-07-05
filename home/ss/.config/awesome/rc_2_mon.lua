@@ -717,6 +717,8 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autostart
 local function isrunning(pname)
+    -- The process name used for matching is  limited  to  the  15  characters (c) man pgrep
+    pname = pname:sub(1, 15)
     local fpid = io.popen("pgrep -u " .. os.getenv("USER") .. " -o " .. pname)
     local pid = fpid:read("*n")
     fpid:close()
@@ -772,7 +774,7 @@ local function spawn_once(pname, cmd, sn_rules)
         cmd = pname
     end
 
-    spawn(cmd, pname, true, sn_rules)
+    spawn(pname, cmd, true, sn_rules)
 end
 
 local function file_exists(name)
@@ -812,7 +814,7 @@ spawn_once("deadbeef") -- audacious can not into APE
 spawn_once("blueman-applet")
 spawn_once("nm-applet")
 spawn_once("indicator-sensors")
-spawn_once("xpad --hide --toggle")
+spawn_once("xpad", "xpad --hide --toggle")
 
 spawn_once("firefox", "firefox", {
     floating = true,
