@@ -336,19 +336,33 @@ globalkeys = gears.table.join(
         {description = "go back", group = "client"}),
 
     -- Standard program
+    --
+    -- terminals and file managers
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
+    awful.key({ modkey, "Ctrl"    }, "Return", function () awful.spawn("pcmanfm") end,
+              {description = "open pcmanfm", group = "launcher"}),
+    -- browsers
     awful.key({ modkey,           }, "F1", function () awful.spawn("firefox") end,
               {description = "open firefox", group = "launcher"}),
-    awful.key({ modkey,           }, "F2", function () awful.spawn("thunderbird") end,
+    awful.key({ modkey,           }, "F2", function () awful.spawn("chromium") end,
+              {description = "open chromium", group = "launcher"}),
+    awful.key({ modkey,           }, "F3", function () awful.spawn("midori") end,
+              {description = "open midori", group = "launcher"}),
+    awful.key({ modkey,           }, "F4", function () awful.spawn("opera") end,
+              {description = "open opera", group = "launcher"}),
+    -- mail
+    awful.key({ modkey,           }, "F5", function () awful.spawn("thunderbird") end,
               {description = "open thunderbird", group = "launcher"}),
-    awful.key({ modkey,           }, "F3", function () awful.spawn("evince") end,
+    -- document readers
+    awful.key({ modkey,           }, "F6", function () awful.spawn("evince") end,
               {description = "open evince", group = "launcher"}),
-    awful.key({ modkey,           }, "F4", function () awful.spawn("kchmviewer") end,
+    awful.key({ modkey,           }, "F7", function () awful.spawn("kchmviewer") end,
               {description = "open kchmviewer", group = "launcher"}),
-    awful.key({ modkey,           }, "F5", function () awful.spawn("gnome-system-monitor") end,
+    -- system monitors
+    awful.key({ modkey,           }, "F11", function () awful.spawn("gnome-system-monitor") end,
               {description = "open gnome-system-monitor", group = "launcher"}),
-    awful.key({ modkey,           }, "F6", function () awful.spawn(terminal .. " -e " .. "htop", {
+    awful.key({ modkey,           }, "F12", function () awful.spawn(terminal .. " -e " .. "htop", {
                                                            floating = true,
                                                            maximized_vertical = true,
                                                            maximized_horizontal = true
