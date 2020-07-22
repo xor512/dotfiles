@@ -8,7 +8,6 @@
 
 * Copy PlainText
 * Disconnect
-* Ghostery
 * Google search link fix
 * Print to PDF
 * Tab Mover
