@@ -1,3 +1,3 @@
 - Remove as much stuff from /etc as possible
 - Clean up txt files (groups.txt, install.txt)
-
+- Move docs to docs and convert to markdown
