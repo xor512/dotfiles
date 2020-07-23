@@ -6,7 +6,6 @@
 
 # Addons
 
-* Copy PlainText
 * Disconnect
 * Google search link fix
 * Print to PDF
