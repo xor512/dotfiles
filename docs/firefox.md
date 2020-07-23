@@ -6,6 +6,7 @@
 
 # Addons
 
+* Dark Mode
 * Disconnect
 * Google search link fix
 * HTTPS Everywhere
