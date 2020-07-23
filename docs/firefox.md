@@ -8,12 +8,14 @@
 
 * Disconnect
 * Google search link fix
+* HTTPS Everywhere
 * Print to PDF
 * Tab Mover
 * Tab Session Manager
 * Tree Style Tab
 * TST Lock Tree Collapsed
 * uBlock Origin
+* uMatrix
 * Video Speed Controller
 * Youtube Classic
 
