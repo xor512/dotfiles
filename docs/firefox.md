@@ -17,6 +17,10 @@
 * Video Speed Controller
 * Youtube Classic
 
+# Other
+
+* Use invidio.us instead of shitty Google player in Firefox (at least bluetooth doesn't stutter)
+
 # TODO
 
 * Try https://brave.com/
