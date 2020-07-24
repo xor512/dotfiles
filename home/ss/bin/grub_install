@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# If you will look at what /usr/bin/update-grub does it is just:
+#
+# ~/tmp >>> cat /usr/bin/update-grub
+# ! /bin/sh
+# grub-mkconfig -o /boot/grub/grub.cfg
+#
+# So it only creates grub.cfg out of /etc/default/grub assuming that grub is
+# already installed
+#
+# This script also installs grub (not that it is for EFI
+
+
+grub-mkconfig -o /boot/grub/grub.cfg
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub --recheck
