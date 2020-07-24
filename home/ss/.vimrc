@@ -32,6 +32,8 @@ if has("gui_running")
 
     if has("gui_gtk") || has('gui_gtk2') || has("gui_gtk3")
 "        set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Bold\ 7 " set font
+"        set guifont=Anonymous\ Pro\ for\ Powerline\ Regular\ 7 " set font
+"        set guifont=Liberation\ Mono\ for\ Powerline\ Regular\ 7 " set font
         set guifont=Roboto\ Mono\ for\ Powerline\ Regular\ 7 " set font
 "        set guifont=Meslo\ LG\ S\ for\ Powerline\ 7
 "        set lines=999 columns=999 " start gvim maximized
@@ -96,7 +98,7 @@ command! -nargs=1 Find :call Find("<args>")
 "
 " Pathogen
 "
-"execute pathogen#infect()
+execute pathogen#infect()
 
 "
 " NERDTree
@@ -117,3 +119,4 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 set laststatus=2
 let g:airline_powerline_fonts = 1
 let g:airline_theme='base16_3024'
+
