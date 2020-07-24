@@ -1,8 +1,13 @@
+# Themes
 There are 3 themes for uniform GTK/Qt look:
+
  * adwaita
  * breeze
  * kvantum themes
+
 (c) https://wiki.archlinux.org/index.php/Uniform_look_for_Qt_and_GTK_applications (see packages from there)
+
+# Configuration
 
 1. To configure theme for Gtk use lxappearance
 2. To configure theme for Qt4 use qtconfig-qt4
@@ -16,7 +21,11 @@ There are 3 themes for uniform GTK/Qt look:
 4. For chromium go to Settings -> Use GTK+ theme
 5. For QtCreator use Tools -> Options -> Environment and Tools -> Options -> Text Editors
 
+# Kvantum themes
+
 For kvantum themes Kvantum Manager should be used instead (it has a lot of themes): 
 https://www.youtube.com/watch?v=Ei4dUD233k0
+
+# Dark themes
 
 For dark themes adwaita dark, breeze dark or kvantum themes can be used
