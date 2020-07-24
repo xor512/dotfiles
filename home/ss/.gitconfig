@@ -1,6 +1,6 @@
 [user]
-	name = Siergiej Riaguzow
-	email = xor256@gmx.com
+	name = Vasya Pupkin
+	email = kekeke@keke.ke
 [core]
 	editor = vim
 	excludesfile = /home/ss/.gitignore_global
@@ -22,6 +22,6 @@
 	unstage = reset HEAD --
 	dt = difftool --dir-diff
 [diff]
-	tool = meld
+	tool = kdiff3
 [pull]
 	rebase = true
