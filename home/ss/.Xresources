@@ -1,5 +1,11 @@
+! Following https://wiki.archlinux.org/index.php/Color_output_in_console
+
+! A quick way to add color to manual pages viewed on xterm/uxterm or rxvt-unicode is to modify ~/.Xresources. 
 *VT100.colorBDMode:     true
 *VT100.colorBD:         red
 *VT100.colorULMode:     true
 *VT100.colorUL:         cyan
-*VT100.veryBoldColors: 6
+
+! which replaces the decorations with the colors. Also add: 
+*VT100.veryBoldColors:  6
+! if you want colors and decorations (bold or underline) at the same time. See xterm(1) for a description of the veryBoldColors resource. 
