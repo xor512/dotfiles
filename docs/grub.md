@@ -1,3 +1,11 @@
+# Where to put this?
+
+To /etc/default/grub. After that run update-grub which under the hood does the following:
+
+        ~/tmp >>> cat /usr/bin/update-grub
+        #! /bin/sh
+        grub-mkconfig -o /boot/grub/grub.cfg
+
 # Boot menu on start
 
 * GRUB_CMDLINE_UB_TIMEOUT_STYLE=menu
@@ -19,5 +27,3 @@
 # Show log while loading
 
 * Remove "quite" from GRUB_CMDLINE_LINUX_DEFAULT or smth
-
-
