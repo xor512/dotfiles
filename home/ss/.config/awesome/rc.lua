@@ -274,6 +274,87 @@ root.buttons(gears.table.join(
 ))
 -- }}}
 
+
+-- {{{ Mine
+
+    -- {{{ From https://www.reddit.com/r/awesomewm/comments/gd4qxl/get_index_of_client_in_tasklist/ with some modifications
+    local function fixed_indexing_filter(c, screen)
+        if not c then
+            return false
+        end
+        if not (c.skip_taskbar or c.hidden or c.type == "splash" or c.type == "dock" or c.type == "desktop") and 
+            (screen == nil or awful.widget.tasklist.filter.currenttags(c, screen)
+        ) then
+            return true
+        end
+        return false
+    end
+
+    -- Returns client index in the taskbar (first on the left will have index = 1)
+    local function client_taskbar_idx(client)
+        local focused_screen = awful.screen.focused()
+        local selected_tag = focused_screen.selected_tag
+        local selected_tag_filter = function (c) return c.first_tag == selected_tag end
+        local first_client_taskbar_idx = 1
+        local client_screen = client.screen
+
+        local client_taskbar_idx = 0
+        for c in awful.client.iterate(selected_tag_filter, first_client_taskbar_idx, focused_screen) do
+            if fixed_indexing_filter(c, client_screen) then
+                client_taskbar_idx = client_taskbar_idx + 1
+                if (c == client) then
+                    return client_taskbar_idx
+                end
+            end
+        end
+
+        return nil
+    end
+    -- }}}
+    
+    -- Returns total number of clients in the currently selected tag
+    local function selected_tag_number_of_clients()
+        local focused_screen = awful.screen.focused()
+        local selected_tag = focused_screen.selected_tag
+        local selected_tag_filter = function (c) return c.first_tag == selected_tag end
+        local first_client_taskbar_idx = 1
+
+        local number_of_clients = 0
+        for c in awful.client.iterate(selected_tag_filter, first_client_taskbar_idx, focused_screen) do
+            if fixed_indexing_filter(c) then
+                 number_of_clients = number_of_clients + 1
+            end
+        end
+        return number_of_clients
+    end
+
+    -- Switches focus to the client of index in the taskbar = taskbar_idx:
+    --    * client with 1st taskbar item will have index 1
+    --    * client with 2nd taskbar item will have index 2
+    --    * etc
+    local function client_focus_by_taskbar_idx(taskbar_idx)
+        -- User wants to focus a non-existing client, e.g. there are only 2 opened in
+        -- focused screen selected tag clients and user wants to focus 3rd one, as there is
+        -- no 3rd one just do nothing
+        if taskbar_idx < 1 or taskbar_idx > selected_tag_number_of_clients() then
+            return
+        end
+     
+        local focused_client = awful.client.next(0) -- does not work
+
+        if focused_client ~= nil then
+            local focused_client_taskbar_idx = client_taskbar_idx(focused_client)
+            if focused_client_taskbar_idx ~= nil then
+                local relative_idx = taskbar_idx - focused_client_taskbar_idx
+                awful.client.focus.byidx(relative_idx)
+            end
+        end
+    end
+    -- }}}
+
+-- }}}
+
+
 -- {{{ Key bindings
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -292,18 +373,73 @@ globalkeys = gears.table.join(
         end,
         {description = "application switcher (as right clicking on taskbar)", group = "awesome"}
     ),
-    awful.key({ modkey,           }, "j",
-        function ()
-            awful.client.focus.byidx(-1)
-        end,
-        {description = "next window to the left by index", group = "client"}
-    ),
-    awful.key({ modkey,           }, "k",
-        function ()
-            awful.client.focus.byidx(1)
-        end,
-        {description = "next window to the right by index", group = "client"}
-    ),
+
+    -- {{{ Mine: added/changes navigation for clients
+
+        -- {{{ changed (was according to stack, now according to taskbar position):
+        --     moving between windows left/right (as in tasklist)
+        awful.key({ modkey,           }, "j",
+            function () awful.client.focus.byidx(-1) end,
+            {description = "next window to the left by index", group = "client"}
+        ),
+        awful.key({ modkey,           }, "k",
+            function () awful.client.focus.byidx(1) end,
+            {description = "next window to the right by index", group = "client"}
+        ), -- }}}
+
+        -- {{{ added (browser-tab-like switching of clients):
+        --     moving between windows with Mod4-Fn (as between tags with Mod4-n)
+        awful.key({ modkey,           }, "F1",
+            function () client_focus_by_taskbar_idx(1) end,
+            {description = "focus client 1 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F2",
+            function () client_focus_by_taskbar_idx(2) end,
+            {description = "focus client 2 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F3",
+            function () client_focus_by_taskbar_idx(3) end,
+            {description = "focus client 3 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F4",
+            function () client_focus_by_taskbar_idx(4) end,
+            {description = "focus client 4 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F5",
+            function () client_focus_by_taskbar_idx(5) end,
+            {description = "focus client 5 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F6",
+            function () client_focus_by_taskbar_idx(6) end,
+            {description = "focus client 6 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F7",
+            function () client_focus_by_taskbar_idx(7) end,
+            {description = "focus client 7 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F8",
+            function () client_focus_by_taskbar_idx(8) end,
+            {description = "focus client 8 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F9",
+            function () client_focus_by_taskbar_idx(9) end,
+            {description = "focus client 9 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F10",
+            function () client_focus_by_taskbar_idx(10) end,
+            {description = "focus client 10 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F11",
+            function () client_focus_by_taskbar_idx(11) end,
+            {description = "focus client 11 in taskbar", group = "client"}
+        ),
+        awful.key({ modkey,           }, "F12",
+            function () client_focus_by_taskbar_idx(12) end,
+            {description = "focus client 12 in taskbar", group = "client"}
+        ),
+        -- }}}
+
+    -- }}}
 
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
@@ -328,39 +464,50 @@ globalkeys = gears.table.join(
         end,
         {description = "go back", group = "client"}),
 
-    -- Standard program
-    --
-    -- terminals and file managers
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
-              {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey, "Ctrl"    }, "Return", function () awful.spawn("pcmanfm") end,
-              {description = "open pcmanfm", group = "launcher"}),
-    -- browsers
-    awful.key({ modkey,           }, "F1", function () awful.spawn("firefox") end,
-              {description = "open firefox", group = "launcher"}),
-    awful.key({ modkey,           }, "F2", function () awful.spawn("chromium") end,
-              {description = "open chromium", group = "launcher"}),
-    awful.key({ modkey,           }, "F3", function () awful.spawn("midori") end,
-              {description = "open midori", group = "launcher"}),
-    awful.key({ modkey,           }, "F4", function () awful.spawn("opera") end,
-              {description = "open opera", group = "launcher"}),
-    -- mail
-    awful.key({ modkey,           }, "F5", function () awful.spawn("thunderbird") end,
-              {description = "open thunderbird", group = "launcher"}),
-    -- document readers
-    awful.key({ modkey,           }, "F6", function () awful.spawn("evince") end,
-              {description = "open evince", group = "launcher"}),
-    awful.key({ modkey,           }, "F7", function () awful.spawn("kchmviewer") end,
-              {description = "open kchmviewer", group = "launcher"}),
-    -- system monitors
-    awful.key({ modkey,           }, "F11", function () awful.spawn("gnome-system-monitor") end,
-              {description = "open gnome-system-monitor", group = "launcher"}),
-    awful.key({ modkey,           }, "F12", function () awful.spawn(terminal .. " -e " .. "htop", {
-                                                           floating = true,
-                                                           maximized_vertical = true,
-                                                           maximized_horizontal = true
-                                                       }) end,
-              {description = "open htop", group = "launcher"}),
+    -- {{{ Standard programs
+
+        -- {{{ terminals and file managers
+        awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+                  {description = "open a terminal", group = "launcher"}),
+        awful.key({ modkey, "Ctrl"    }, "Return", function () awful.spawn("pcmanfm") end,
+                  {description = "open pcmanfm", group = "launcher"}),
+        -- }}}
+
+        -- {{{ browsers
+        awful.key({ modkey, "Shift"   }, "F1", function () awful.spawn("firefox") end,
+                  {description = "open firefox", group = "launcher"}),
+        awful.key({ modkey, "Shift"   }, "F2", function () awful.spawn("chromium") end,
+                  {description = "open chromium", group = "launcher"}),
+        awful.key({ modkey, "Shift"   }, "F3", function () awful.spawn("midori") end,
+                  {description = "open midori", group = "launcher"}),
+        awful.key({ modkey, "Shift"   }, "F4", function () awful.spawn("opera") end,
+                  {description = "open opera", group = "launcher"}),
+        -- }}}
+
+        -- {{{ mail
+        awful.key({ modkey, "Shift"   }, "F5", function () awful.spawn("thunderbird") end,
+                  {description = "open thunderbird", group = "launcher"}),
+        -- }}}
+
+        -- {{{ document readers
+        awful.key({ modkey, "Shift"   }, "F6", function () awful.spawn("evince") end,
+                  {description = "open evince", group = "launcher"}),
+        awful.key({ modkey, "Shift"   }, "F7", function () awful.spawn("kchmviewer") end,
+                  {description = "open kchmviewer", group = "launcher"}),
+        -- }}}
+        
+        -- {{{ system monitors
+        awful.key({ modkey, "Shift"   }, "F11", function () awful.spawn("gnome-system-monitor") end,
+                  {description = "open gnome-system-monitor", group = "launcher"}),
+        awful.key({ modkey, "Shift"   }, "F12", function () awful.spawn(terminal .. " -e " .. "htop", {
+                                                               floating = true,
+                                                               maximized_vertical = true,
+                                                               maximized_horizontal = true
+                                                           }) end,
+                  {description = "open htop", group = "launcher"}),
+        -- }}}
+
+    -- }}}
 
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
@@ -811,7 +958,8 @@ end
 
 awful.spawn.with_shell("xset -b")
 awful.spawn.with_shell("numlockx off")
-awful.spawn.with_shell("xbacklight -set 70d")
+awful.spawn.with_shell("xbacklight -set 70")
+-- respawn_with_shell("xautolock", "xautolock -time 10 -locker 'i3lock -c 000000' &") -- use this in case the fancy one does not work
 respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy -g -n' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
 --       but it seems not to work, find out why
@@ -819,13 +967,13 @@ respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -not
 
 spawn_once("thunderbird")
 -- respawn("birdtray") -- TODO: doesn't work
------ spawn_once("davmail")
------ spawn_once("evolution")
---spawn_once("skypeforlinux")
---spawn_once("hipchat4")
+-- spawn_once("davmail")
+-- spawn_once("evolution")
+spawn_once("skypeforlinux")
+-- spawn_once("hipchat4")
 
 spawn_once("pavucontrol")
---spawn_once("audacious")
+-- spawn_once("audacious")
 spawn_once("deadbeef") -- audacious can not into APE
 spawn_once("blueman-applet")
 spawn_once("nm-applet")
