@@ -278,29 +278,28 @@ root.buttons(gears.table.join(
 -- {{{ Mine
 
     -- {{{ From https://www.reddit.com/r/awesomewm/comments/gd4qxl/get_index_of_client_in_tasklist/ with some modifications
-    local function fixed_indexing_filter(c, screen)
+    local function fixed_indexing_filter(c)
         if not c then
             return false
         end
-        if not (c.skip_taskbar or c.hidden or c.type == "splash" or c.type == "dock" or c.type == "desktop") and 
-            (screen == nil or awful.widget.tasklist.filter.currenttags(c, screen)
-        ) then
+        if not (c.skip_taskbar or c.hidden or c.type == "splash" or c.type == "dock" or c.type == "desktop") then
             return true
         end
         return false
     end
 
+    function focused_screen_current_tag_client_iterator()
+        local focused_screen = awful.screen.focused()
+        local selected_tag_filter = function (c) return c.first_tag == focused_screen.selected_tag end
+        local first_client_taskbar_idx = 1
+        return awful.client.iterate(selected_tag_filter, first_client_taskbar_idx, focused_screen)
+    end
+
     -- Returns client index in the taskbar (first on the left will have index = 1)
     local function client_taskbar_idx(client)
-        local focused_screen = awful.screen.focused()
-        local selected_tag = focused_screen.selected_tag
-        local selected_tag_filter = function (c) return c.first_tag == selected_tag end
-        local first_client_taskbar_idx = 1
-        local client_screen = client.screen
-
         local client_taskbar_idx = 0
-        for c in awful.client.iterate(selected_tag_filter, first_client_taskbar_idx, focused_screen) do
-            if fixed_indexing_filter(c, client_screen) then
+        for c in focused_screen_current_tag_client_iterator() do
+            if fixed_indexing_filter(c) then
                 client_taskbar_idx = client_taskbar_idx + 1
                 if (c == client) then
                     return client_taskbar_idx
@@ -314,13 +313,8 @@ root.buttons(gears.table.join(
     
     -- Returns total number of clients in the currently selected tag
     local function selected_tag_number_of_clients()
-        local focused_screen = awful.screen.focused()
-        local selected_tag = focused_screen.selected_tag
-        local selected_tag_filter = function (c) return c.first_tag == selected_tag end
-        local first_client_taskbar_idx = 1
-
         local number_of_clients = 0
-        for c in awful.client.iterate(selected_tag_filter, first_client_taskbar_idx, focused_screen) do
+        for c in focused_screen_current_tag_client_iterator() do
             if fixed_indexing_filter(c) then
                  number_of_clients = number_of_clients + 1
             end
