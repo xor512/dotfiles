@@ -19,6 +19,12 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+local function dbg_notify(dbg_txt)
+    naughty.notify({ preset = naughty.config.presets.critical,
+                     title = "DEBUG",
+                     text = dbg_txt})
+end
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -295,7 +301,7 @@ root.buttons(gears.table.join(
         return false
     end
 
-    function focused_screen_current_tag_client_iterator()
+    local function focused_screen_current_tag_client_iterator()
         local focused_screen = awful.screen.focused()
         local selected_tag_filter = function (c) return c.first_tag == focused_screen.selected_tag end
         local first_client_taskbar_idx = 1
@@ -303,13 +309,29 @@ root.buttons(gears.table.join(
     end
 
     -- Returns client index in the taskbar (first on the left will have index = 1)
-    local function client_taskbar_idx(client)
+    local function client_to_taskbar_idx(client)
         local client_taskbar_idx = 0
         for c in focused_screen_current_tag_client_iterator() do
             if fixed_indexing_filter(c) then
                 client_taskbar_idx = client_taskbar_idx + 1
                 if (c == client) then
                     return client_taskbar_idx
+                end
+            end
+        end
+
+        -- if no client is focused (e.g. all are minimized) behave as if 1st is focused
+        return 1
+    end
+
+    -- Returns client which is at taskbar_idx position in the taskbar
+    function taskbar_idx_to_client(taskbar_idx)
+        local client_taskbar_idx = 0
+        for c in focused_screen_current_tag_client_iterator() do
+            if fixed_indexing_filter(c) then
+                client_taskbar_idx = client_taskbar_idx + 1
+                if (client_taskbar_idx == taskbar_idx) then
+                    return c
                 end
             end
         end
@@ -341,14 +363,19 @@ root.buttons(gears.table.join(
             return
         end
      
-        local focused_client = awful.client.next(0)
-        if focused_client ~= nil then
-            local focused_client_taskbar_idx = client_taskbar_idx(focused_client)
-            if focused_client_taskbar_idx ~= nil then
-                local relative_idx = taskbar_idx - focused_client_taskbar_idx
-                awful.client.focus.byidx(relative_idx)
-            end
-        end
+
+        -- unminimize clint to focus in case it is minizied (won't harm for not-minimized)
+        local client_to_focus = taskbar_idx_to_client(taskbar_idx)
+        client_to_focus:emit_signal( -- client_to_focus cannot be null because of the sanity check above
+            "request::activate",
+            "tasklist",
+            {raise = true}
+        )
+
+        -- now focus to it
+        local focused_client_taskbar_idx = client_to_taskbar_idx(client.focus) 
+        local relative_idx = taskbar_idx - focused_client_taskbar_idx             
+        awful.client.focus.byidx(relative_idx)
     end
     -- }}}
 
@@ -444,25 +471,49 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
-    -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
-              {description = "swap with next client by index", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
-              {description = "swap with previous client by index", group = "client"}),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
-              {description = "focus the next screen", group = "screen"}),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
-              {description = "focus the previous screen", group = "screen"}),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
-              {description = "jump to urgent client", group = "client"}),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end,
-        {description = "go back", group = "client"}),
+    -- {{{ Layout manipulation
+        awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
+                  {description = "swap with next client by index", group = "client"}),
+        awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
+                  {description = "swap with previous client by index", group = "client"}),
+        awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
+                  {description = "focus the next screen", group = "screen"}),
+        awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
+                  {description = "focus the previous screen", group = "screen"}),
+        awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
+                  {description = "jump to urgent client", group = "client"}),
+        awful.key({ modkey,           }, "Tab",
+            function ()
+                awful.client.focus.history.previous()
+                if client.focus then
+                    client.focus:raise()
+                end
+            end,
+            {description = "go back", group = "client"}),
+        awful.key({ modkey, "Control"   }, "m",      
+            function ()
+                local all_clients_minimized = true
+                for _, c in ipairs(mouse.screen.selected_tag:clients()) do
+                    if c.minimized == false then
+                        all_clients_minimized = false
+                        break
+                    end
+                end
+
+                for _, c in ipairs(mouse.screen.selected_tag:clients()) do
+                    if all_clients_minimized then
+                        c:emit_signal(
+                            "request::activate",
+                            "tasklist",
+                            {raise = true}
+                        )
+                    else
+                        c.minimized = true
+                    end
+                end
+            end,
+                  {description = "minimize/maximize all windows in current tag", group = "client"}),
+    -- }}}
 
     -- {{{ Standard programs
 
@@ -567,24 +618,6 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
-    awful.key({ modkey, "Control"   }, "m",      
-        function ()
-            for _, c in ipairs(mouse.screen.selected_tag:clients()) do
-                 c.minimized = true
-            end
-        end,
-              {description = "minimize all windows in current tag", group = "client"}),
-    --- TODO: maximizing all windows this way does not work, it is here for future "maybe'make it working'
-    awful.key({ modkey, "Control"   }, "u",      
-        function ()
-            for _, c in ipairs(mouse.screen.selected_tag:clients()) do
-                 c.minimized = false
-                 ---c:emit_signal(
-                 ---    "request::activate", "key.unminimize", {raise = true}
-                 ---)
-            end
-        end,
-              {description = "maximize all windows in current tag", group = "client"}),
     awful.key({ modkey, "Control"   }, "c",      
         function ()
             for _, c in ipairs(mouse.screen.selected_tag:clients()) do
