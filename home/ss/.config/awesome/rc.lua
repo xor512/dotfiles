@@ -340,8 +340,7 @@ root.buttons(gears.table.join(
             return
         end
      
-        local focused_client = awful.client.next(0) -- does not work
-
+        local focused_client = awful.client.next(0)
         if focused_client ~= nil then
             local focused_client_taskbar_idx = client_taskbar_idx(focused_client)
             if focused_client_taskbar_idx ~= nil then
