@@ -545,14 +545,14 @@ globalkeys = gears.table.join(
         -- }}}
         
         -- {{{ system monitors
-        awful.key({ modkey, "Shift"   }, "F11", function () awful.spawn("gnome-system-monitor") end,
-                  {description = "open gnome-system-monitor", group = "launcher"}),
-        awful.key({ modkey, "Shift"   }, "F12", function () awful.spawn(terminal .. " -e " .. "htop", {
+        awful.key({ modkey, "Shift"   }, "F11", function () awful.spawn(terminal .. " -e " .. "htop", {
                                                                floating = true,
                                                                maximized_vertical = true,
                                                                maximized_horizontal = true
                                                            }) end,
                   {description = "open htop", group = "launcher"}),
+        awful.key({ modkey, "Shift"   }, "F12", function () awful.spawn("gnome-system-monitor") end,
+                  {description = "open gnome-system-monitor", group = "launcher"}),
         -- }}}
 
     -- }}}
