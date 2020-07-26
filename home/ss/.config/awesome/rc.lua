@@ -357,7 +357,7 @@ root.buttons(gears.table.join(
         end
      
 
-        -- unminimize clint to focus in case it is minizied (won't harm for not-minimized)
+        -- unminimize selected client to focus in case it is minizied (won't harm for not-minimized)
         local client_to_focus = taskbar_idx_to_client(taskbar_idx)
         client_to_focus:emit_signal( -- client_to_focus cannot be null because of the sanity check above
             "request::activate",
@@ -365,7 +365,7 @@ root.buttons(gears.table.join(
             {raise = true}
         )
 
-        -- now focus to it
+        -- now focus selected client
         local focused_client_taskbar_idx = client_to_taskbar_idx(client.focus) 
         local relative_idx = taskbar_idx - focused_client_taskbar_idx             
         awful.client.focus.byidx(relative_idx)
