@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo $#
+
+if [[ $# -ne 2 ]]; then
+    echo "usage: " `basename $0` " iso device "
+    exit 1
+fi
+
+dd bs=4M if=$1 of=$2 status=progress oflag=sync
