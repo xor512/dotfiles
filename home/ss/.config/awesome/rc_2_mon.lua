@@ -835,7 +835,9 @@ awful.rules.rules = {
     { rule = { class = "Audacious" },
       properties = { screen = 2, tag = "tile2_5" } },
     { rule = { class = "Pavucontrol" },
-      properties = { screen = 2, tag = "tile2_5" } },
+      properties = { screen = 2, tag = "tile2_5" },
+      -- I want it to the right in the tiling layout },
+      callback = awful.client.setslave },
     { rule = { class = "HipChat" },
       properties = { screen = 2, tag = "float2_4", floating = true } },
     { rule = { class = "Skype" },
@@ -990,7 +992,7 @@ end
 --       number of screeens, tried with file guards and awesome_restart()
 --       first time running startx but it didn't work
 if file_exists(os.getenv("HOME").."/.screenlayout/layout.sh") then
-    awful.spawn.with_shell(os.getenv("HOME").."/.screenlayout/layout.sh")
+    os.execute(os.getenv("HOME").."/.screenlayout/layout.sh")
 end
 
 awful.spawn.with_shell("xset -b")
@@ -1009,13 +1011,12 @@ spawn_once("thunderbird")
 spawn_once("skypeforlinux")
 -- spawn_once("hipchat4")
 
-spawn_once("pavucontrol")
--- spawn_once("audacious")
-spawn_once("deadbeef") -- audacious can not into APE
 spawn_once("blueman-applet")
 spawn_once("nm-applet")
 spawn_once("indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
+spawn_once("pavucontrol")
+spawn_once("deadbeef")
 
 spawn_once("firefox", "firefox", {
     floating = true,
