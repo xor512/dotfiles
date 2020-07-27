@@ -510,7 +510,7 @@ globalkeys = gears.table.join(
 
     -- {{{ Standard programs
 
-        -- {{{ terminals and file managers
+        -- {{{ terminals and file managers and other tools
         awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
                   {description = "open a terminal", group = "launcher"}),
         awful.key({ modkey, "Ctrl"     }, "Return", function () awful.spawn("xterm") end,
@@ -518,6 +518,8 @@ globalkeys = gears.table.join(
         awful.key({ modkey, "Shift"    }, "Return", function () awful.spawn("pcmanfm") end,
                   {description = "open pcmanfm", group = "launcher"}),
         awful.key({ modkey, "Ctrl"     }, "x", function () awful.spawn("xkill") end,
+                  {description = "launch xkill", group = "launcher"}),
+        awful.key({ modkey, "Shift"    }, "r", function () awful.spawn("dmenu_run") end,
                   {description = "launch xkill", group = "launcher"}),
         -- }}}
 
