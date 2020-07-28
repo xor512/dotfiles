@@ -59,4 +59,3 @@ Then you can use adb push smth /data/ and use your TWRP Install feature or simil
  * jakdojade.pl
  * Total Commander
  * K9 or FairEmail (next disable Gmail app through Settings -> Apps -> Gmail -> Force stop -> Disable)
- * Element
