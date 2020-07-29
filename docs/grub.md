@@ -24,6 +24,40 @@ To /etc/default/grub. After that run update-grub which under the hood does the f
 
 * GRUB_CMDLINE_LINUX_DEFAULT="reboot=pci" # append
 
+----------------------------------------------------------------
+**_NOTE:_**
+
+Issue
+
+    What are the acpi and noapic kernel boot options?
+
+ACPI stands for Advanced Configuration and Power Interface. It is the system that describes hardware to the operating system to let understand what hardware is present and to properly configure it, controls hardware actions such as the dynamic speed fans, the power button behavior, system sleep states, optionally to control frequencies of CPUs and helps to identify some system capabilities.
+
+Note: some machines are able to boot without using ACPI
+
+ACPI power-saving features are hierarchical, meaning that any device running "behind" another will be dependent on the power state of the parent device. For example, a device cannot be running in full-power "behind" a device that is sleeping or in stand-by mode. This also comes from the hardware design.
+
+However, many hardware platforms ship with buggy or out-of-specification ACPI firmware which can cause any number of unspecified problems. If the machine is randomly powering off or failing to boot, disabling ACPI may help.
+
+The consequences are that when ACPI is off, the server will be unable to turn itself off, as the soft shutdown cannot work after executing poweroff or shutdown -h now. It will be necessary to press/hold the shutdown/reboot button of that server, power off via Out-of-Band management or use some other external device (e.g. watchdog) to power off/reboot.
+APIC
+
+APIC stands for Advanced Programmable Interrupt Controller.
+
+APIC is the replacement for the old PIC chip that, in the past, was embedded on motherboards and allowed the configuration of interrupts for peripherals like soundcards, IDE controllers, sharing/redirecting of interrupts. Disabling APIC removes the ability to make use of IRQ sharing or device IRQ remapping.
+Applying boot options
+
+By default, both features are enabled in the kernel, and can be disabled with the respective boot options acpi=off and noapic as shown below.
+
+* Edit /boot/grub/grub.conf
+
+*  Edit the kernel line and add the desired option. The following example disables both ACPI and APIC:
+
+* kernel /vmlinuz-2.6.18-194.el5 ro root=/dev/VolGroup00/LogVol00 rhgb quiet noapic acpi=off
+
+* Restart your system.
+----------------------------------------------------------------
+
 # Show log while loading
 
 * Remove "quite" from GRUB_CMDLINE_LINUX_DEFAULT or smth
