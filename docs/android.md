@@ -50,12 +50,24 @@ https://www.chinaphonearena.com/forum/showthread.php?tid=16681
 
 Then you can use adb push smth /data/ and use your TWRP Install feature or similar
 
+# Disable auto-update (for phones with not enough memory
+
+1. Open Google Play.
+2. Tap the hamburger icon (three horizontal lines) on the top-left2.
+3. Tap Settings.
+4. Tap Auto-update apps.
+5. To disable automatic app updates, select Do not auto-update apps.
+
 # Applications
 
- * Firefox (w/ uBlock origin, Dark Mode)
- * Link2SD (phones has to be rooted)
- * Skype (this shit does not want to SD card, have to root and use Link2SD or similar)
+ * Gboard or Simple Keyboard (then Settings -> General -> Language & keyboard -> Current keyboard -> Gboard/Simple keyboard)
+ * Firefox (w/ uBlock origin, Dark Mode, HTTPS Everywhere)
+ * Skype, Whatapp, Element
  * OLX
  * jakdojade.pl
  * Total Commander
- * K9 or FairEmail (next disable Gmail app through Settings -> Apps -> Gmail -> Force stop -> Disable)
+ * K9 (for this go to Settings -> General -> Google -> Manage your Google Account -> Security -> Less secure app access) or FairEmail (next disable Gmail app through Settings -> General -> Apps -> Gmail -> Force stop -> Disable)
+ * Link2SD (phone has to be rooted)
+ * Google Authenticator
+ * Weawow (for older Android w/o Google weather widget)
+
