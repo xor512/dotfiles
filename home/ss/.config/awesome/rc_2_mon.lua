@@ -386,10 +386,18 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
-              {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
-              {description = "view next", group = "tag"}),
+
+    -- {{{ Mine: Changed Mod4-left/right to switch between clients instead of tags
+        awful.key({ modkey,           }, "Left",
+            function () awful.client.focus.byidx(-1) end,
+            {description = "next window to the left by index", group = "client"}
+        ),
+        awful.key({ modkey,           }, "Right",
+            function () awful.client.focus.byidx(1) end,
+            {description = "next window to the right by index", group = "client"}
+        ),
+    -- }}}
+
     --awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
     --          {description = "go back", group = "tag"}),
     awful.key({ modkey,           }, "Escape",
