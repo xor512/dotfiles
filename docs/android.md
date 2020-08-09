@@ -58,10 +58,12 @@ Then you can use adb push smth /data/ and use your TWRP Install feature or simil
 4. Tap Auto-update apps.
 5. To disable automatic app updates, select Do not auto-update apps.
 
+---
+
 # Applications
 
  * Gboard or Simple Keyboard (then Settings -> General -> Language & keyboard -> Current keyboard -> Gboard/Simple keyboard)
- * Firefox (w/ uBlock origin, Dark Mode, HTTPS Everywhere)
+ * Firefox (w/ uBlock origin, Dark Reader, HTTPS Everywhere)
  * Skype, Whatapp, Element
  * OLX
  * jakdojade.pl
@@ -71,3 +73,17 @@ Then you can use adb push smth /data/ and use your TWRP Install feature or simil
  * Google Authenticator
  * Weawow (for older Android w/o Google weather widget)
 
+#  Disabling system app
+
+In case "Disable" button in app details is missing the following may help:
+
+* Find out app name like com.google.android.gm for Gmail (go to app list -> info or see below
+* adb shell
+* pm list packages (here you also can find your package, you can pipe to 'grep miui' for example)
+* pm uninstall -k --user 0 com.google.android.gm (or other package name)
+
+To reinstall:
+
+* adb shell cmd package install-existing com.google.android.gm (or other package name)
+
+This works because applications truly aren’t being fully uninstalled from the device, they are just being uninstalled for the current user (user 0 is the default/main user of the phone). That’s why, if you omit the “–user 0” and “-k” part of the uninstall command, the command won’t work. These two flags respectively specify that the system app will only be uninstalled for the current user (and not all users, which is something that requires root access) and that the cache/data of the system application will be preserved (which can’t be removed without root access). Therefore, even if you “uninstall” a system application using this method, you can still receive official OTA updates from your carrier or OEM. (c_) https://www.xda-developers.com/uninstall-carrier-oem-bloatware-without-root-access/
