@@ -21,6 +21,7 @@
 	st = status
 	unstage = reset HEAD --
 	dt = difftool --dir-diff
+	tc = difftool --dir-diff --cached
 [diff]
 	tool = kdiff3
 [pull]
