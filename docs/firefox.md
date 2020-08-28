@@ -18,7 +18,8 @@
 * uBlock Origin
 * uMatrix
 * Video Speed Controller
-* Youtube Classic
+* Youtube Classic (seems not to work currently, Good Old Youtube works as for now)
+* New Tab Override to set new tab to about:blank
 
 # Restore session after crash
 
