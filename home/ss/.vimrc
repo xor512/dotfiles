@@ -1,3 +1,4 @@
+set belloff=all
 set nocompatible
 set nowrap
 set bs=2
