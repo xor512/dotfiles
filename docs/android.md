@@ -72,6 +72,8 @@ Then you can use adb push smth /data/ and use your TWRP Install feature or simil
  * Link2SD (phone has to be rooted)
  * Google Authenticator
  * Weawow (for older Android w/o Google weather widget)
+ * Old Youtube
+ * Youtube Classic
 
 #  Disabling system app
 
