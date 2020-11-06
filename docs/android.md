@@ -64,7 +64,8 @@ Then you can use adb push smth /data/ and use your TWRP Install feature or simil
 
  * Gboard or Simple Keyboard (then Settings -> General -> Language & keyboard -> Current keyboard -> Gboard/Simple keyboard)
  * Firefox (w/ uBlock origin, Dark Reader, HTTPS Everywhere)
- * Skype, Whatapp, Element
+ * Skype, Whatapp, Element (riout.io), Basecamp, Klub hyperreal.info
+ * LOReader (linux.org.ru)
  * OLX
  * jakdojade.pl
  * Total Commander
