@@ -19,6 +19,7 @@
 * uMatrix
 * Video Speed Controller
 * Youtube Classic (seems not to work currently, Good Old Youtube works as for now)
+* Old Youtube
 * New Tab Override to set new tab to about:blank
 
 # Restore session after crash
