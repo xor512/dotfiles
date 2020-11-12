@@ -75,6 +75,7 @@ Then you can use adb push smth /data/ and use your TWRP Install feature or simil
  * Weawow (for older Android w/o Google weather widget)
  * Old Youtube
  * Youtube Classic
+ * Auto Dialer Expert
 
 #  Disabling system app
 
