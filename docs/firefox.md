@@ -11,6 +11,7 @@
 * Google search link fix
 * HTTPS Everywhere
 * Print to PDF
+* ColorNote
 * Tab Mover
 * Tab Session Manager
 * Tree Style Tab
@@ -18,8 +19,8 @@
 * uBlock Origin
 * uMatrix
 * Video Speed Controller
-* Youtube Classic (seems not to work currently, Good Old Youtube works as for now)
-* Old Youtube
+* Youtube Classic (seems o work currently)
+* Old Youtube (seems to not work currntly)
 * New Tab Override to set new tab to about:blank
 
 # Restore session after crash
