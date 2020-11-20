@@ -75,18 +75,14 @@ URxvt.keysym.Control-Up:    \033[1;5A
 URxvt.perl-ext-common:  default,matcher,selection-to-clipboard,url-select,clipboard,keyboard-select
 
 !! Copy and Paste
-!URxvt.keysym.Control-u: perl:url-select:select_next
-!URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
-!URxvt.keysym.M-Escape:  perl:keyboard-select:activate
-!URxvt.keysym.M-c:   perl:clipboard:copy
-!URxvt.keysym.M-s:   perl:keyboard-select:search
-!URxvt.keysym.M-u:   perl:url-select:select_next
-!URxvt.keysym.M-v:   perl:clipboard:paste
-
-!! Copy and Paste (simple version)
-URxvt.keysym.C-c:         perl:clipboard:copy
-URxvt.keysym.C-v:         perl:clipboard:paste
-URxvt.keysym.C-M-v:       perl:clipboard:paste_escaped
+URxvt.clipboard.autocopy: true
+URxvt.keysym.Control-u: perl:url-select:select_next
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.keysym.M-Escape:  perl:keyboard-select:activate
+URxvt.keysym.M-c:   perl:clipboard:copy
+URxvt.keysym.M-s:   perl:keyboard-select:search
+URxvt.keysym.M-u:   perl:url-select:select_next
+URxvt.keysym.M-v:   perl:clipboard:paste
 URxvt.clipboard.copycmd:  xsel -ib
 URxvt.clipboard.pastecmd: xsel -ob
 
