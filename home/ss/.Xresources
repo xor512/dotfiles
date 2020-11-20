@@ -1,5 +1,3 @@
-! Following https://wiki.archlinux.org/index.php/Color_output_in_console
-
 ! A quick way to add color to manual pages viewed on xterm/uxterm or rxvt-unicode is to modify ~/.Xresources. 
 *VT100.colorBDMode:     true
 *VT100.colorBD:         red
@@ -9,3 +7,165 @@
 ! which replaces the decorations with the colors. Also add: 
 *VT100.veryBoldColors:  6
 ! if you want colors and decorations (bold or underline) at the same time. See xterm(1) for a description of the veryBoldColors resource. 
+
+
+!! -rxvt-unicode-256volot
+!!
+*.background:  #141c21
+!*.color0:  #263640
+!*.color1:  #d12f2c
+!*.color10: #a4bd00
+!*.color11: #d9a400
+!*.color12: #2ca2f5
+!*.color13: #8086e8
+!*.color14: #33c5ba
+!*.color15: #fdf6e3
+!*.color2:  #819400
+!*.color3:  #b08500
+!*.color4:  #2587cc
+!*.color5:  #696ebf
+!*.color6:  #289c93
+!*.color7:  #bfbaac
+!*.color8:  #4a697d
+!*.color9:  #fa3935
+*.cursorColor: #afbfbf
+*.foreground:  #93a1a1
+
+! Другие цвета
+URxvt*color0: black
+URxvt*color1: red3
+URxvt*color2: green3
+URxvt*color3: yellow3
+URxvt*color4: blue2
+URxvt*color5: magenta3
+URxvt*color6: cyan3
+URxvt*color7: gray90
+URxvt*color8: grey50
+URxvt*color9: red
+URxvt*color10: green
+URxvt*color11: yellow
+URxvt*color12: blue
+URxvt*color13: magenta
+URxvt*color14: cyan
+ppuURxvt*color15: white
+
+!! From https://morfikov.github.io/post/konfiguracja-terminala-urxvt/
+!!  and:https://wiki.archlinux.org/index.php/Rxvt-unicode
+
+!! Different stuff
+
+URxvt.iconFile: /usr/share/icons/gnome/scalable/apps/utilities-terminal-symbolic.svg
+URxvt*background:   black
+!URxvt*color12:  RoyalBlue
+!URxvt*color4:   RoyalBlue
+URxvt*foreground:   white
+URxvt*scrollBar:    true
+URxvt*scrollBar_right:  true
+URxvt*shading:  40
+URxvt*thickness:    5
+URxvt*transparent:  false
+URxvt.copyCommand:  xclip -i -selection clipboard
+URxvt.iso14755: false
+URxvt.keysym.Control-Down:  \033[1;5B
+URxvt.keysym.Control-Left:  \033[1;5D
+URxvt.keysym.Control-Right: \033[1;5C
+URxvt.keysym.Control-Up:    \033[1;5A
+
+! Perl extensions
+URxvt.perl-ext-common:  default,matcher,selection-to-clipboard,url-select,clipboard,keyboard-select
+
+!! Copy and Paste
+!URxvt.keysym.Control-u: perl:url-select:select_next
+!URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+!URxvt.keysym.M-Escape:  perl:keyboard-select:activate
+!URxvt.keysym.M-c:   perl:clipboard:copy
+!URxvt.keysym.M-s:   perl:keyboard-select:search
+!URxvt.keysym.M-u:   perl:url-select:select_next
+!URxvt.keysym.M-v:   perl:clipboard:paste
+
+!! Copy and Paste (simple version)
+URxvt.keysym.C-c:         perl:clipboard:copy
+URxvt.keysym.C-v:         perl:clipboard:paste
+URxvt.keysym.C-M-v:       perl:clipboard:paste_escaped
+URxvt.clipboard.copycmd:  xsel -ib
+URxvt.clipboard.pastecmd: xsel -ob
+
+! Increase/decrease text size
+URxvt.keysym.C-S-Up:          perl:font-size:increase
+URxvt.keysym.C-S-Down:        perl:font-size:decrease
+
+! Matcher
+URxvt.keysym.Shift-Down:    command:\033]721;1\007
+URxvt.keysym.Shift-Up:  command:\033]720;1\007
+URxvt.matcher.button:   1
+URxvt.matcher.rend.0:   Uline Bold fg5
+URxvt.pasteCommand: xclip -o -selection clipboard
+URxvt.scrollstyle:  plain 
+URxvt.underlineURLs:    true
+URxvt.urgentOnBell: true
+
+! URL lauincher
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.url-select.launcher:  /usr/bin/xdg-open
+URxvt.url-select.underline: true                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               URxvt.urlButton:    1
+URxvt.urlLauncher:  firefox
+
+!! Fonts
+
+Xft.autohint:      false
+Xft.antialias:     true
+Xft.rgba:          none
+Xft.hinting:       true
+Xft.hintstyle:     hintslight
+Xft.lcdfilter:     lcddefault
+Xft.dpi:           96 
+
+*.font:           xft:Roboto Mono for Powerline:pixelsize=9:antialias=true:hinting=true
+*.boldFont:       xft:Roboto Mono for Powerline:bold:pixelsize=9:antialias=true:hinting=true
+*.italicFont:     xft::Roboto Mono for Powerline:italic:pixelsize= 9:antialias=true:hinting=true
+*.boldItalicFont: xft:Roboto Mono for Powerline:bold:italic:pixelsize=9:antialias=true:hinting=true
+
+!! Scrolling
+
+! do not scroll with output
+URxvt*scrollTtyOutput: false
+
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt*scrollWithBuffer: true
+
+! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress: true
+
+! Scrolling in secondary screen (like less without -X)
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+URxvt.secondaryWheel: 1
+
+! When there are many messages scroll window 60 times a second or when it is full
+URxvt*jumpScroll: true
+URxvt*skipScroll: true
+
+! Mouse scrolls the whole page
+Rxvt*mouseWheelScrollPage: true
+        
+! Border and wndow position
+URxvt*borderLess: false
+URxvt*geometry: 147x39+100+207
+
+! Cursor and mouse pointer
+URxvt*cursorUnderline: false
+URxvt*cursorBlink: true
+
+! Number of remembered lines
+URxvt*saveLines: 10200
+
+! Turn off iso14755 mo1de.tu allow using LShift/LCttr
+URxvt*iso14755: false
+URxvt*iso14755_52: false
+
+! Remove spaces between lines
+URxvt*lineSpace: 0
+
+! Do not use spacing between letters
+URxvt*letterSpace: -1
+
