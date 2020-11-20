@@ -296,3 +296,7 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 if [[ $- == *i* ]] then
     xseticon -id $WINDOWID $HOME/.urxvt/terminal.png
 fi
+
+# From https://incenp.org/notes/2013/urxvt-keyboard-problems.html
+HISTIGNORE="clear:$HISTIGNORE"
+export HISTIGNORE

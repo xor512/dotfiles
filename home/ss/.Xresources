@@ -166,3 +166,7 @@ URxvt*lineSpace: 0
 ! Do not use spacing between letters
 URxvt*letterSpace: -1
 
+!! From https://incenp.org/notes/2013/urxvt-keyboard-problems.html
+urxvt.keysym.Home: \033[1~
+urxvt.keysym.End: \033[4~
+urxvt.keysym.Control-l: clear\n
