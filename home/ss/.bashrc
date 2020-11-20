@@ -97,3 +97,6 @@ PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '
 
 export QT_QPA_PLATFORMTHEME=qt5ct
 
+if [[ $- == *i* ]] then
+    xseticon -id $WINDOWID $HOME/.urxvt/terminal.png
+fi

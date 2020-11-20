@@ -292,3 +292,7 @@ if ps $PPID | grep mc; then
 fi
 
 export QT_QPA_PLATFORMTHEME=qt5ct
+
+if [[ $- == *i* ]] then
+    xseticon -id $WINDOWID $HOME/.urxvt/terminal.png
+fi
