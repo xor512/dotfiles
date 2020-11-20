@@ -54,7 +54,7 @@ ppuURxvt*color15: white
 
 !! Different stuff
 
-URxvt.iconFile: /usr/share/icons/gnome/scalable/apps/utilities-terminal-symbolic.svg
+URxvt.iconFile:  /usr/share/icons/Adwaita/scalable/apps/utilities-terminal-symbolic.svg
 URxvt*background:   black
 !URxvt*color12:  RoyalBlue
 !URxvt*color4:   RoyalBlue
