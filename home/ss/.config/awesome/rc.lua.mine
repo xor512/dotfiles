@@ -52,8 +52,10 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
---beautiful.init(awful.util.getdir("config") .. "themes/default/theme.lua")
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init("~/.config/awesome/themes/default/theme.lua")
+for s = 1, screen.count() do
+    gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+end
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "xfce4-terminal"
@@ -219,8 +221,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
     local lo = awful.layout.layouts
     local tags = {
-        names  = { "float1", "float2", "tile3", "tile4", "fair5", "float6", "tile7" },
-        layout = { lo[1],    lo[1],    lo[2],   lo[2],   lo[3],   lo[1],    lo[2] }
+        names  = { "float1", "float2", "tile3", "tile4" },
+        layout = { lo[1],    lo[1],    lo[2],    lo[2] }
     }
     awful.tag(tags.names, s, tags.layout)
 
@@ -833,27 +835,15 @@ awful.rules.rules = {
     },
 
     { rule = { class = "Lxmusic" },
-      properties = { screen = 1, tag = "tile7" } },
+      properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Deadbeef" },
-      properties = { screen = 1, tag = "tile7" } },
+      properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Audacious" },
-      properties = { screen = 1, tag = "tile7" } },
+      properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Pavucontrol" },
-      properties = { screen = 1, tag = "tile7" },
+      properties = { screen = 1, tag = "tile4" },
       -- I want it to the right in the tiling layout },
       callback = awful.client.setslave },
-    { rule = { class = "HipChat" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Skype" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Sky" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Evolution" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Thunderbird" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Opera" },
-      properties = { screen = 1, tag = "float6", floating = true } },
 }
 -- }}}
 
@@ -1008,11 +998,11 @@ respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -not
 --       but it seems not to work, find out why
 -- respawn_with_shell("wicd-client", "wicd-client --tray &")
 
-spawn_once("thunderbird")
+-- spawn_once("thunderbird")
 -- respawn("birdtray") -- TODO: doesn't work
 -- spawn_once("davmail")
 -- spawn_once("evolution")
-spawn_once("skypeforlinux")
+-- spawn_once("skypeforlinux")
 -- spawn_once("hipchat4")
 
 spawn_once("blueman-applet")
@@ -1022,22 +1012,14 @@ spawn_once("xpad", "xpad --hide --toggle")
 spawn_once("pavucontrol")
 spawn_once("deadbeef")
 
-spawn_once("firefox", "firefox", {
-    floating = true,
-    tag = "float1",
-    maximized_vertical   = true,
-    maximized_horizontal = false
-})
-
-kill_with_shell("xfce4-terminal")
-for i=1,4 do
-    spawn("xfce4-terminal", "xfce4-terminal", false, {
-        floating = false,
-        screen = 1,
-        tag = "fair5",
-        maximized_vertical   = false,
-        maximized_horizontal = false
-    })
-end
+--As we have only 4.6Gb of mememory firefox starts for some time 
+-- so don't start it automatically
+--spawn_once("firefox", "firefox", {
+--    floating = true,
+--    tag = "float1",
+--    maximized_vertical   = true,
+--    maximized_horizontal = false
+-- })
 
 -- }}}
+
