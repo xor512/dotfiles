@@ -103,7 +103,8 @@ URxvt.urgentOnBell: true
 ! URL lauincher
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.url-select.launcher:  /usr/bin/xdg-open
-URxvt.url-select.underline: true                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               URxvt.urlButton:    1
+URxvt.url-select.underline: true
+URxvt.urlButton:    1
 URxvt.urlLauncher:  firefox
 
 !! Fonts
