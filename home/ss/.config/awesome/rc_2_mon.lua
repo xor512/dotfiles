@@ -1010,7 +1010,8 @@ awful.spawn.with_shell("xset -b")
 awful.spawn.with_shell("numlockx off")
 awful.spawn.with_shell("xbacklight -set 70")
 -- respawn_with_shell("xautolock", "xautolock -time 10 -locker 'i3lock -c 000000' &") -- use this in case the fancy one does not work
-respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy-rapid 4 2' &")
+--respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock-fancy-rapid 4 2' &")
+respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -notifier \"notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'\" -locker 'i3lock -c 000000' &")
 --- TODO: wicd-gtk adds /etc/xdg/autostart/wicd-tray.desktop which does the same thing
 --       but it seems not to work, find out why
 -- respawn_with_shell("wicd-client", "wicd-client --tray &")
