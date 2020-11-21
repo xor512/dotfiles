@@ -8,62 +8,62 @@
 *VT100.veryBoldColors:  6
 ! if you want colors and decorations (bold or underline) at the same time. See xterm(1) for a description of the veryBoldColors resource. 
 
+!! From https://github.com/AntSunrise/URxvt-themes/blob/master/pretty
 
-!! -rxvt-unicode-256volot
-!!
-*.background:  #141c21
-!*.color0:  #263640
-!*.color1:  #d12f2c
-!*.color10: #a4bd00
-!*.color11: #d9a400
-!*.color12: #2ca2f5
-!*.color13: #8086e8
-!*.color14: #33c5ba
-!*.color15: #fdf6e3
-!*.color2:  #819400
-!*.color3:  #b08500
-!*.color4:  #2587cc
-!*.color5:  #696ebf
-!*.color6:  #289c93
-!*.color7:  #bfbaac
-!*.color8:  #4a697d
-!*.color9:  #fa3935
-*.cursorColor: #afbfbf
-*.foreground:  #93a1a1
+urxvt*termName:         rxvt
+urxvt*background:       #0c0d0e
+urxvt*foreground:       #7f8f9f
+urxvt*scrollBar:        false
+urxvt*matcher.button:   1
+urxvt.transparent:    false
+urxvt*allow_bold:    true
 
-! Другие цвета
-URxvt*color0: black
-URxvt*color1: red3
-URxvt*color2: green3
-URxvt*color3: yellow3
-URxvt*color4: blue2
-URxvt*color5: magenta3
-URxvt*color6: cyan3
-URxvt*color7: gray90
-URxvt*color8: grey50
-URxvt*color9: red
-URxvt*color10: green
-URxvt*color11: yellow
-URxvt*color12: blue
-URxvt*color13: magenta
-URxvt*color14: cyan
-ppuURxvt*color15: white
+Xft*dpi:                96
+Xft*antialias:          true
+Xft*hinting:            full
+
+URxvt*fading:        0
+URxvt*tintColor:     #ffffff
+!URxvt*shading:        0
+URxvt*inheritPixmap:     False
+
+! black + red
+!urxvt*color0:     #3f3f3f
+urxvt*color0:      #101010
+urxvt*color1:      #705050
+! green + yellow
+urxvt*color2:      #60b48a
+urxvt*color3:      #f0dfaf
+! blue + purple
+urxvt*color4:      #506070
+urxvt*color5:      #dc8cc3
+! cyan + white
+urxvt*color6:      #8cd0d3
+urxvt*color7:      #dcdccc
+! bright-black + bright-red
+urxvt*color8:      #000000
+urxvt*color9:      #dca3a3
+! bright-green + bright-yellow
+urxvt*color10:     #c3bf9f
+urxvt*color11:     #f0dfaf
+! bright-blue + bright-purple
+urxvt*color12:     #94bff3
+urxvt*color13:     #ec93d3
+! bright-cyan + bright-white
+urxvt*color14:     #93e0e3
+urxvt*color15:     #ffffff
+
 
 !! From https://morfikov.github.io/post/konfiguracja-terminala-urxvt/
 !!  and:https://wiki.archlinux.org/index.php/Rxvt-unicode
 
 !! Different stuff
 
+! Dom not work, see hack in .zshrc
 URxvt.iconFile:  /usr/share/icons/Adwaita/scalable/apps/utilities-terminal-symbolic.svg
-URxvt*background:   black
-!URxvt*color12:  RoyalBlue
-!URxvt*color4:   RoyalBlue
-URxvt*foreground:   white
 URxvt*scrollBar:    true
 URxvt*scrollBar_right:  true
-URxvt*shading:  40
 URxvt*thickness:    5
-URxvt*transparent:  false
 URxvt.copyCommand:  xclip -i -selection clipboard
 URxvt.iso14755: false
 URxvt.keysym.Control-Down:  \033[1;5B
@@ -144,7 +144,7 @@ URxvt*skipScroll: true
 
 ! Mouse scrolls the whole page
 Rxvt*mouseWheelScrollPage: true
-        
+
 ! Border and wndow position
 URxvt*borderLess: false
 URxvt*geometry: 147x39+100+207
