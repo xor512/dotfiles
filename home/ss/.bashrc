@@ -12,7 +12,19 @@ export PATH=$PATH:~/bin:~/Android/Sdk/platform-tools
 
 export LANG="en_US.UTF-8"
 export LANGUAGE="en_US.UTF-8"
-export LC_ALL="ALL"
+export LC_CTYPE="en_US.UTF-8"
+export LC_NUMERIC="en_US.UTF-8"
+export LC_TIME="en_US.UTF-8"
+export LC_COLLATE="en_US.UTF-8"
+export LC_MONETARY="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
+export LC_PAPER="en_US.UTF-8"
+export LC_NAME="en_US.UTF-8"
+export LC_ADDRESS="en_US.UTF-8"
+export LC_TELEPHONE="en_US.UTF-8"
+export LC_MEASUREMENT="en_US.UTF-8"
+export LC_IDENTIFICATION="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 export PATH=~/bin:$PATH
 
@@ -22,6 +34,7 @@ export BROWSER="firefox"
 export PAGER='less -RF'
 alias man='PAGER="most" man ' # See ~/bin/most to find out it is actually most -cwd
 
+alias l='ls --color=always -1a'
 alias e='exit'
 alias g='gvim'
 alias v='vim'
@@ -35,16 +48,16 @@ alias xbs='xbacklight -set'
 alias dff='diffuse'
 alias k3='kdiff3'
 alias cgrep='grep --color=always'
-alias grepl='cgrep --include=*.lua -r '
-alias greph='cgrep --include=*.{h,hh,hpp,hxx} -r '
-alias grepc='cgrep --include=*.{c,cc,cpp,cxx} -r '
-alias grephc='cgrep --include=*.{h,hh,hpp,hxx,c,cc,cpp,cxx} -r '
-alias grepj='cgrep --include=*.java -r '
-alias grepp='cgrep --include=*.py -r '
-alias grepr='cgrep --include=*.robot -r'
-alias grepa='cgrep --include=*.{h,hh,hpp,hcc,c,cc,cpp,cxx,java,py,robot} -r '
-alias grept='cgrep --include=*.txt -r'
-alias grepcm='cgrep --include=CMakeLists.txt --include=*.cmake -r '
+alias grepl='cgrep --include=\*.lua -r '
+alias greph='cgrep --include=\*.{h,hh,hpp,hxx} -r '
+alias grepc='cgrep --include=\*.{c,cc,cpp,cxx} -r '
+alias grephc='cgrep --include=\*.{h,hh,hpp,hxx,c,cc,cpp,cxx} -r '
+alias grepj='cgrep --include=\*.java -r '
+alias grepp='cgrep --include=\*.py -r '
+alias grepr='cgrep --include=\*.robot -r'
+alias grepa='cgrep --include=\*.{h,hh,hpp,hcc,c,cc,cpp,cxx,java,py,robot} -r '
+alias grept='cgrep --include=\*.txt -r'
+alias grepcm='cgrep --include=CMakeLists.txt --include=\*.cmake -r '
 alias rbt='systemctl reboot'
 alias pwoff='systemctl poweroff'
 
