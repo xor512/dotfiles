@@ -11,7 +11,6 @@
 * Google search link fix
 * HTTPS Everywhere
 * Print to PDF
-* ColorNote
 * Tab Mover
 * Tab Session Manager
 * Tree Style Tab
