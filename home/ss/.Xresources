@@ -131,7 +131,7 @@ urxvt.transparent: false
 Xft*dpi: 96
 Xft*antialias: true
 Xft*hinting: true
-x!Xft*hintstyle: hintslight
+Xft*hintstyle: hintslight
 Xft*rgba: rgb
 *internalBorder: 8
 URxvt*fading: 0
