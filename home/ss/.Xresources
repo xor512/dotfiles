@@ -10,6 +10,7 @@
 
 !! From https://morfikov.github.io/post/konfiguracja-terminala-urxvt/
 !!  and:https://wiki.archlinux.org/index.php/Rxvt-unicode
+!! (with minor modifications)
 
 !! Different stuff
 
@@ -65,7 +66,7 @@ URxvt.urlLauncher:  firefox
 
 Xft.autohint:      false
 Xft.antialias:     true
-Xft.rgba:          none
+Xft.rgba:          rgb
 Xft.hinting:       true
 Xft.hintstyle:     hintslight
 Xft.lcdfilter:     lcddefault
@@ -97,7 +98,7 @@ URxvt*jumpScroll: true
 URxvt*skipScroll: true
 
 ! Mouse scrolls the whole page
-Rxvt*mouseWheelScrollPage: true
+Rxvt*mouseWheelScrollPage: false
 
 ! Border and wndow position
 URxvt*borderLess: false
@@ -125,14 +126,8 @@ urxvt.keysym.Control-l: clear\n
 
 !  From me
 URxvt*shading:        0
-
-urxvt*termName: rxvt
-urxvt.transparent: false
-Xft*dpi: 96
-Xft*antialias: true
-Xft*hinting: true
-Xft*hintstyle: hintslight
-Xft*rgba: rgb
+URxvt*termName: rxvt
+URxvt.transparent: false
 *internalBorder: 8
 URxvt*fading: 0
 URxvt*tintColor: #ffffff
