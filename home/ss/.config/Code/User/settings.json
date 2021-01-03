@@ -6,7 +6,21 @@
     "workbench.tree.indent": 18,
     "workbench.editor.enablePreview": false,
     "editor.fontSize": 9,
-    "editor.tabSize": 4,
+    {
+        // Insert spaces when pressing Tab. This setting is overriden
+        // based on the file contents when `editor.detectIndentation` is true.
+        "editor.insertSpaces": true,
+        // When opening a file, `editor.tabSize` and `editor.insertSpaces`
+        // will be detected based on the file contents. Set to false to keep
+        // the values you've explicitly set, above.
+        "editor.detectIndentation": true,
+        // The number of spaces a tab is equal to. This setting is overridden
+        // based on the file contents when `editor.detectIndentation` is true.
+        "editor.tabSize": 4,
+        "[json]": {
+            "editor.tabSize": 2
+        },
+    },
     "C_Cpp.default.intelliSenseMode": "gcc-x64",
     "C_Cpp.updateChannel": "Insiders",
     "[xml]": {
@@ -17,6 +31,6 @@
     "editor.fontFamily": "'Roboto Mono for Powerline Regular', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "terminal.integrated.fontFamily": "'Roboto Mono for Powerline Regular', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
     "terminal.integrated.fontSize": 9,
-    "terminal.integrated.lineHeight":1,
+    "terminal.integrated.lineHeight": 1,
     "workbench.colorTheme": "Visual Studio Dark - C++"
 }
