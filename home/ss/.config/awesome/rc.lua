@@ -13,8 +13,8 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+local hotkeys_popup = require("awful.hotkeys_popup")
 local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
-local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -24,7 +24,6 @@ local function dbg_notify(dbg_txt)
                      title = "DEBUG",
                      text = dbg_txt})
 end
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -52,15 +51,15 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
---beautiful.init(awful.util.getdir("config") .. "themes/default/theme.lua")
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+for s = 1, screen.count() do
+    gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+end
 
 -- This is used later as the default terminal and editor to run.
---terminal = "xfce4-terminal"
 terminal = "urxvtc"
---editor = os.getenv("EDITOR") or "nano"
 editor = "gvim"
---editor_cmd = terminal .. " -e " .. editor
+--editor_cmd = terminal .. " -e " .. vim
 editor_cmd = editor
 
 -- Default modkey.
@@ -71,7 +70,6 @@ editor_cmd = editor
 modkey = "Mod4"
 
 add_new_clients_as_slaves = false
-
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.floating,
@@ -137,27 +135,6 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
-local cal_notification
-mytextclock:connect_signal("button::release",
-    function()
-        if cal_notification == nil then
-            awful.spawn.easy_async([[bash -c "ncal -3 -s PL -M -b | sed 's/_.\(.\)/+\1-/g'"]],
-                function(stdout, stderr, reason, exit_code)
-                    cal_notification = naughty.notify{
-                        text = string.gsub(string.gsub(stdout, 
-                                                       "+", "<span foreground='red'>"), 
-                                                       "-", "</span>"),
-                        font = "Roboto Mono Light for Powerline Bold 8",
-                        timeout = 0,
-                        width = auto,
-                        destroy = function() cal_notification = nil end
-                    }
-                end
-            )
-        else
-            naughty.destroy(cal_notification)
-        end
-    end)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -189,7 +166,9 @@ local tasklist_buttons = gears.table.join(
                                                   )
                                               end
                                           end),
-                     awful.button({ }, 3, client_menu_toggle_fn()),
+                     awful.button({ }, 3, function()
+                                              awful.menu.client_list({ theme = { width = 250 } })
+                                          end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
                                           end),
@@ -219,8 +198,8 @@ awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
     local lo = awful.layout.layouts
     local tags = {
-        names  = { "float1", "float2", "tile3", "tile4", "fair5", "float6", "tile7" },
-        layout = { lo[1],    lo[1],    lo[2],   lo[2],   lo[3],   lo[1],    lo[2] }
+        names  = { "float1", "float2", "tile3", "tile4" },
+        layout = { lo[1],    lo[1],    lo[2],    lo[2] }
     }
     awful.tag(tags.names, s, tags.layout)
 
@@ -374,8 +353,6 @@ root.buttons(gears.table.join(
     -- }}}
 
 -- }}}
-
-
 -- {{{ Key bindings
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -415,7 +392,6 @@ globalkeys = gears.table.join(
             function () awful.client.focus.byidx(1) end,
             {description = "next window to the right by index", group = "client"}
         ), -- }}}
-
         -- {{{ added (browser-tab-like switching of clients):
         --     moving between windows with Mod4-Fn (as between tags with Mod4-n)
         awful.key({ modkey,           }, "F1",
@@ -469,7 +445,6 @@ globalkeys = gears.table.join(
         -- }}}
 
     -- }}}
-
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
@@ -567,7 +542,6 @@ globalkeys = gears.table.join(
         -- }}}
 
     -- }}}
-
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -833,27 +807,15 @@ awful.rules.rules = {
     },
 
     { rule = { class = "Lxmusic" },
-      properties = { screen = 1, tag = "tile7" } },
+      properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Deadbeef" },
-      properties = { screen = 1, tag = "tile7" } },
+      properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Audacious" },
-      properties = { screen = 1, tag = "tile7" } },
+      properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Pavucontrol" },
-      properties = { screen = 1, tag = "tile7" },
+      properties = { screen = 1, tag = "tile4" },
       -- I want it to the right in the tiling layout },
       callback = awful.client.setslave },
-    { rule = { class = "HipChat" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Skype" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Sky" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Evolution" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Thunderbird" },
-      properties = { screen = 1, tag = "float6", floating = true } },
-    { rule = { class = "Opera" },
-      properties = { screen = 1, tag = "float6", floating = true } },
 }
 -- }}}
 
@@ -914,14 +876,12 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
-    -- TODO: remove { rase = true } as per https://github.com/awesomeWM/awesome/issues/2594#issuecomment-455727093
-    c:emit_signal("request::activate", "mouse_enter", { raise = false })
+    c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
--- {{{ Autostart
+-- }}}-- {{{ Autostart
 local function isrunning(pname)
     -- The process name used for matching is  limited  to  the  15  characters (c) man pgrep
     pname = pname:sub(1, 15)
@@ -995,7 +955,7 @@ end
 -- TODO: need to restart right after that to get correct if have >1 monitors
 --       number of screeens, tried with file guards and awesome_restart()
 --       first time running startx but it didn't work
-if file_exists(os.getenv("HOME").."/.screenlayout/layout.sh") then
+if file_exists(os.getenv("HOME").."/.screenlayout/layout.sh") then    
     os.execute(os.getenv("HOME").."/.screenlayout/layout.sh")
 end
 
@@ -1009,36 +969,28 @@ respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -not
 --       but it seems not to work, find out why
 -- respawn_with_shell("wicd-client", "wicd-client --tray &")
 
-spawn_once("thunderbird")
+-- spawn_once("thunderbird")
 -- respawn("birdtray") -- TODO: doesn't work
 -- spawn_once("davmail")
 -- spawn_once("evolution")
-spawn_once("skypeforlinux")
+-- spawn_once("skypeforlinux")
 -- spawn_once("hipchat4")
 
-spawn_once("blueman-applet")
+--spawn_once("blueman-applet")
 spawn_once("nm-applet")
-spawn_once("indicator-sensors")
+--spawn_once("indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
 spawn_once("pavucontrol")
 spawn_once("deadbeef")
 
-spawn_once("firefox", "firefox", {
-    floating = true,
-    tag = "float1",
-    maximized_vertical   = true,
-    maximized_horizontal = false
-})
-
-kill_with_shell("xfce4-terminal")
-for i=1,4 do
-    spawn("xfce4-terminal", "xfce4-terminal", false, {
-        floating = false,
-        screen = 1,
-        tag = "fair5",
-        maximized_vertical   = false,
-        maximized_horizontal = false
-    })
-end
+--As we have only 4.6Gb of mememory firefox starts for some time 
+-- so don't start it automatically
+--spawn_once("firefox", "firefox", {
+--    floating = true,
+--    tag = "float1",
+--    maximized_vertical   = true,
+--    maximized_horizontal = false
+-- })
 
 -- }}}
+
