@@ -37,5 +37,6 @@
     "clang-format.language.c.style": "Google",
     "clang-format.language.c.fallbackStyle": "Google",
     "clang-format.language.cpp.fallbackStyle": "Google",
-    "clang-format.style": "Google"
+    "clang-format.style": "Google",
+    "clang-format.language.javascript.fallbackStyle": ""
 }
