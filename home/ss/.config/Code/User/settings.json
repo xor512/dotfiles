@@ -38,5 +38,8 @@
     "clang-format.language.c.fallbackStyle": "Google",
     "clang-format.language.cpp.fallbackStyle": "Google",
     "clang-format.style": "Google",
-    "clang-format.language.javascript.fallbackStyle": ""
+    "clang-format.language.javascript.fallbackStyle": "",
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    }
 }
