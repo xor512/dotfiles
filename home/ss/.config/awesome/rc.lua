@@ -135,6 +135,27 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
+local cal_notification
+mytextclock:connect_signal("button::release",
+    function()
+        if cal_notification == nil then
+            awful.spawn.easy_async([[bash -c "ncal -3 -s PL -M -b | sed 's/_.\(.\)/+\1-/g'"]],
+                function(stdout, stderr, reason, exit_code)
+                    cal_notification = naughty.notify{
+                        text = string.gsub(string.gsub(stdout, 
+                                                       "+", "<span foreground='red'>"), 
+                                                       "-", "</span>"),
+                        font = "Roboto Mono Light for Powerline Bold 8",
+                        timeout = 0,
+                        width = auto,
+                        destroy = function() cal_notification = nil end
+                    }
+                end
+            )
+        else
+            naughty.destroy(cal_notification)
+        end
+    end)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
