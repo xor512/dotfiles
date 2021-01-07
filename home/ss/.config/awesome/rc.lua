@@ -69,7 +69,7 @@ editor_cmd = editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
-add_new_clients_as_slaves = false
+--add_new_clients_as_slaves = false
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.floating,
@@ -776,7 +776,8 @@ awful.rules.rules = {
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
       },
-      callback = add_new_clients_as_slaves and awful.client.setslave or nil
+      --callback = add_new_clients_as_slaves and awful.client.setslave or nil
+      callback = awful.client.setslave or nil
     },
 
     -- Floating clients.
@@ -997,9 +998,9 @@ respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -not
 -- spawn_once("skypeforlinux")
 -- spawn_once("hipchat4")
 
---spawn_once("blueman-applet")
+spawn_once("blueman-applet")
 spawn_once("nm-applet")
---spawn_once("indicator-sensors")
+spawn_once("indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
 spawn_once("pavucontrol")
 spawn_once("deadbeef")
