@@ -40,6 +40,6 @@
     "clang-format.style": "Google",
     "clang-format.language.javascript.fallbackStyle": "",
     "[cpp]": {
-        "editor.defaultFormatter": "xaver.clang-format"
-    }
+        "editor.defaultFormatter": "ms-vscode.cpptools"
+    },
 }
