@@ -834,7 +834,7 @@ awful.rules.rules = {
       properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Pavucontrol" },
       properties = { screen = 1, tag = "tile4" },
-      callback = awful.client.setslave },
+      callback = function(c) awful.client.setslave(c) end },
 }
 -- }}}
 
