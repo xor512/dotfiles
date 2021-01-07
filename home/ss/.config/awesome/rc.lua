@@ -835,9 +835,7 @@ awful.rules.rules = {
     { rule = { class = "Audacious" },
       properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Pavucontrol" },
-      properties = { screen = 1, tag = "tile4" },
-      -- I want it to the right in the tiling layout },
-      callback = awful.client.setslave },
+      properties = { screen = 1, tag = "tile4" } },
 }
 -- }}}
 
@@ -1002,8 +1000,9 @@ spawn_once("blueman-applet")
 spawn_once("nm-applet")
 spawn_once("indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
-spawn_once("pavucontrol")
 spawn_once("deadbeef")
+spawn_once("pavucontrol")
+awful.spawn("pavucontrol", { callback = awful.client.setslave })
 
 --As we have only 4.6Gb of mememory firefox starts for some time 
 -- so don't start it automatically
