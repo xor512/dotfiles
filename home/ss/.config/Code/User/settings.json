@@ -32,14 +32,12 @@
     "terminal.integrated.lineHeight": 1,
     "workbench.colorTheme": "Visual Studio Dark - C++",
     "clang-format.language.cpp.style": "Google",
-    "clang-format.fallbackStyle": "Google",
-    "clang-format.language.typescript.fallbackStyle": "",
+    "clang-format.language.cpp.fallbackStyle": "Google",
     "clang-format.language.c.style": "Google",
     "clang-format.language.c.fallbackStyle": "Google",
-    "clang-format.language.cpp.fallbackStyle": "Google",
-    "clang-format.style": "Google",
+    "clang-format.style": "",
     "clang-format.language.javascript.fallbackStyle": "",
     "[cpp]": {
-        "editor.defaultFormatter": "ms-vscode.cpptools"
+        "editor.defaultFormatter": "xaver.clang-format"
     },
 }
