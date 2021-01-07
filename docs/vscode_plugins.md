@@ -18,3 +18,4 @@
 * Remote - WSL (Open any folder in the Windows Subsystem for Linux (WSL) and take advantage of Visual Studio Code's full feature set) (Microsoft): https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
 * Visual Studio Codespaces (Intelligent productivity and collaboration, from anywhere, powered by the cloud) (Mirosoft): https://marketplace.visualstudio.com/items?itemName=ms-vsonline.vsonline
 * Vim (Vim emulation for Visual Studio Code) (vscodevim): https://marketplace.visualstudio.com/items?itemName=vscodevim.vim
+* Code Runner (Run C, C++, Java, JS, PHP, Python, Perl, Ruby, Go, Lua, Groovy, PowerShell, CMD, BASH, F#, C#, VBScript, TypeScript, CoffeeScript, Scala, Swift, Julia, Crystal, OCaml, R, AppleScript, Elixir, VB.NET, Clojure, Haxe, Obj-C, Rust, Racket, Scheme, AutoHotkey, AutoIt, Kotlin, Dart, Pascal, Haskell, Nim) (Jim Han): https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner
