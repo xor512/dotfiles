@@ -69,7 +69,6 @@ editor_cmd = editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
---add_new_clients_as_slaves = false
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.floating,
@@ -776,7 +775,6 @@ awful.rules.rules = {
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
       },
-      --callback = add_new_clients_as_slaves and awful.client.setslave or nil
       callback = awful.client.setslave or nil
     },
 
@@ -835,7 +833,8 @@ awful.rules.rules = {
     { rule = { class = "Audacious" },
       properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Pavucontrol" },
-      properties = { screen = 1, tag = "tile4" } },
+      properties = { screen = 1, tag = "tile4" },
+      callback = awful.client.setslave },
 }
 -- }}}
 
@@ -844,7 +843,7 @@ awful.rules.rules = {
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
       and not c.size_hints.user_position
@@ -944,7 +943,6 @@ local function spawn(pname, cmd, once, sn_rules)
     if not cmd then
         cmd = pname
     end
-
     if not (once and isrunning(pname)) then
         awful.spawn(cmd, sn_rules)
     end
@@ -1002,7 +1000,6 @@ spawn_once("indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
 spawn_once("deadbeef")
 spawn_once("pavucontrol")
-awful.spawn("pavucontrol", { callback = awful.client.setslave })
 
 --As we have only 4.6Gb of mememory firefox starts for some time 
 -- so don't start it automatically
