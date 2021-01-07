@@ -12,4 +12,5 @@ xrdb -load ~/.Xresources
 /usr/bin/urxvtd -q -f -o
 
 exec awesome
-sleep 1 && nitrogen restorere & # Wallpaper
+#exec awesome 1>~/awesome.log 2>&1
+#sleep 1 && nitrogen restorere & # Wallpaper
