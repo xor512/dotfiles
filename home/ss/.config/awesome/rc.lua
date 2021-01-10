@@ -829,12 +829,13 @@ awful.rules.rules = {
     { rule = { class = "Lxmusic" },
       properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Deadbeef" },
-      properties = { screen = 1, tag = "tile4" } },
+      properties = { screen = 1, tag = "tile4" },
+      callback = awful.client.setmaster },
     { rule = { class = "Audacious" },
       properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Pavucontrol" },
       properties = { screen = 1, tag = "tile4" },
-      callback = function(c) awful.client.setslave(c) end },
+      callback = awful.client.setslave },
 }
 -- }}}
 
