@@ -14,7 +14,6 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
-local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -22,7 +21,13 @@ require("awful.hotkeys_popup.keys")
 local function dbg_notify(dbg_txt)
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "DEBUG",
-                     text = dbg_txt})
+                     text = dbg_txt })
+end
+
+local function info_notify(info_txt)
+    naughty.notify({ preset = naughty.config.presets.normal,
+                     title = "INFO",
+                     text = info_txt })
 end
 
 -- {{{ Error handling
@@ -52,15 +57,15 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
---beautiful.init(awful.util.getdir("config") .. "themes/default/theme.lua")
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+for s = 1, screen.count() do
+    gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+end
 
 -- This is used later as the default terminal and editor to run.
---terminal = "xfce4-terminal"
 terminal = "urxvtc"
---editor = os.getenv("EDITOR") or "nano"
 editor = "gvim"
---editor_cmd = terminal .. " -e " .. editor
+--editor_cmd = terminal .. " -e " .. vim
 editor_cmd = editor
 
 -- Default modkey.
@@ -70,7 +75,6 @@ editor_cmd = editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
-add_new_clients_as_slaves = false
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
@@ -189,7 +193,9 @@ local tasklist_buttons = gears.table.join(
                                                   )
                                               end
                                           end),
-                     awful.button({ }, 3, client_menu_toggle_fn()),
+                     awful.button({ }, 3, function()
+                                              awful.menu.client_list({ theme = { width = 250 } })
+                                          end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
                                           end),
@@ -381,8 +387,6 @@ root.buttons(gears.table.join(
     -- }}}
 
 -- }}}
-
-
 -- {{{ Key bindings
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -422,7 +426,6 @@ globalkeys = gears.table.join(
             function () awful.client.focus.byidx(1) end,
             {description = "next window to the right by index", group = "client"}
         ), -- }}}
-
         -- {{{ added (browser-tab-like switching of clients):
         --     moving between windows with Mod4-Fn (as between tags with Mod4-n)
         awful.key({ modkey,           }, "F1",
@@ -476,7 +479,6 @@ globalkeys = gears.table.join(
         -- }}}
 
     -- }}}
-
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
 
@@ -574,7 +576,6 @@ globalkeys = gears.table.join(
         -- }}}
 
     -- }}}
-
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -787,8 +788,10 @@ awful.rules.rules = {
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
-      },
-      callback = add_new_clients_as_slaves and awful.client.setslave or nil
+      }
+      -- XXX: this is done in manage connect signal, leaving here just in case some buf will
+      -- happen related to that being needed
+      --callback = awful.client.setslave or nil
     },
 
     -- Floating clients.
@@ -869,7 +872,7 @@ awful.rules.rules = {
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
       and not c.size_hints.user_position
@@ -921,14 +924,12 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
-    -- TODO: remove { rase = true } as per https://github.com/awesomeWM/awesome/issues/2594#issuecomment-455727093
-    c:emit_signal("request::activate", "mouse_enter", { raise = false })
+    c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
-
--- {{{ Autostart
+-- }}}-- {{{ Autostart
 local function isrunning(pname)
     -- The process name used for matching is  limited  to  the  15  characters (c) man pgrep
     pname = pname:sub(1, 15)
@@ -967,13 +968,12 @@ local function respawn_with_shell(pname, cmd)
     awful.spawn.with_shell(cmd)
 end 
 
-local function spawn(pname, cmd, once, sn_rules)
+local function spawn(pname, cmd, once, sn_rules, callback)
     if not cmd then
         cmd = pname
     end
-
     if not (once and isrunning(pname)) then
-        awful.spawn(cmd, sn_rules)
+        awful.spawn(cmd, sn_rules, callback)
     end
 end
 
@@ -982,12 +982,12 @@ local function respawn(pname, cmd, sn_rules)
     spawn(pname, cmd, false, sn_rules)
 end
 
-local function spawn_once(pname, cmd, sn_rules)
+local function spawn_once(pname, cmd, sn_rules, callback)
     if not cmd then
         cmd = pname
     end
 
-    spawn(pname, cmd, true, sn_rules)
+    spawn(pname, cmd, true, sn_rules, callback)
 end
 
 local function file_exists(name)
@@ -999,12 +999,6 @@ local function file_exists(name)
     return true
 end
 
--- TODO: need to restart right after that to get correct if have >1 monitors
---       number of screeens, tried with file guards and awesome_restart()
---       first time running startx but it didn't work
-if file_exists(os.getenv("HOME").."/.screenlayout/layout.sh") then
-    os.execute(os.getenv("HOME").."/.screenlayout/layout.sh")
-end
 
 awful.spawn.with_shell("xset -b")
 awful.spawn.with_shell("numlockx off")
@@ -1027,9 +1021,8 @@ spawn_once("blueman-applet")
 spawn_once("nm-applet")
 spawn_once("indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
-spawn_once("pavucontrol")
 spawn_once("deadbeef")
-
+spawn_once("pavucontrol")
 spawn_once("firefox", "firefox", {
     floating = true,
     screen = 2,
@@ -1050,3 +1043,12 @@ for i=1,4 do
 end
 
 -- }}}
+-- TODO: need to restart right after that to get correct if have >1 monitors
+--       number of screeens, tried with file guards and awesome_restart()
+--       first time running startx but it didn't work
+if file_exists(os.getenv("HOME").."/.screenlayout/layout.sh") then    
+    awful.spawn.easy_async_with_shell(os.getenv("HOME").."/.screenlayout/layout.sh", 
+        function(stdout)
+            info_notify(tostring(stdout))
+        end)
+end
