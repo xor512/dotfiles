@@ -842,8 +842,8 @@ awful.rules.rules = {
       callback = awful.client.setmaster },
     { rule = { class = "Audacious" },
       properties = { screen = 1, tag = "tile4" } },
-    { rule = { class = "Pavucontrol", floating = false },
-      properties = { screen = 1, tag = "tile4" },
+    { rule = { class = "Pavucontrol" },
+      properties = { screen = 1, tag = "tile4", floating = false },
       callback = awful.client.setslave }
 }
 -- }}}
@@ -1002,8 +1002,9 @@ spawn_once("blueman-applet")
 spawn_once("nm-applet")
 spawn_once("indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
-spawn_once("deadbeef", nil, { tag = "tile4"}, function(c)
-    spawn_once("pavucontrol", nil, { tag = "tile4" }, function(c)
+spawn_once("deadbeef", nil, { tag = "tile4", floating = false }, function(c)
+    awful.client.setmaster(c)
+    spawn_once("pavucontrol", nil, { tag = "tile4", floating = false }, function(c)
         awful.client.setslave(c)
     end) 
 end)
