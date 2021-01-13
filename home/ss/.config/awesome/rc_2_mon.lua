@@ -13,6 +13,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+local hotkeys_popup = require("awful.hotkeys_popup")
 local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -75,7 +76,6 @@ editor_cmd = editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
-
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.floating,
@@ -123,7 +123,7 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "dmenu_run", function() awful.util.spawn("dmenu_run") end },
+                                    { "dmenu_run", function() awful.spawn("dmenu_run") end },
                                     { "open terminal", terminal },
                                   }
                         })
@@ -753,15 +753,15 @@ clientbuttons = gears.table.join(
 -- Set keys
 globalkeys = awful.util.table.join(globalkeys,
     awful.key({ modkey, "Control" }, "o", function ()
-        awful.util.spawn("sync")
-        awful.util.spawn("xautolock -locknow")
+        awful.spawn("sync")
+        awful.spawn("xautolock -locknow")
     end,
     {description = "lock screen", group = "custom"}),
     awful.key({ modkey, "Control" }, "t", function () awful.spawn.with_shell("~/bin/touchpadoff 1") end,
     {description = "disable touchpad", group = "custom"}),
     awful.key({ modkey, "Control" }, "y", function () awful.spawn.with_shell("~/bin/monitoroff") end,
     {description = "disable monitor", group = "custom"}),
-    awful.key({                   }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/screenshots/ 2>/dev/null'", false) end,
+    awful.key({                   }, "Print", function () awful.spawn.with_shell("scrot -e 'mv $f ~/screenshots/ 2>/dev/null'", false) end,
     {description = "make screenshot and put it to ~/screenshots", group = "custom"}),
     awful.key({ modkey,           }, "Print", function () awful.spawn.with_shell("sleep 0.5 && scrot -s -e 'mv $f ~/screenshots/ 2>/dev/null'") end,
     {description = "make screenshot of area and put it to ~/screenshots", group = "custom"})
@@ -1043,6 +1043,7 @@ for i=1,4 do
 end
 
 -- }}}
+
 -- TODO: need to restart right after that to get correct if have >1 monitors
 --       number of screeens, tried with file guards and awesome_restart()
 --       first time running startx but it didn't work
