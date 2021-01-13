@@ -1000,7 +1000,7 @@ respawn_with_shell("xautolock", "xautolock -detectsleep -time 10 -notify 30 -not
 
 spawn_once("blueman-applet")
 spawn_once("nm-applet")
-spawn_once("indicator-sensors")
+spawn_once("indicator", "indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
 spawn_once("deadbeef", nil, { tag = "tile4", floating = false }, function(c)
     awful.client.setmaster(c)

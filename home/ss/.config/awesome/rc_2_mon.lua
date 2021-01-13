@@ -1019,7 +1019,7 @@ spawn_once("skypeforlinux")
 
 spawn_once("blueman-applet")
 spawn_once("nm-applet")
-spawn_once("indicator-sensors")
+spawn_once("indicator", "indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
 spawn_once("deadbeef")
 spawn_once("pavucontrol")
