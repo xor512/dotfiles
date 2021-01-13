@@ -1017,7 +1017,7 @@ spawn_once("thunderbird")
 spawn_once("skypeforlinux")
 -- spawn_once("hipchat4")
 
-spawn_once("blueman-applet")
+spawn_once("blueman", "blueman-applet")
 spawn_once("nm-applet")
 spawn_once("indicator", "indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
