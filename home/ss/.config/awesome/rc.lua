@@ -528,7 +528,7 @@ globalkeys = gears.table.join(
                   {description = "open xterm", group = "launcher"}),
         awful.key({ modkey, "Shift"    }, "Return", function () awful.spawn("pcmanfm") end,
                   {description = "open pcmanfm", group = "launcher"}),
-        awful.key({ modkey, "Shift"     }, "x", function () awful.spawn("xkill") end,
+        awful.key({ modkey, "Ctrl"     }, "x", function () awful.spawn("xkill") end,
                   {description = "launch xkill", group = "launcher"}),
         awful.key({ modkey, "Shift"    }, "r", function () awful.spawn("dmenu_run") end,
                   {description = "launch xkill", group = "launcher"}),
@@ -781,8 +781,10 @@ awful.rules.rules = {
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
-      },
-      callback = awful.client.setslave or nil
+      }
+      -- XXX: this is done in manage connect signal, leaving here just in case some buf will
+      -- happen related to that being needed
+      --callback = awful.client.setslave or nil
     },
 
     -- Floating clients.
