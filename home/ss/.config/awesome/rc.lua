@@ -22,8 +22,15 @@ require("awful.hotkeys_popup.keys")
 local function dbg_notify(dbg_txt)
     naughty.notify({ preset = naughty.config.presets.critical,
                      title = "DEBUG",
-                     text = dbg_txt})
+                     text = dbg_txt })
 end
+
+local function info_notify(info_txt)
+    naughty.notify({ preset = naughty.config.presets.normal,
+                     title = "INFO",
+                     text = info_txt })
+end
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -521,7 +528,7 @@ globalkeys = gears.table.join(
                   {description = "open xterm", group = "launcher"}),
         awful.key({ modkey, "Shift"    }, "Return", function () awful.spawn("pcmanfm") end,
                   {description = "open pcmanfm", group = "launcher"}),
-        awful.key({ modkey, "Ctrl"     }, "x", function () awful.spawn("xkill") end,
+        awful.key({ modkey, "Shift"     }, "x", function () awful.spawn("xkill") end,
                   {description = "launch xkill", group = "launcher"}),
         awful.key({ modkey, "Shift"    }, "r", function () awful.spawn("dmenu_run") end,
                   {description = "launch xkill", group = "launcher"}),
@@ -829,11 +836,13 @@ awful.rules.rules = {
     { rule = { class = "Lxmusic" },
       properties = { screen = 1, tag = "tile4" } },
     { rule = { class = "Deadbeef" },
-      properties = { screen = 1, tag = "tile4" } },
+      properties = { screen = 1, tag = "tile4", floating = false },
+      callback = awful.client.setmaster },
     { rule = { class = "Audacious" },
       properties = { screen = 1, tag = "tile4" } },
-    { rule = { class = "Pavucontrol" },
-      properties = { screen = 1, tag = "tile4" }, }
+    { rule = { class = "Pavucontrol", floating = false },
+      properties = { screen = 1, tag = "tile4" },
+      callback = awful.client.setslave }
 }
 -- }}}
 
@@ -938,12 +947,12 @@ local function respawn_with_shell(pname, cmd)
     awful.spawn.with_shell(cmd)
 end 
 
-local function spawn(pname, cmd, once, sn_rules)
+local function spawn(pname, cmd, once, sn_rules, callback)
     if not cmd then
         cmd = pname
     end
     if not (once and isrunning(pname)) then
-        awful.spawn(cmd, sn_rules)
+        awful.spawn(cmd, sn_rules, callback)
     end
 end
 
@@ -952,12 +961,12 @@ local function respawn(pname, cmd, sn_rules)
     spawn(pname, cmd, false, sn_rules)
 end
 
-local function spawn_once(pname, cmd, sn_rules)
+local function spawn_once(pname, cmd, sn_rules, callback)
     if not cmd then
         cmd = pname
     end
 
-    spawn(pname, cmd, true, sn_rules)
+    spawn(pname, cmd, true, sn_rules, callback)
 end
 
 local function file_exists(name)
@@ -969,12 +978,6 @@ local function file_exists(name)
     return true
 end
 
--- TODO: need to restart right after that to get correct if have >1 monitors
---       number of screeens, tried with file guards and awesome_restart()
---       first time running startx but it didn't work
-if file_exists(os.getenv("HOME").."/.screenlayout/layout.sh") then    
-    os.execute(os.getenv("HOME").."/.screenlayout/layout.sh")
-end
 
 awful.spawn.with_shell("xset -b")
 awful.spawn.with_shell("numlockx off")
@@ -997,8 +1000,11 @@ spawn_once("blueman-applet")
 spawn_once("nm-applet")
 spawn_once("indicator-sensors")
 spawn_once("xpad", "xpad --hide --toggle")
-awful.spawn("deadbeef", { callback = awful.client.master })
-awful.spawn("pavucontrol", { callback = awful.client.setslave })
+spawn_once("deadbeef", nil, { tag = "tile4"}, function(c)
+    spawn_once("pavucontrol", nil, { tag = "tile4" }, function(c)
+        awful.client.setslave(c)
+    end) 
+end)
 
 --As we have only 4.6Gb of mememory firefox starts for some time 
 -- so don't start it automatically
@@ -1011,3 +1017,12 @@ awful.spawn("pavucontrol", { callback = awful.client.setslave })
 
 -- }}}
 
+-- TODO: need to restart right after that to get correct if have >1 monitors
+--       number of screeens, tried with file guards and awesome_restart()
+--       first time running startx but it didn't work
+if file_exists(os.getenv("HOME").."/.screenlayout/layout.sh") then    
+    awful.spawn.easy_async_with_shell(os.getenv("HOME").."/.screenlayout/layout.sh", 
+        function(stdout)
+            info_notify(tostring(stdout))
+        end)
+end
