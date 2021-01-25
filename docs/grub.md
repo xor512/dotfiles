@@ -60,7 +60,7 @@ By default, both features are enabled in the kernel, and can be disabled with th
 
 # Show log while loading
 
-* Remove "quite" from GRUB_CMDLINE_LINUX_DEFAULT or smth
+* Remove "quiet" from GRUB_CMDLINE_LINUX_DEFAULT or smth
 
 #  Restoring GRUB 2 Boot Loader (from https://gparted.org/display-doc.php?name=help-manual&lang=C#gparted-fix-grub-boot-problem)
 
