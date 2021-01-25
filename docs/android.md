@@ -42,6 +42,10 @@ https://www.chinaphonearena.com/forum/showthread.php?tid=16681
 * adb push xxx.zip /data
 * adb pull /data/xxx.zip ./xxx.zip
 
+# To make camera photos smaller
+
+	jpegoptim --size=[size-in-kb] image_name.jpg
+
 # TWRP (after unlocking bootloader)
 
 1. First adb reboot bootloader or adb reboot fastboot
