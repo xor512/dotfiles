@@ -808,7 +808,7 @@ awful.rules.rules = {
       }, properties = { floating = true } },
 
     { rule_any = {
-        class = { "Meld" }
+        class = { "Meld", "Diffuse", "Kdiff3", "Evince" }
     }, properties = { floating = true,
                       maximized_vertical   = true,
                       maximized_horizontal = true
