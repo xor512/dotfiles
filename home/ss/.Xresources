@@ -74,7 +74,7 @@ Xft.dpi:           96
 
 *.font:           xft:Roboto Mono for Powerline:pixelsize=9:antialias=true:hinting=true
 *.boldFont:       xft:Roboto Mono for Powerline:bold:pixelsize=9:antialias=true:hinting=true
-*.italicFont:     xft::Roboto Mono for Powerline:italic:pixelsize= 9:antialias=true:hinting=true
+*.italicFont:     xft:Roboto Mono for Powerline:italic:pixelsize= 9:antialias=true:hinting=true
 *.boldItalicFont: xft:Roboto Mono for Powerline:bold:italic:pixelsize=9:antialias=true:hinting=true
 
 !! Scrolling
