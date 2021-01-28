@@ -386,6 +386,14 @@ globalkeys = gears.table.join(
             function () awful.client.focus.byidx(1) end,
             {description = "next window to the right by index", group = "client"}
         ),
+        awful.key({ modkey, "Shift"   }, "Left",
+            function () awful.client.swap.byidx(-1) end,
+            {description = "swap with next client by index", group = "client"}
+        ),
+        awful.key({ modkey, "Shift"   }, "Right",
+            function () awful.client.swap.byidx( 1) end,
+            {description = "swap with previous client by index", group = "client"}
+        ),
     -- }}}
 
     --awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
