@@ -66,9 +66,6 @@ function gcl
     command grc cat $argv | less -R
 end
 
-# Pass aliases through sudo
-alias sudo='sudo '
-
 # Arch specific
 alias pmin='pacman -Qn' # list installed packages
 alias pmim='pacman -Qm' # list installed packages from AUR
@@ -78,10 +75,10 @@ function pmlb # list binary files in package
 end
 alias pms='pacman -Ss' # search for the package (regexp)
 alias pmh='pacman -Si' # show info on the package
-alias pmi='pacman --needed -S' # install the package if needed
-alias pmdu='pacman -Syyuv' # upgrade installed packages (as dist-upgrade in apt-get, hence 'du')
-alias pmr='pacman -Rsn' # remove the package
-alias pmar='pacman -Rsn (pacman -Qdtq)' 
+alias pmi='sudo pacman --needed -S' # install the package if needed
+alias pmdu='sudo pacman -Syyuv' # upgrade installed packages (as dist-upgrade in apt-get, hence 'du')
+alias pmr='sudo pacman -Rsn' # remove the package
+alias pmar='sudo pacman -Rsn (pacman -Qdtq)' 
 
 # Ubuntu specific
 #alias dpi='dpkg -l'
@@ -91,11 +88,11 @@ alias pmar='pacman -Rsn (pacman -Qdtq)'
 #end
 #alias acs='apt-cache search'
 #alias ach='apt-cache show'
-#alias agi='apt-get install'
-#alias agu='apt-get update'
-#alias agdu='apt-get dist-upgrade'
-#alias agr='apt-get remove --purge'
-#alias agar='apt-get autoremove --purge'
+#alias agi='sudo apt-get install'
+#alias agu='sudo apt-get update'
+#alias agdu='sudo apt-get dist-upgrade'
+#alias agr='sudo apt-get remove --purge'
+#alias agar='sudo apt-get autoremove --purge'
 
 set QT_QPA_PLATFORMTHEME qt5ct
 
