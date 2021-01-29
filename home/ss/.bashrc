@@ -85,7 +85,7 @@ alias pmh='pacman -Si' # show info on the package
 alias pmi='sudo pacman --needed -S' # install the package if needed
 alias pmdu='sudo pacman -Syyuv' # upgrade installed packages (as dist-upgrade in apt-get, hence 'du')
 alias pmr='sudo pacman -Rsn' # remove the package
-alias pmar='sudo pacman -Rsn (pacman -Qdtq)' 
+alias pmar='sudo pacman -Rsn $(pacman -Qdtq)' 
 
 # Ubuntu specific
 #alias dpi='dpkg -l'
