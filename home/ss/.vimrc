@@ -46,7 +46,7 @@ if has("gui_running")
         au GUIEnter * simalt ~n
     endif
 else
-"    colorscheme darkblue
+    colorscheme darkblue
 endif
 
 set guioptions-=m " remove menu bar
