@@ -44,10 +44,18 @@ alias smc='sudo mc'
 alias svim='sudo vim'
 alias xbg='xbacklight -get'
 alias xbs='xbacklight -set'
-alias dff='diffuse'
-alias k3='kdiff3'
-alias ev='evince'
-alias pf='pcmanfm'
+function dff
+    diffuse $argv &
+end
+function k3
+    kdiff3 $argv &
+end
+function ev
+    evince $argv &
+end
+function pf
+    pcmanfm $argv &
+end
 alias cgrep='grep --color=always'
 alias grepl='cgrep --include=\*.lua -r '
 alias greph='cgrep --include=\*.{h,hh,hpp,hxx} -r '
@@ -71,7 +79,7 @@ alias pmin='pacman -Qn' # list installed packages
 alias pmim='pacman -Qm' # list installed packages from AUR
 alias pml='pacman -Ql' # list contents of the packages
 function pmlb # list binary files in package
-    command pacman -Ql $argv | grep 'bin/.\+'
+    pacman -Ql $argv | grep 'bin/.\+'
 end
 alias pms='pacman -Ss' # search for the package (regexp)
 alias pmh='pacman -Si' # show info on the package
@@ -84,7 +92,7 @@ alias pmar='sudo pacman -Rsn (pacman -Qdtq)'
 #alias dpi='dpkg -l'
 #alias dpl -L='dpkg -L'
 #function dplb # list binary files in package
-#    command dpkg -L $argv | grep 'bin/.\+'
+#    dpkg -L $argv | grep 'bin/.\+'
 #end
 #alias acs='apt-cache search'
 #alias ach='apt-cache show'
