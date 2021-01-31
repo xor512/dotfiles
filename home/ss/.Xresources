@@ -136,3 +136,10 @@ URxvt*inheritPixmap: False
 *.foreground:   white
 *.background:   black
 *.cursorColor:  #aaaaaa
+
+!! Extensions
+
+! urxvt-resize-font-git (install from AUR)
+
+URxvt.keysym.C-Down:  resize-font:smaller
+URxvt.keysym.C-Up:    resize-font:bigger
