@@ -323,7 +323,7 @@ fi
 
 export QT_QPA_PLATFORMTHEME=qt5ct
 
-if [[ $- == *i* ]] then
+if [[ $- == *i* ]]; then
     xseticon -id $WINDOWID $HOME/.urxvt/terminal.png
 fi
 
