@@ -72,10 +72,10 @@ Xft.hintstyle:     hintslight
 Xft.lcdfilter:     lcddefault
 Xft.dpi:           96 
 
-*.font:           xft:Roboto Mono for Powerline:size=7:antialias=true:hinting=true
-*.boldFont:       xft:Roboto Mono for Powerline:bold:size=7:antialias=true:hinting=true
-*.italicFont:     xft:Roboto Mono for Powerline:italic:size=7:antialias=true:hinting=true
-*.boldItalicFont: xft:Roboto Mono for Powerline:bold:italic:size=7:antialias=true:hinting=true
+*.font:           xft:Roboto Mono:size=7:antialias=true:hinting=true
+*.boldFont:       xft:Roboto Mono:bold:size=7:antialias=true:hinting=true
+*.italicFont:     xft:Roboto Mono:italic:size=7:antialias=true:hinting=true
+*.boldItalicFont: xft:Roboto Mono:bold:italic:size=7:antialias=true:hinting=true
 
 !! Scrolling
 

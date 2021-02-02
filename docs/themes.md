@@ -20,6 +20,9 @@ There are 3 themes for uniform GTK/Qt look:
    (c) https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt5_apps_under_environments_other_than_KDE_Plasma
 4. For chromium go to Settings -> Use GTK+ theme
 5. For QtCreator use Tools -> Options -> Environment and Tools -> Options -> Text Editors
+6. For vim download powerline fonts (e.g. nerd-fonts-complete = 2Gb), use "Roboto Mono for Powerline Regular" 
+   (or just "Roboto Mono Regular" as it seems to support powerline, it it in ttf-roboto-mono package) or 
+   "RobotoMono Nerd Font Mono Regular" or other powerline font and install vim-arline, vim-airline-themes
 
 # Kvantum themes
 
