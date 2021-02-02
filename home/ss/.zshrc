@@ -265,20 +265,35 @@ alias sudo='sudo '
 
 # Arch specific
 alias pmin='pacman -Qn' # list installed packages
+alias ymin='yay -Qn'
 alias pmim='pacman -Qm' # list installed packages from AUR
+alias ymim='yay -Qm'
 alias pml='pacman -Ql' # list contents of the packages
+alias yml='yay -Ql'
 pmlb() # list binary files in package
 {
     files=`pacman -Ql $1`
     files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
     echo -e ${files_w_bin}
 }
+ymlb() # list binary files in package
+{
+    files=`yay -Ql $1`
+    files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
+    echo -e ${files_w_bin}
+}
 alias pms='pacman -Ss' # search for the package (regexp)
+alias yms='yay -Ss'
 alias pmh='pacman -Si' # show info on the package
+alias ymh='yay -Si'
 alias pmi='sudo pacman --needed -S' # install the package if needed
+alias ymi='yay --needed -S'
 alias pmdu='sudo pacman -Syyuv' # upgrade installed packages (as dist-upgrade in apt-get, hence 'du')
+alias ymdu='yay -Syyuv'
 alias pmr='sudo pacman -Rsn' # remove the package
+alias ymr='yay -Rsn'
 alias pmar='sudo pacman -Rsn $(pacman -Qdtq)' 
+alias ymar='yay -Rsn $(pacman -Qdtq)' 
 
 # Ubuntu specific
 #alias dpi='dpkg -l'
