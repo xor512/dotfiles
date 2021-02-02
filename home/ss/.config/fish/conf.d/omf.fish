@@ -31,7 +31,10 @@ set VISUAL "vim"
 set EDITOR "vim"
 set BROWSER "firefox"
 set PAGER 'less -RF'
-alias man='PAGER="most" man ' # See ~/bin/most to find out it is actually most -cwd
+function man
+    # See ~/bin/most to find out it is actually most -cwd
+    command env PAGER="most" man $argv
+end
 
 alias l='ls --color=always -1a'
 alias e='exit'
