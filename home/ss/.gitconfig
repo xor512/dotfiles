@@ -1,9 +1,9 @@
 [user]
-	name = Vasya Pupkin
-	email = kekeke@keke.ke
+	name = Siergiej Riaguzow
+	email = sriaguzow@astek.pl
 [core]
 	editor = vim
-	excludesfile = /home/ss/.gitignore_global
+	excludesfile = /home/sr/.gitignore_global
 	autocrlf = input
 [color]
 	ui = true
@@ -18,6 +18,8 @@
 	ch = checkout
 	ci = commit
 	br = branch
+	brd = branch -D
+	brdo = push origin --delete
 	st = status
 	unstage = reset HEAD --
 	dt = difftool --dir-diff
