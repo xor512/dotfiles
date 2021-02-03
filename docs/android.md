@@ -37,6 +37,8 @@ https://www.chinaphonearena.com/forum/showthread.php?tid=16681
 5. fastboot oem unlock or fastboot flashing unlock
 6. fastboot reboot
 
+---
+
 # Pull/push commands
 
 * adb push xxx.zip /data
@@ -80,7 +82,7 @@ Then you can use adb push smth /data/ and use your TWRP Install feature or simil
  * Old Youtube
  * Youtube Classic
  * Auto Dialer Expert
-
+ 
 #  Disabling system app
 
 In case "Disable" button in app details is missing the following may help:
