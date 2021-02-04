@@ -64,18 +64,18 @@ URxvt.urlLauncher:  firefox
 
 !! Fonts
 
-Xft.autohint:      false
+Xft.dpi:           96
 Xft.antialias:     true
-Xft.rgba:          rgb
 Xft.hinting:       true
-Xft.hintstyle:     hintslight
-Xft.lcdfilter:     lcddefault
-Xft.dpi:           96 
+Xft.rgba:          rgb
+Xft.autohint:      true
+Xft.hintstyle:     hintfull
+Xft.lcdfilter:     lcdfilter
 
-*.font:           xft:Roboto Mono:size=7:antialias=true:hinting=true
-*.boldFont:       xft:Roboto Mono:bold:size=7:antialias=true:hinting=true
-*.italicFont:     xft:Roboto Mono:italic:size=7:antialias=true:hinting=true
-*.boldItalicFont: xft:Roboto Mono:bold:italic:size=7:antialias=true:hinting=true
+URxvt.font:           xft:Roboto Mono:size=7
+URxvt.boldFont:       xft:Roboto Mono:bold:size=7
+URxvt.italicFont:     xft:Roboto Mono:italic:size=7
+URxvt.boldItalicFont: xft:Roboto Mono:bold:italic:size=7
 
 !! Scrolling
 
@@ -125,13 +125,19 @@ URxvt*letterSpace: -1
 urxvt.keysym.Control-l: clear\n
 
 !  From me
-URxvt*shading:        0
-URxvt*termName: rxvt
+URxvt*depth: 32
+URxvt*shading: 0
 URxvt.transparent: false
 *internalBorder: 8
 URxvt*fading: 0
 URxvt*tintColor: #ffffff
 URxvt*inheritPixmap: False
+URxvt*imLocale: en_US.UTF-8
+URxvt*termName: rxvt-unicode-256color
+!URxvt*termName: rxvt
+URxvt*buffered: true
+URxvt.intensityStyles: true
+
 !! special
 *.foreground:   white
 *.background:   black

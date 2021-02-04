@@ -123,5 +123,3 @@ xseticon -id $WINDOWID $HOME/.urxvt/terminal.png
 
 # From https://incenp.org/notes/2013/urxvt-keyboard-problems.html
 set HISTIGNORE "clear:$HISTIGNORE"
-
-
