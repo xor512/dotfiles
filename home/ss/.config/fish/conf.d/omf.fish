@@ -9,6 +9,9 @@ source $OMF_PATH/init.fish
 # For midnight commander
 set SHELL /usr/bin/fish
 
+# Supresses fish's intro message
+set fish_greeting
+
 set LANG "en_US.UTF-8"
 set LANGUAGE "en_US.UTF-8"
 set LC_CTYPE "en_US.UTF-8"
