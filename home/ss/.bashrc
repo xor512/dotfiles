@@ -34,6 +34,7 @@ export BROWSER="firefox"
 export PAGER='less -RF'
 alias man='PAGER="most" man ' # See ~/bin/most to find out it is actually most -cwd
 
+alias jctl='journalctl -p 3 -xb'
 alias l='ls --color=always -1a'
 alias e='exit'
 alias g='gvim'

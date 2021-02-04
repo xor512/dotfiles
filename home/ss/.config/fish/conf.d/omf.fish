@@ -36,6 +36,7 @@ function man
     command env PAGER="most" man $argv
 end
 
+alias jctl='journalctl -p 3 -xb'
 alias l='ls --color=always -1a'
 alias e='exit'
 alias g='gvim'
