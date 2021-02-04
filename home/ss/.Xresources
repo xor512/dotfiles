@@ -14,7 +14,7 @@
 
 !! Different stuff
 
-! Dom not work, see hack in .zshrc
+! Does not work, see hack in .zshrc
 URxvt.iconFile:  /usr/share/icons/Adwaita/scalable/apps/utilities-terminal-symbolic.svg
 URxvt*scrollBar:    true
 URxvt*scrollBar_right:  true
@@ -25,42 +25,6 @@ URxvt.keysym.Control-Down:  \033[1;5B
 URxvt.keysym.Control-Left:  \033[1;5D
 URxvt.keysym.Control-Right: \033[1;5C
 URxvt.keysym.Control-Up:    \033[1;5A
-
-! Perl extensions
-URxvt.perl-ext-common:  default,matcher,selection-to-clipboard,url-select,clipboard,keyboard-select
-
-!! Copy and Paste
-URxvt.clipboard.autocopy: true
-URxvt.keysym.Control-u: perl:url-select:select_next
-URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
-URxvt.keysym.M-Escape:  perl:keyboard-select:activate
-URxvt.keysym.M-c:   perl:clipboard:copy
-URxvt.keysym.M-s:   perl:keyboard-select:search
-URxvt.keysym.M-u:   perl:url-select:select_next
-URxvt.keysym.M-v:   perl:clipboard:paste
-URxvt.clipboard.copycmd:  xsel -ib
-URxvt.clipboard.pastecmd: xsel -ob
-
-! Increase/decrease text size
-URxvt.keysym.C-S-Up:          perl:font-size:increase
-URxvt.keysym.C-S-Down:        perl:font-size:decrease
-
-! Matcher
-URxvt.keysym.Shift-Down:    command:\033]721;1\007
-URxvt.keysym.Shift-Up:  command:\033]720;1\007
-URxvt.matcher.button:   1
-URxvt.matcher.rend.0:   Uline Bold fg5
-URxvt.pasteCommand: xclip -o -selection clipboard
-URxvt.scrollstyle:  plain 
-URxvt.underlineURLs:    true
-URxvt.urgentOnBell: true
-
-! URL lauincher
-URxvt.url-launcher: /usr/bin/firefox
-URxvt.url-select.launcher:  /usr/bin/xdg-open
-URxvt.url-select.underline: true
-URxvt.urlButton:    1
-URxvt.urlLauncher:  firefox
 
 !! Fonts
 
@@ -145,7 +109,39 @@ URxvt.intensityStyles: true
 
 !! Extensions
 
+! Perl extensions
+URxvt.perl-ext-common:  default,selection-to-clipboard,clipboard,keyboard-select
+
 ! urxvt-resize-font-git (install from AUR)
 
 URxvt.keysym.C-Down:  resize-font:smaller
 URxvt.keysym.C-Up:    resize-font:bigger
+
+!! Copy and Paste
+URxvt.clipboard.autocopy: true
+URxvt.keysym.Control-u: perl:url-select:select_next
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.keysym.M-Escape:  perl:keyboard-select:activate
+URxvt.keysym.M-c:   perl:clipboard:copy
+URxvt.keysym.M-s:   perl:keyboard-select:search
+URxvt.keysym.M-u:   perl:url-select:select_next
+URxvt.keysym.M-v:   perl:clipboard:paste
+URxvt.clipboard.copycmd:  xsel -ib
+URxvt.clipboard.pastecmd: xsel -ob
+
+! Matcher
+URxvt.keysym.Shift-Down:    command:\033]721;1\007
+URxvt.keysym.Shift-Up:  command:\033]720;1\007
+URxvt.matcher.button:   1
+URxvt.matcher.rend.0:   Uline Bold fg5
+URxvt.pasteCommand: xclip -o -selection clipboard
+URxvt.scrollstyle:  plain
+URxvt.underlineURLs:    true
+URxvt.urgentOnBell: true
+
+! URL lauincher
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.url-select.launcher:  /usr/bin/xdg-open
+URxvt.url-select.underline: true
+URxvt.urlButton:    1
+URxvt.urlLauncher:  firefox
