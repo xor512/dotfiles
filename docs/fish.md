@@ -25,4 +25,5 @@ etc
 * before running mc set SHELL /usr/bin/fish <- in omf.fish
 * terminal = "urxvtc -e /usr/bin/fish" <- in awesome.lua
 * see ./config/fish/conf.d/omf.fish
-
+* Install fish from git (yay -S fish-git) if there are troubles
+  with running first command after mc starts
