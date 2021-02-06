@@ -35,7 +35,7 @@ if has("gui_running")
 "        set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Bold\ 7 " set font
 "        set guifont=Anonymous\ Pro\ for\ Powerline\ Regular\ 7 " set font
 "        set guifont=Liberation\ Mono\ for\ Powerline\ Regular\ 7 " set font
-        set guifont=Roboto\ Mono\ Regular\ 7 " set font
+        set guifont=Roboto\ Mono\ Regular\ 8 " set font
 "        set guifont=Meslo\ LG\ S\ for\ Powerline\ 7
 "        set lines=999 columns=999 " start gvim maximized
     elseif has("gui_macvim")

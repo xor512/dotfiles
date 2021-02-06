@@ -27,3 +27,4 @@ etc
 * see ./config/fish/conf.d/omf.fish
 * Install fish from git (yay -S fish-git) if there are troubles
   with running first command after mc starts
+* TODO: still having troubles with running GUI apps from mc

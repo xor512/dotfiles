@@ -36,10 +36,10 @@ Xft.autohint:      true
 Xft.hintstyle:     hintfull
 Xft.lcdfilter:     lcdfilter
 
-URxvt.font:           xft:Roboto Mono:size=8
-URxvt.boldFont:       xft:Roboto Mono:bold:size=8
-URxvt.italicFont:     xft:Roboto Mono:italic:size=8
-URxvt.boldItalicFont: xft:Roboto Mono:bold:italic:size=8
+URxvt.font:           xft:RobotoMono Nerd Font Mono:size=8
+URxvt.boldFont:       xft:RobotoMono Nerd Font Mono:bold:size=8
+URxvt.italicFont:     xft:RobotoMono Nerd Font Mono:italic:size=8
+URxvt.boldItalicFont: xft:RobotoMono Nerd Font Mono:bold:italic:size=8
 
 !! Scrolling
 
