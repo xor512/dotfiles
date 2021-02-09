@@ -70,7 +70,7 @@ setopt prompt_subst
  #PROMPT="%(!.%{$fg[red]%}[%n@%m %1~]%{$reset_color%}# .%{$fg[green]%}[%n@%m %1~]%{$reset_color%}$ "
 # Maia prompt
 #PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b >%{$fg[cyan]%}>%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
-PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
+#PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
 # Print a greeting message when shell is started
 #echo $USER@$HOST  $(uname -srm) $(lsb_release -rcs)
 ## Prompt on right side:
@@ -129,10 +129,11 @@ git_prompt_string() {
 
   # If inside a Git repository, print its branch and state
   if [[ -n "$git_where" ]]; then
-    echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
+    echo " $GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX "
   else
     # If not inside the Git repo, print exit codes of last command (only if it failed)
-    echo "%{$fg[red]%}"
+    #echo "%{$fg[red]%}" # it doesn work, and there is red '>' in this case anyway in PROMPT
+    echo -n " "
   fi
 }
 
@@ -168,9 +169,9 @@ bindkey '^[[B' history-substring-search-down
 # Apply different settigns for different terminals
 case $(basename "$(cat "/proc/$PPID/comm")") in
   login)
-        RPROMPT="%{$fg[red]%}"  
-        alias x='startx ~/.xinitrc'      # Type name of desired desktop after x, xinitrc is configured for it
-    ;;
+    RPROMPT="%{$fg[red]%}"  
+    alias x='startx ~/.xinitrc'      # Type name of desired desktop after x, xinitrc is configured for it
+  ;;
 #  'tmux: server')
 #        RPROMPT='$(git_prompt_string)'
 #       ## Base16 Shell color themes.
@@ -190,18 +191,16 @@ case $(basename "$(cat "/proc/$PPID/comm")") in
 #       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 #     ;;
   *)
-    # mc fucks up zsh prompt (it disappears after running commands) sometimes for some reason)
-    if ps $PPID | grep mc; then
-        # this removes git_prompt_string cool stuff but I have no other solution for now
-        RPROMPT=""
-    else
-        RPROMPT='$(git_prompt_string)'
-        # Use autosuggestion
-        source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-        ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-    fi
-    ;;
+    # mc fucks up zsh PROMPT if RPROMPT is set (it disappears after running commands) sometimes for some reason)
+    # so put RPROMPT with git stuff into PROMPT
+    RPROMPT='$(git_prompt_string)'
+    PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b$RPROMPT%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
+    RPROMPT=""
+    # Use autosuggestion
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+  ;;
 esac
 
 source $HOME/.common
