@@ -69,9 +69,10 @@ setopt prompt_subst
 # Prompt (on left side) similar to default bash prompt, or redhat zsh prompt with colors
  #PROMPT="%(!.%{$fg[red]%}[%n@%m %1~]%{$reset_color%}# .%{$fg[green]%}[%n@%m %1~]%{$reset_color%}$ "
 # Maia prompt
-PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b >%{$fg[cyan]%}>%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
+#PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b >%{$fg[cyan]%}>%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
+PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b %B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
 # Print a greeting message when shell is started
-echo $USER@$HOST  $(uname -srm) $(lsb_release -rcs)
+#echo $USER@$HOST  $(uname -srm) $(lsb_release -rcs)
 ## Prompt on right side:
 #  - shows status of git when in git repository (code adapted from https://techanic.net/2012/12/30/my_git_prompt_for_zsh.html)
 #  - shows exit status of previous command (if previous command finished with an error)
@@ -124,18 +125,14 @@ parse_git_state() {
 }
 
 git_prompt_string() {
-  # mc fucks up zsh prompt (it disappears after running commands) sometimes for some reason)
-  # (also see below where PROMPT is set to empty string in case of mc)
-  if ps $PPID | grep mc; then
-    echo "%{$fg[red]%}"
+  local git_where="$(parse_git_branch)"
+
+  # If inside a Git repository, print its branch and state
+  if [[ -n "$git_where" ]]; then
+    echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
   else
-    local git_where="$(parse_git_branch)"
-
-    # If inside a Git repository, print its branch and state
-    [ -n "$git_where" ] && echo "$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%{$fg[yellow]%}${git_where#(refs/heads/|tags/)}$GIT_PROMPT_SUFFIX"
-
-     # If not inside the Git repo, print exit codes of last command (only if it failed)
-    [ ! -n "$git_where" ] && echo "%{$fg[red]%}"
+    # If not inside the Git repo, print exit codes of last command (only if it failed)
+    echo "%{$fg[red]%}"
   fi
 }
 
@@ -165,170 +162,46 @@ source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
-bindkey '^[[A' history-substring-search-up			
+bindkey '^[[A' history-substring-search-up          
 bindkey '^[[B' history-substring-search-down
 
 # Apply different settigns for different terminals
 case $(basename "$(cat "/proc/$PPID/comm")") in
   login)
-    	RPROMPT="%{$fg[red]%}"  
-    	alias x='startx ~/.xinitrc'      # Type name of desired desktop after x, xinitrc is configured for it
+        RPROMPT="%{$fg[red]%}"  
+        alias x='startx ~/.xinitrc'      # Type name of desired desktop after x, xinitrc is configured for it
     ;;
 #  'tmux: server')
 #        RPROMPT='$(git_prompt_string)'
-#		## Base16 Shell color themes.
-#		#possible themes: 3024, apathy, ashes, atelierdune, atelierforest, atelierhearth,
-#		#atelierseaside, bespin, brewer, chalk, codeschool, colors, default, eighties, 
-#		#embers, flat, google, grayscale, greenscreen, harmonic16, isotope, londontube,
-#		#marrakesh, mocha, monokai, ocean, paraiso, pop (dark only), railscasts, shapesifter,
-#		#solarized, summerfruit, tomorrow, twilight
-#		#theme="eighties"
-#		#Possible variants: dark and light
-#		#shade="dark"
-#		#BASE16_SHELL="/usr/share/zsh/scripts/base16-shell/base16-$theme.$shade.sh"
-#		#[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
-#		# Use autosuggestion
-#		source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-#		ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-#  		ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+#       ## Base16 Shell color themes.
+#       #possible themes: 3024, apathy, ashes, atelierdune, atelierforest, atelierhearth,
+#       #atelierseaside, bespin, brewer, chalk, codeschool, colors, default, eighties, 
+#       #embers, flat, google, grayscale, greenscreen, harmonic16, isotope, londontube,
+#       #marrakesh, mocha, monokai, ocean, paraiso, pop (dark only), railscasts, shapesifter,
+#       #solarized, summerfruit, tomorrow, twilight
+#       #theme="eighties"
+#       #Possible variants: dark and light
+#       #shade="dark"
+#       #BASE16_SHELL="/usr/share/zsh/scripts/base16-shell/base16-$theme.$shade.sh"
+#       #[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+#       # Use autosuggestion
+#       source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+#       ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+#       ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 #     ;;
   *)
+    # mc fucks up zsh prompt (it disappears after running commands) sometimes for some reason)
+    if ps $PPID | grep mc; then
+        # this removes git_prompt_string cool stuff but I have no other solution for now
+        RPROMPT=""
+    else
         RPROMPT='$(git_prompt_string)'
-		# Use autosuggestion
-		source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-		ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-  		ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+        # Use autosuggestion
+        source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+        ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+    fi
     ;;
 esac
 
-# Mine
-
-export LANG="en_US.UTF-8"
-export LANGUAGE="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
-export LC_NUMERIC="en_US.UTF-8"
-export LC_TIME="en_US.UTF-8"
-export LC_COLLATE="en_US.UTF-8"
-export LC_MONETARY="en_US.UTF-8"
-export LC_MESSAGES="en_US.UTF-8"
-export LC_PAPER="en_US.UTF-8"
-export LC_NAME="en_US.UTF-8"
-export LC_ADDRESS="en_US.UTF-8"
-export LC_TELEPHONE="en_US.UTF-8"
-export LC_MEASUREMENT="en_US.UTF-8"
-export LC_IDENTIFICATION="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
-
-export PATH=~/bin:$PATH
-
-export VISUAL="vim"
-export EDITOR="vim"
-export BROWSER="firefox"
-export PAGER='less -RF'
-alias man='PAGER="most" man ' # See ~/bin/most to find out it is actually most -cwd
-
-alias jctl='journalctl -p 3 -xb'
-alias l='ls --color=always -1a'
-alias e='exit'
-alias g='gvim'
-alias v='vim'
-alias m='mplayer'
-alias sbash='sudo bash'
-alias szsh='sudo zsh'
-alias smc='sudo mc'
-alias svim='sudo vim'
-alias xbg='xbacklight -get'
-alias xbs='xbacklight -set'
-alias dff='diffuse'
-alias k3='kdiff3'
-alias ev='evince'
-alias pf='pcmanfm'
-alias cgrep='grep --color=always'
-alias grepl='cgrep --include=\*.lua -r '
-alias greph='cgrep --include=\*.{h,hh,hpp,hxx} -r '
-alias grepc='cgrep --include=\*.{c,cc,cpp,cxx} -r '
-alias grephc='cgrep --include=\*.{h,hh,hpp,hxx,c,cc,cpp,cxx} -r '
-alias grepj='cgrep --include=\*.java -r '
-alias grepp='cgrep --include=\*.py -r '
-alias grepr='cgrep --include=\*.robot -r'
-alias grepa='cgrep --include=\*.{h,hh,hpp,hcc,c,cc,cpp,cxx,java,py,robot} -r '
-alias grept='cgrep --include=\*.txt -r'
-alias grepcm='cgrep --include=CMakeLists.txt --include=\*.cmake -r '
-alias grepx='cgrep --include=\*.{xml,xsd} -r '
-alias rbt='systemctl reboot'
-alias pwoff='systemctl poweroff'
-
-gcl() {
-    grc cat $1 | less -R
-}
-
-# Pass aliases through sudo
-alias sudo='sudo '
-
-# Arch specific
-alias pmin='pacman -Qn' # list installed packages
-alias ymin='yay -Qn'
-alias pmim='pacman -Qm' # list installed packages from AUR
-alias ymim='yay -Qm'
-alias pml='pacman -Ql' # list contents of the packages
-alias yml='yay -Ql'
-pmlb() # list binary files in package
-{
-    files=`pacman -Ql $1`
-    files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
-    echo -e ${files_w_bin}
-}
-ymlb() # list binary files in package
-{
-    files=`yay -Ql $1`
-    files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
-    echo -e ${files_w_bin}
-}
-alias pms='pacman -Ss' # search for the package (regexp)
-alias yms='yay -Ss'
-alias pmh='pacman -Si' # show info on the package
-alias ymh='yay -Si'
-alias pmi='sudo pacman --needed -S' # install the package if needed
-alias ymi='yay --needed -S'
-alias pmdu='sudo pacman -Syyuv' # upgrade installed packages (as dist-upgrade in apt-get, hence 'du')
-alias ymdu='yay -Syyuv'
-alias pmr='sudo pacman -Rsn' # remove the package
-alias ymr='yay -Rsn'
-alias pmar='sudo pacman -Rsn $(pacman -Qdtq)' 
-alias ymar='yay -Rsn $(pacman -Qdtq)' 
-
-# Ubuntu specific
-#alias dpi='dpkg -l'
-#alias dpl -L='dpkg -L'
-#dplb()
-#{
-#    files=`dpkg -L $1`
-#    files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
-#    echo -e ${files_w_bin}
-#}
-#alias acs='apt-cache search'
-#alias ach='apt-cache show'
-#alias agi='sudo apt-get install'
-#alias agu='sudo apt-get update'
-#alias agdu='sudo apt-get dist-upgrade'
-#alias agr='sudo apt-get remove --purge'
-#alias agar='sudo apt-get autoremove --purge'
-
-# just in case...
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-
-# mc fucks up zsh prompt (it disappears after running commands) sometimes for some reason)
-if ps $PPID | grep mc; then
-    # this removes git_prompt_string cool stuff but I have no other solution for now
-    RPROMPT=""
-fi
-
-export QT_QPA_PLATFORMTHEME=qt5ct
-
-if [[ $- == *i* ]]; then
-    xseticon -id $WINDOWID $HOME/.urxvt/terminal.png
-fi
-
-# From https://incenp.org/notes/2013/urxvt-keyboard-problems.html
-HISTIGNORE="clear:$HISTIGNORE"
-export HISTIGNORE
+source $HOME/.common
