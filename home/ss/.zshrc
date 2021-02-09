@@ -193,9 +193,15 @@ case $(basename "$(cat "/proc/$PPID/comm")") in
   *)
     # mc fucks up zsh PROMPT if RPROMPT is set (it disappears after running commands) sometimes for some reason)
     # so put RPROMPT with git stuff into PROMPT
-    RPROMPT='$(git_prompt_string)'
-    PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b$RPROMPT%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
-    RPROMPT=""
+    # EDIT: however if this way it doesn work always since PROMPT is fucked up again proobably due to long
+    #       executinbg git_prompt_string function in mc subshell
+    if ps $PPID | grep mc; then
+        git_prompt_str=" "
+    else
+        git_prompt_str='$(git_prompt_string)'
+    fi
+    PROMPT="%B%{$fg[cyan]%}%(4~|%-1~/.../%2~|%~)%u%b$git_prompt_str%B%(?.%{$fg[cyan]%}.%{$fg[red]%})>%{$reset_color%}%b " # Print some system information when the shell is first started
+    RPROMPT=''
     # Use autosuggestion
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
     ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
