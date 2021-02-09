@@ -8,12 +8,6 @@
 *VT100.veryBoldColors:  6
 ! if you want colors and decorations (bold or underline) at the same time. See xterm(1) for a description of the veryBoldColors resource. 
 
-!! From https://morfikov.github.io/post/konfiguracja-terminala-urxvt/
-!!  and:https://wiki.archlinux.org/index.php/Rxvt-unicode
-!! (with minor modifications)
-
-!! Different stuff
-
 ! Does not work, see hack in .zshrc
 URxvt.iconFile:  /usr/share/icons/Adwaita/scalable/apps/utilities-terminal-symbolic.svg
 URxvt*scrollBar:    true
@@ -36,10 +30,10 @@ Xft.autohint:      true
 Xft.hintstyle:     hintfull
 Xft.lcdfilter:     lcdfilter
 
-URxvt.font:           xft:RobotoMono Nerd Font Mono:size=8
-URxvt.boldFont:       xft:RobotoMono Nerd Font Mono:bold:size=8
-URxvt.italicFont:     xft:RobotoMono Nerd Font Mono:italic:size=8
-URxvt.boldItalicFont: xft:RobotoMono Nerd Font Mono:bold:italic:size=8
+URxvt.font:           xft:RobotoMono Nerd Font Mono:size=7
+URxvt.boldFont:       xft:RobotoMono Nerd Font Mono:bold:size=7
+URxvt.italicFont:     xft:RobotoMono Nerd Font Mono:italic:size=7
+URxvt.boldItalicFont: xft:RobotoMono Nerd Font Mono:bold:italic:size=7
 
 !! Scrolling
 
