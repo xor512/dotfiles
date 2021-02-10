@@ -122,3 +122,6 @@ export HISTIGNORE
 
 # Starhip prompt
 eval "$(starship init zsh)"
+
+# MC skin
+#alias mc='mc --skin xoria256'
