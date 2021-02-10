@@ -67,14 +67,12 @@ alias pmim='pacman -Qm' # list installed packages from AUR
 alias ymim='yay -Qm'
 alias pml='pacman -Ql' # list contents of the packages
 alias yml='yay -Ql'
-pmlb() # list binary files in package
-{
+pmlb() { # list binary files in package
     files=`pacman -Ql $1`
     files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
     echo -e ${files_w_bin}
 }
-ymlb() # list binary files in package
-{
+ymlb() {# list binary files in package
     files=`yay -Ql $1`
     files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
     echo -e ${files_w_bin}
@@ -121,3 +119,6 @@ fi
 # From https://incenp.org/notes/2013/urxvt-keyboard-problems.html
 HISTIGNORE="clear:$HISTIGNORE"
 export HISTIGNORE
+
+# Starhip prompt
+eval "$(starship init zsh)"
