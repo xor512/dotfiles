@@ -3,6 +3,11 @@
 * Add this to ~/.config/mc/ini
 
 	[Colors]
-	base_color=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red
+    base_color=
+    xterm-256color=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red
+    rxvt=
+    rxvt-unicode-256color=color_terminals=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red
+    color_terminals=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red
+    linux=
 
 * Alternatively run `mc --skin xoria256` or other skin in /usr/share/mc/skins directory

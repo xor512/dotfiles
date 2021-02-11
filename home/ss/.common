@@ -125,3 +125,14 @@ eval "$(starship init zsh)"
 
 # MC skin
 #alias mc='mc --skin xoria256'
+
+# Formatting SDPI
+alias fmts='apply-format -i -f `find . \( -name "*.h" -o -name "*.cpp" -o -name "*.inc" \)`'
+alias cds='cd /home/sr/work/pibk/repo/sdip'
+alias cdb='cd /home/sr/work/pibk/repo/build-SDIP-Desktop_Qt_5_15_2_GCC_64bit-Debug/bin'
+alias cde='cd /home/sr/Qt/5.15.2/Src/qtwebengine/examples/webenginewidgets'
+
+# In console use default colorscheme for mc
+if [[ -z "$DISPLAY" ]]; then
+        alias mc='mc --skin default'
+fi
