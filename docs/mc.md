@@ -4,6 +4,7 @@
 
 	[Colors]
     base_color=
+    xterm=
     xterm-256color=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red
     rxvt=
     rxvt-unicode-256color=color_terminals=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red
