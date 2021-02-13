@@ -1,0 +1,9 @@
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+setleds -D -num
+
+if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+    export TERM=rxvt-unicode-256color
+    exec startx
+fi
