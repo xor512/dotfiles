@@ -6,7 +6,7 @@
 
 # Addons
 
-* Dark Mode
+* Dark Reader
 * Disconnect
 * Google search link fix
 * HTTPS Everywhere
