@@ -38,6 +38,7 @@ alias dff='diffuse'
 alias k3='kdiff3'
 alias ev='evince'
 alias pf='pcmanfm'
+alias rn='ranger'
 alias cgrep='grep --color=always'
 alias grepl='cgrep --include=\*.lua -r '
 alias greph='cgrep --include=\*.{h,hh,hpp,hxx} -r '
@@ -136,3 +137,4 @@ alias cde='cd /home/sr/Qt/5.15.2/Src/qtwebengine/examples/webenginewidgets'
 if [[ -z "$DISPLAY" ]]; then
         alias mc='mc --skin default'
 fi
+
