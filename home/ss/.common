@@ -138,3 +138,5 @@ if [[ -z "$DISPLAY" ]]; then
         alias mc='mc --skin default'
 fi
 
+# Use this aliases in ranger
+alias rn='SHELL=~/bin/r.shell ranger'
