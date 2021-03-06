@@ -1,24 +1,7 @@
-# Same colorscheme in urxvt and xfce4-terminal/gnome-terminal/lxterminal/etc
+# How to change colorscheme
 
-* Add this to ~/.config/mc/ini
+Open a terminal window, typing (not open mc, otherwise skin update doesn’t apply). `mcedit .config/mc/ini`
+Search for skin with F7 and change it. `skin=modarin256` is really nice for example.
+Save and restart terminal. Look into `/usr/share/mc/skins/` to see the different themes.
 
-    [Colors]
-    base_color=
-    xterm=
-    xterm-256color=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red:editnormal=,default
-    rxvt=
-    rxvt-unicode-256color=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red:editnormal=,default
-    color_terminals=linux:normal=cyan,rgb002:input=white,cyan:inputunchanged=black,cyan:dhotnormal=red:editnormal=,default
-    linux=
-
-Or even:
-
-    [Colors
-    base_color=
-    xterm-256color=,default:normal=,default:input=,default:inputunchanged=,default:dhotnormal=,default:editnormal=,default
-    rxvt=
-    rxvt-unicode-256color=,default:normal=,default:input=,default:inputunchanged=,default:dhotnormal=,default:editnormal=,default
-    color_terminals=,default:normal=,default:input=,default:inputunchanged=,default:dhotnormal=,default:editnormal=,default
-    linux=
-
-* Alternatively run `mc --skin xoria256` or other skin in /usr/share/mc/skins directory
+(c) https://ashitovod.com/post/skin/
