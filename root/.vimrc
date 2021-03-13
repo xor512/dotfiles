@@ -5,4 +5,3 @@ USER=$USER
 if filereadable(glob("/home/$USER/.vimrc")) 
     source /home/$USER/.vimrc
 endif
-
