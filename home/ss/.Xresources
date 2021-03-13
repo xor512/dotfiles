@@ -1,4 +1,3 @@
-
 ! A quick way to add color to manual pages viewed on xterm/uxterm or rxvt-unicode is to modify ~/.Xresources. 
 *VT100.colorBDMode:     true
 *VT100.colorBD:         red
@@ -64,7 +63,7 @@ URxvt*borderLess: false
 URxvt*geometry: 147x39+100+207
 
 ! Cursor and mouse pointer
-URxvt*cursorUnderline: false
+URxvt*cursorUnderline: true
 URxvt*cursorBlink: true
 
 ! Number of remembered lines
