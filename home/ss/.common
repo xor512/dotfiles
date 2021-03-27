@@ -14,7 +14,7 @@ export LC_MEASUREMENT="en_US.UTF-8"
 export LC_IDENTIFICATION="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-export PATH=~/bin:$PATH
+export PATH=~/bin:$PATH:/home/sr/work/pibk/repo/sdip/clang-format-hooks
 
 export VISUAL="vim"
 export EDITOR="vim"
@@ -59,7 +59,7 @@ gcl() {
 }
 
 # Pass aliases through sudo
-alias sudo='sudo '
+#alias sudo='sudo '
 
 # Arch specific
 alias pmin='pacman -Qn' # list installed packages
@@ -73,7 +73,7 @@ pmlb() { # list binary files in package
     files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
     echo -e ${files_w_bin}
 }
-ymlb() {# list binary files in package
+ymlb() { # list binary files in package
     files=`yay -Ql $1`
     files_w_bin=`echo -e ${files} | grep 'bin/.\+'`
     echo -e ${files_w_bin}
@@ -135,8 +135,9 @@ alias cde='cd /home/sr/Qt/5.15.2/Src/qtwebengine/examples/webenginewidgets'
 
 # In console use default colorscheme for mc
 if [[ -z "$DISPLAY" ]]; then
-        alias mc='mc --skin default'
+    alias mc='mc --skin default'
 fi
 
 # Use this aliases in ranger
 alias rn='SHELL=~/bin/r.shell ranger'
+
